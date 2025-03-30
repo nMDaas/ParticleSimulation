@@ -26,6 +26,11 @@ class Particle:
     def accelerate(self, a: Vector2f):
         self.acceleration += a
 
+    def setVelocity(self, v: Vector2f, dt: float):
+        self.position_last = self.position - (v * dt)
+
+    def getVelocity(self):
+        return self.position - self.position_last
+
     def render(self, screen: pygame.Surface):
-         # Draw the circle
         pygame.draw.circle(screen, self.color, (self.position.x, self.position.y), self.radius)
