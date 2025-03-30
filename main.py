@@ -10,8 +10,8 @@ screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Particle Simulation")
 
 # Define the circle's initial position and properties
-color = (255, 255, 0)  # Yellow color
-circle = Circle(100, 250, color, 30, 5)
+color = (52, 63, 120)
+circle = Circle(400, 300, color, 10, 0)
 
 # Main game loop
 running = True
@@ -25,7 +25,7 @@ while running:
     circle.move()
 
     # Fill the screen with a background color
-    screen.fill((135, 206, 250))  # Light blue background
+    screen.fill((0,0,0))  # Light blue background
 
     # Draw the circle
     pygame.draw.circle(screen, color, (circle.x, circle.y), circle.radius)
