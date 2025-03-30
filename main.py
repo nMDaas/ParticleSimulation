@@ -1,37 +1,34 @@
 import pygame
 import sys
+from Circle import Circle
 
 # Initialize Pygame
 pygame.init()
 
 # Set up the screen
 screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("Circle Animation with Pygame")
+pygame.display.set_caption("Particle Simulation")
 
 # Define the circle's initial position and properties
-x, y = 100, 250
-radius = 30
 color = (255, 255, 0)  # Yellow color
-speed = 5
+circle = Circle(100, 250, color, 30, 5)
 
 # Main game loop
 running = True
 while running:
-    # Handle events (e.g., window close)
+    # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
     # Move the circle
-    x += speed
-    if x > 800:  # Reset the circle position when it moves off the screen
-        x = -radius
+    circle.move()
 
     # Fill the screen with a background color
     screen.fill((135, 206, 250))  # Light blue background
 
     # Draw the circle
-    pygame.draw.circle(screen, color, (x, y), radius)
+    pygame.draw.circle(screen, color, (circle.x, circle.y), circle.radius)
 
     # Update the screen
     pygame.display.flip()
