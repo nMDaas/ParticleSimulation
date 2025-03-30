@@ -2,6 +2,8 @@ import pygame
 import sys
 from Particle import Particle
 from Vector2f import Vector2f
+from Solver import Solver
+from Renderer import Renderer
 
 # Initialize Pygame
 pygame.init()
@@ -10,9 +12,10 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Particle Simulation")
 
-# Define the circle's initial position and properties
-color = (52, 63, 120)
-circle = Particle(Vector2f(400, 300), color, 10, 0)
+solver = Solver()
+solver.addObject(Vector2f(400, 300), 10)
+
+renderer = Renderer(solver, screen)
 
 # Main game loop
 running = True
@@ -22,14 +25,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Move the circle
-    circle.move()
+    solver.update()
 
     # Fill the screen with a background color
     screen.fill((0,0,0))  # Light blue background
 
-    # Draw the circle
-    pygame.draw.circle(screen, color, (circle.position.x, circle.position.y), circle.radius)
+    renderer.render(screen)
 
     # Update the screen
     pygame.display.flip()

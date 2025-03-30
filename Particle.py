@@ -1,18 +1,31 @@
 from Vector2f import Vector2f
+import pygame
 
 class Particle:
     position: Vector2f
-    color: tuple
+    position_last: Vector2f
     radius: float
-    speed: float
+    acceleration: Vector2f
 
-    def __init__(self, position: Vector2f, color: tuple, radius: float, speed: float):
+    def __init__(self, position: Vector2f, radius: float):
         # Initialize the circle's properties
         self.position = position
-        self.color = color
+        self.position_last = position
         self.radius = radius
-        self.speed = speed
+        self.acceleration = Vector2f(10,10)
 
-    def move(self):
-        # Move the circle horizontally by its speed value
-        self.position += Vector2f(self.speed, 0)
+        self.color = (52, 63, 120) # Currently not set from constructor
+
+    # Move particle based on verlet integration formula
+    def update(self, dt: float):
+        displacement = self.position - self.position_last
+        self.position_last = self.position
+        self.position = self.position + displacement + self.acceleration * (dt * dt)
+        self.acceleration = Vector2f()
+
+    def accelerate(self, a: Vector2f):
+        self.acceleration += a
+
+    def render(self, screen: pygame.Surface):
+         # Draw the circle
+        pygame.draw.circle(screen, self.color, (self.position.x, self.position.y), self.radius)
