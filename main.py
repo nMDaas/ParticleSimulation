@@ -15,11 +15,14 @@ window_height = 600
 screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Particle Simulation")
 
-#boundary = Boundary(Vector2f(window_width/2, window_height/2), (window_width / 20.0) / 2)
 boundary = Boundary(Vector2f(400,300), 290)
 
 solver = Solver(boundary)
-solver.addObject(Vector2f(400, 300), 10)
+
+clock = pygame.time.Clock()
+spawn_delay = 0.05
+max_objects = 100
+last_spawn_time = 0 
 
 renderer = Renderer(solver, screen, boundary)
 
@@ -41,6 +44,15 @@ while running:
                 solver.mousePull(pos)
             elif event.button == 3:  # Right Click
                 solver.mousePush(pos)
+
+    clock.tick(70) 
+    current_time = pygame.time.get_ticks() / 1000
+
+    # Spawn particles
+    if (len(solver.getObjects()) < max_objects and (current_time - last_spawn_time) >= spawn_delay):
+        last_spawn_time = current_time  # Restart the spawn timer
+        newParticle = solver.addObject(Vector2f(400, 300), 10)
+        solver.setParticleVelocity(newParticle, Vector2f(500,500))
 
     solver.update()
 

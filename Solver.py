@@ -15,6 +15,10 @@ class Solver:
     def addObject(self, position: Vector2f, radius: float):
         newParticle = Particle(position, radius)
         self.objects.append(newParticle)
+        return newParticle
+
+    def getObjects(self):
+        return self.objects
 
     def mousePull(self, pos: Vector2f):
         for obj in self.objects:
@@ -52,6 +56,9 @@ class Solver:
         self.applyGravity()
         self.applyBoundary()
         self.updateObjects(self.step_dt)
+
+    def setParticleVelocity(self, object: Particle, v: Vector2f):
+        object.setVelocity(v, self.step_dt)
 
 
         
