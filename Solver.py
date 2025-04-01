@@ -16,6 +16,18 @@ class Solver:
         newParticle = Particle(position, radius)
         self.objects.append(newParticle)
 
+    def mousePull(self, pos: Vector2f):
+        for obj in self.objects:
+            dir = pos - obj.position
+            dist = math.sqrt(dir.x * dir.x + dir.y * dir.y)
+            obj.accelerate(dir * max(0,10 * (120 - dist)))
+
+    def mousePush(self, pos: Vector2f):
+        for obj in self.objects:
+            dir = obj.position - pos
+            dist = math.sqrt(dir.x * dir.x + dir.y * dir.y)
+            obj.accelerate(dir * max(0,10 * (120 - dist)))
+
     def applyGravity(self):
         for obj in self.objects:
             obj.accelerate(self.gravity)

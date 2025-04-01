@@ -31,6 +31,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if event.type == pygame.MOUSEBUTTONDOWN:  # Detect mouse press
+            ratio = 840.0/window_width
+            x, y = pygame.mouse.get_pos()
+            #x = float(x)
+            #y = float(y)
+            pos = Vector2f(x, y)
+            if event.button == 1:  # Left Click
+                solver.mousePull(pos)
+            elif event.button == 3:  # Right Click
+                solver.mousePush(pos)
+
     solver.update()
 
     # Fill the screen with a background color
