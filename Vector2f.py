@@ -28,3 +28,6 @@ class Vector2f:
             if scalar == 0:
                 raise ValueError("Cannot divide by zero.")
             return Vector2f(self.x / scalar, self.y / scalar)
+        
+    def __str__(self):
+        return f"({self.x}, {self.y})"
