@@ -11,6 +11,7 @@ class Solver:
         self.gravity = Vector2f(0.0, 1000.0)
         self.step_dt = 1.0/60
         self.boundary = boundary
+        self.substeps = 8
 
     def addObject(self, position: Vector2f, radius: float):
         newParticle = Particle(position, radius)
@@ -53,12 +54,15 @@ class Solver:
             obj.update(dt)
 
     def update(self):
-        self.applyGravity()
-        self.applyBoundary()
-        self.updateObjects(self.step_dt)
+        substep_dt = self.step_dt / self.substeps
 
+        for i in range(self.substeps):
+            self.applyGravity()
+            self.applyBoundary()
+            self.updateObjects(substep_dt)
+            
     def setParticleVelocity(self, object: Particle, v: Vector2f):
-        object.setVelocity(v, self.step_dt)
+        object.setVelocity(v, self.step_dt/self.substeps)
 
 
         

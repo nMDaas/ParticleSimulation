@@ -21,7 +21,7 @@ solver = Solver(boundary)
 
 clock = pygame.time.Clock()
 spawn_delay = 0.05
-max_objects = 100
+max_objects = 1
 last_spawn_time = 0 
 
 renderer = Renderer(solver, screen, boundary)
