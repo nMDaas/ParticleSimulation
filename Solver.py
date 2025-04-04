@@ -53,12 +53,32 @@ class Solver:
         for obj in self.objects:
             obj.update(dt)
 
+    def checkCollisions(self):
+        for i in range(len(self.objects)):
+            obj_i = self.objects[i]
+            for j in range(len(self.objects)):
+                if (i == j): continue
+                else:
+                    obj_j = self.objects[j]
+                    v = obj_i.position - obj_j.position
+                    dist = math.sqrt(v.x * v.x + v.y * v.y)
+                    min_dist = obj_i.radius + obj_j.radius
+                    if (dist < min_dist):
+                        n = v / dist # normalize
+                        total_mass = obj_i.radius * obj_i.radius + obj_j.radius * obj_j.radius
+                        mass_ratio = (obj_i.radius * obj_i.radius)/total_mass
+                        delta = 0.5 * (min_dist - dist)
+                        # Larger particles move less
+                        obj_i.position += (n * (1 - mass_ratio) * delta)/self.substeps
+                        obj_j.position -= (n * mass_ratio * delta)/self.substeps
+
     def update(self):
         substep_dt = self.step_dt / self.substeps
 
         for i in range(self.substeps):
             self.applyGravity()
             self.applyBoundary()
+            self.checkCollisions()
             self.updateObjects(substep_dt)
             
     def setParticleVelocity(self, object: Particle, v: Vector2f):
