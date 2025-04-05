@@ -4,6 +4,7 @@ from Vector2f import Vector2f
 from Solver import Solver
 from Renderer import Renderer
 from Boundary import Boundary
+import random
 
 # Initialize Pygame
 pygame.init()
@@ -11,7 +12,7 @@ pygame.init()
 window_width = 800
 window_height = 600
 
-# Set up the screen
+# Set up the screen and window
 screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Particle Simulation")
 
@@ -20,9 +21,13 @@ boundary = Boundary(Vector2f(400,300), 290)
 solver = Solver(boundary)
 
 clock = pygame.time.Clock()
+
+# Particle related attributes 
 spawn_delay = 0.05
 max_objects = 100
 last_spawn_time = 0 
+min_radius = 10
+max_radius = 30
 
 renderer = Renderer(solver, screen, boundary)
 
@@ -51,7 +56,8 @@ while running:
     # Spawn particles
     if (len(solver.getObjects()) < max_objects and (current_time - last_spawn_time) >= spawn_delay):
         last_spawn_time = current_time  # Restart the spawn timer
-        newParticle = solver.addObject(Vector2f(400, 300), 10)
+        random_radius_size = random.randint(min_radius, max_radius)
+        newParticle = solver.addObject(Vector2f(400, 300), random_radius_size)
         solver.setParticleVelocity(newParticle, Vector2f(500,500))
 
     solver.update()
