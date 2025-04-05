@@ -13,6 +13,6 @@ class Renderer:
         self.boundary = boundary
 
     def render(self):
-        self.boundary.render(self.screen)
+        # self.boundary.render(self.screen)
         for obj in self.solver.objects:
             obj.render(self.screen)
