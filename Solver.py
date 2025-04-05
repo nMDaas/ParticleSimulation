@@ -12,6 +12,7 @@ class Solver:
         self.step_dt = 1.0/60
         self.boundary = boundary
         self.substeps = 8
+        self.mouseStrength = 70.0
 
     def addObject(self, position: Vector2f, radius: float):
         newParticle = Particle(position, radius)
@@ -25,13 +26,13 @@ class Solver:
         for obj in self.objects:
             dir = pos - obj.position
             dist = math.sqrt(dir.x * dir.x + dir.y * dir.y)
-            obj.accelerate(dir * max(0,10 * (120 - dist)))
+            obj.accelerate(dir * max(0,self.mouseStrength * (120 - dist)))
 
     def mousePush(self, pos: Vector2f):
         for obj in self.objects:
             dir = obj.position - pos
             dist = math.sqrt(dir.x * dir.x + dir.y * dir.y)
-            obj.accelerate(dir * max(0,10 * (120 - dist)))
+            obj.accelerate(dir * max(0,self.mouseStrength * (120 - dist)))
 
     def applyGravity(self):
         for obj in self.objects:
