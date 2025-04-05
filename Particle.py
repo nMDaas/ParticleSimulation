@@ -14,7 +14,7 @@ class Particle:
         self.radius = radius
         self.acceleration = Vector2f(10,10)
 
-        self.color = (52, 63, 120) # Currently not set from constructor
+        self.color = (13, 124, 189) # Currently not set from constructor
 
     # Move particle based on verlet integration formula
     def update(self, dt: float):
@@ -31,6 +31,22 @@ class Particle:
 
     def getVelocity(self):
         return self.position - self.position_last
+    
+    def getColorFromVelocity(self):
+        v = self.getVelocity()
+        magnitude = v.distance()
+        max_velocity = 5.0
+        brightness = min(magnitude / max_velocity, 1)
+
+        # Lighter color = more foamy water (increase red and green components)
+        r, g, b = self.color
+        r = int(r + (255 - r) * brightness)
+        g = int(g + (255 - g) * brightness)
+        b = b  # Keep the blue component for water-like color
+
+        return (r, g, b)
+
 
     def render(self, screen: pygame.Surface):
-        pygame.draw.circle(screen, self.color, (self.position.x, self.position.y), self.radius)
+        r, g, b = self.getColorFromVelocity()
+        pygame.draw.circle(screen, (r, g, b), (self.position.x, self.position.y), self.radius)
