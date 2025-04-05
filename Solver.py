@@ -38,6 +38,27 @@ class Solver:
         for obj in self.objects:
             obj.accelerate(self.gravity)
 
+    # Apply border of the window
+    def applyBorder(self):
+        for obj in self.objects:
+            if ((obj.position.y + obj.radius) >= 600): # lower boundary of box
+                obj.position.y = 600 - obj.radius # reposition to be inside boundary
+                v = obj.getVelocity()
+                obj.setVelocity(Vector2f(v.x, v.y * -1), 1.0)
+            if ((obj.position.y - obj.radius) <= 0): # upper boundary of box
+                obj.position.y = 0 + obj.radius  # reposition to be inside boundary
+                v = obj.getVelocity()
+                obj.setVelocity(Vector2f(v.x, v.y * -1), 1.0)
+            if ((obj.position.x + obj.radius) >= 800): # right boundary of box
+                obj.position.x = 800 - obj.radius  # reposition to be inside boundary
+                v = obj.getVelocity()
+                obj.setVelocity(Vector2f(v.x * -1, v.y), 1.0)
+            if ((obj.position.x - obj.radius) <= 0): # left boundary of box
+                obj.position.x = 0 + obj.radius  # reposition to be inside boundary
+                v = obj.getVelocity()
+                obj.setVelocity(Vector2f(v.x * -1, v.y), 1.0)
+
+    # Apply circular boundary
     def applyBoundary(self):
         for obj in self.objects:
             r = self.boundary.center - obj.position # the vector from the object position to center of boundary
@@ -78,7 +99,8 @@ class Solver:
 
         for i in range(self.substeps):
             self.applyGravity()
-            self.applyBoundary()
+            #self.applyBoundary()
+            self.applyBorder()
             self.checkCollisions()
             self.updateObjects(substep_dt)
             
