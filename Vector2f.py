@@ -1,3 +1,5 @@
+import math
+
 class Vector2f:
     x: float
     y: float
@@ -31,3 +33,6 @@ class Vector2f:
         
     def __str__(self):
         return f"({self.x}, {self.y})"
+    
+    def distance(self):
+        return math.sqrt(self.x * self.x + self.y * self.y)
