@@ -5,6 +5,7 @@ from Solver import Solver
 from Renderer import Renderer
 from Boundary import Boundary
 import random
+import math
 
 # Initialize Pygame
 pygame.init()
@@ -27,7 +28,9 @@ spawn_delay = 0.05
 max_objects = 100
 last_spawn_time = 0 
 min_radius = 10
-max_radius = 30
+max_radius = 15
+max_angle = 80
+spawn_velocity = 1000
 
 renderer = Renderer(solver, screen, boundary)
 
@@ -58,7 +61,9 @@ while running:
         last_spawn_time = current_time  # Restart the spawn timer
         random_radius_size = random.randint(min_radius, max_radius)
         newParticle = solver.addObject(Vector2f(400, 300), random_radius_size)
-        solver.setParticleVelocity(newParticle, Vector2f(500,500))
+
+        random_angle = math.pi * 0.5 * max_angle * math.sin(3 * current_time)
+        solver.setParticleVelocity(newParticle, spawn_velocity * Vector2f(math.cos(random_angle), math.sin(random_angle)))
 
     solver.update()
 
