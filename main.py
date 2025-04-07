@@ -25,10 +25,10 @@ clock = pygame.time.Clock()
 
 # Particle related attributes 
 spawn_delay = 0.05
-max_objects = 100
+max_objects = 10
 last_spawn_time = 0 
-min_radius = 10
-max_radius = 15
+min_radius = 20
+max_radius = 30
 max_angle = 80
 spawn_velocity = 1000
 
@@ -65,7 +65,7 @@ while running:
         random_angle = math.pi * 0.5 * max_angle * math.sin(3 * current_time)
         solver.setParticleVelocity(newParticle, spawn_velocity * Vector2f(math.cos(random_angle), math.sin(random_angle)))
 
-    solver.update()
+    solver.update(current_time)
 
     # Fill the screen with a background color
     screen.fill((255,255,255))  # Light blue background

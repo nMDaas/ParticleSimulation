@@ -14,6 +14,8 @@ class Particle:
         self.radius = radius
         self.acceleration = Vector2f(10,10)
 
+        self.density = 998 # for water (in kg/m^3)
+        self.surfaceTension = 0.0728 # for water (in N/m)
         self.color = (13, 124, 189) # Currently not set from constructor
 
     # Move particle based on verlet integration formula
@@ -46,6 +48,11 @@ class Particle:
 
         return (r, g, b)
 
+    # physically inspired but computationally lightweight 
+    def getWeberNumber(self):
+        speed = self.getVelocity().distance()
+        weberNumber = (self.density * speed * speed * self.radius) / self.surfaceTension
+        return weberNumber
 
     def render(self, screen: pygame.Surface):
         r, g, b = self.getColorFromVelocity()

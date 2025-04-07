@@ -2,6 +2,7 @@ import math
 from Particle import Particle
 from Vector2f import Vector2f
 from Boundary import Boundary
+import random
 
 class Solver:
     boundary: Boundary
@@ -13,6 +14,8 @@ class Solver:
         self.boundary = boundary
         self.substeps = 8
         self.mouseStrength = 70.0
+
+        self.weberThreshold = 400000.0
 
     def addObject(self, position: Vector2f, radius: float):
         newParticle = Particle(position, radius)
@@ -75,6 +78,40 @@ class Solver:
         for obj in self.objects:
             obj.update(dt)
 
+    def splitParticle(self, obj: Particle):
+        numNewParticles = random.randint(1,2) # Create 2-4 new particles of smaller radius
+        newRadius = obj.radius / math.sqrt(numNewParticles)
+        objSpeed = obj.getVelocity().distance()
+
+        for n in range(numNewParticles):
+            angle = random.random() * 2 * math.pi
+            speed = objSpeed * 0.6 + random.random() * 0.4
+            vx = speed * math.cos(angle)
+            vy = speed * math.sin(angle)
+
+            # Small offset to avoid particles starting at the exact same position
+            offset_x = random.uniform(-0.1, 0.1)
+            offset_y = random.uniform(-0.1, 0.1)
+            new_position = obj.position + Vector2f(offset_x, offset_y)  # Apply offset
+
+            newParticle = self.addObject(new_position, newRadius)
+            self.setParticleVelocity(newParticle, Vector2f(vx, vy))
+
+    def checkSplitting(self, currentTime):
+        particlesToRemove = []
+
+        for i in range(len(self.objects)):
+            weberNumber = self.objects[i].getWeberNumber()
+            print("weber: %s" % str(weberNumber))
+            print("currentTime: %s" % str(currentTime))
+            if (weberNumber > self.weberThreshold and currentTime > 10.0):
+                self.splitParticle(self.objects[i])
+                particlesToRemove.append(self.objects[i])
+
+        # Remove particles that have split safely after the loop is complete
+        for obj in particlesToRemove:
+            self.objects.remove(obj)
+
     def checkCollisions(self):
         for i in range(len(self.objects)):
             obj_i = self.objects[i]
@@ -94,13 +131,14 @@ class Solver:
                         obj_i.position += (n * (1 - mass_ratio) * delta)/self.substeps
                         obj_j.position -= (n * mass_ratio * delta)/self.substeps
 
-    def update(self):
+    def update(self, currentTime):
         substep_dt = self.step_dt / self.substeps
 
         for i in range(self.substeps):
             self.applyGravity()
             #self.applyBoundary()
             self.applyBorder()
+            self.checkSplitting(currentTime)
             self.checkCollisions()
             self.updateObjects(substep_dt)
             
