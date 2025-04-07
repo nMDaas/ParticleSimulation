@@ -25,7 +25,7 @@ clock = pygame.time.Clock()
 
 # Particle related attributes 
 spawn_delay = 0.05
-max_objects = 10
+max_objects = 30
 last_spawn_time = 0 
 min_radius = 20
 max_radius = 30
