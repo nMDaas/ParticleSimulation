@@ -405,7 +405,10 @@ void PreDraw(){
 
     // Model transformation by translating our object into world space
     glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,0.0f)); 
-
+    float particleRadius = gParticles[0].getRadius();
+    model = glm::scale(model, glm::vec3(particleRadius, particleRadius, particleRadius));
+    glm::vec3 particlePosition = gParticles[0].getPosition();
+    model = glm::translate(model, particlePosition);
 
     // Retrieve our location of our Model Matrix
     GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
@@ -465,7 +468,7 @@ void getOpenGLVersionInfo(){
 }
 
 void SetUpParticles(){
-    Particle newParticle(glm::vec3(0,0,0), 0.0f); // currently setting up dummy values
+    Particle newParticle(glm::vec3(0,1.0f,0), 2.0f); // currently setting up dummy values
     gParticles.push_back(newParticle);
 }
 

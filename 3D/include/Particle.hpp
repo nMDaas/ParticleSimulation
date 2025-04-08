@@ -9,6 +9,8 @@ class Particle{
 public:
     Particle();
     Particle(glm::vec3 pos, float r);
+    float getRadius();
+    glm::vec3 getPosition();
 
 private:
     glm::vec3 position;
