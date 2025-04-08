@@ -435,7 +435,7 @@ void PreDraw(){
     glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
                                              (float)gScreenWidth/(float)gScreenHeight,
                                              0.1f,
-                                             20.0f);
+                                             10000.0f);
 
     // Retrieve our location of our perspective matrix uniform 
     GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
