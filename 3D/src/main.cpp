@@ -16,6 +16,7 @@
 #include "Camera.hpp"
 #include "Triangle.hpp"
 #include "Vertex.hpp"
+#include "Particle.hpp"
 
 // ------------------------ Globals ------------------------
 // Globals generally are prefixed with 'g' in this application.
@@ -47,7 +48,8 @@ std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
 size_t gTotalIndices = 0;
 
-std::string gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/cube.obj";
+std::vector<Particle> gParticles;
+std::string gModelFilepath;
 
 // ------------------------ Globals ------------------------
 
@@ -462,14 +464,21 @@ void getOpenGLVersionInfo(){
   std::cout << "Shading language: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 }
 
-void SetupVertexData(){
-    gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/sphere.obj";
-    gModelVertices.clear();
-    gModelInformation.clear();
-    gModelIndices.clear();
-    gMesh.clear();
-    GenerateModelBufferData();
-    ConfigureVertexAttributes();
+void SetUpParticles(){
+    Particle newParticle(glm::vec3(0,0,0), 0.0f); // currently setting up dummy values
+    gParticles.push_back(newParticle);
+}
+
+void SetUpVertexData(){
+    for (int i = 0; i < gParticles.size(); i++) {
+        gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/sphere.obj";
+        gModelVertices.clear();
+        gModelInformation.clear();
+        gModelIndices.clear();
+        gMesh.clear();
+        GenerateModelBufferData();
+        ConfigureVertexAttributes();
+    }
 }
 
 void Input(){
@@ -513,7 +522,9 @@ void MainLoop(){
 
     SDL_WarpMouseInWindow(gGraphicsApplicationWindow,gScreenWidth/2,gScreenHeight/2);
 
-    SetupVertexData();
+    SetUpParticles();
+
+    SetUpVertexData();
 
 	while(!gQuit){
 		Input();  
