@@ -462,6 +462,15 @@ void getOpenGLVersionInfo(){
   std::cout << "Shading language: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 }
 
+void SetupVertexData(){
+    gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/sphere.obj";
+    gModelVertices.clear();
+    gModelInformation.clear();
+    gModelIndices.clear();
+    gMesh.clear();
+    GenerateModelBufferData();
+    ConfigureVertexAttributes();
+}
 
 void Input(){
     static int mouseX=gScreenWidth/2;
@@ -469,148 +478,21 @@ void Input(){
 
 	SDL_Event e;
 	while(SDL_PollEvent( &e ) != 0){
-		if(e.type == SDL_QUIT){
-			//std::cout << "Goodbye! (Leaving MainApplicationLoop())" << std::endl;
-			gQuit = true;
-		}
-        if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE){
-			//std::cout << "ESC: Goodbye! (Leaving MainApplicationLoop())" << std::endl;
-            gQuit = true;
-        }
-        if(e.type==SDL_MOUSEMOTION){
-            mouseX+=e.motion.xrel;
-            mouseY+=e.motion.yrel;
-            gCamera.MouseLook(mouseX,mouseY);
-        }
-        if (e.type == SDL_KEYDOWN) {
-    SDL_Delay(250);
-    
-    switch (e.key.keysym.sym) {
-        case SDLK_TAB:
-            // Toggle polygon mode
-            if (gPolygonMode == GL_FILL) {
-                gPolygonMode = GL_LINE;
-            } else {
-                gPolygonMode = GL_FILL;
+            if(e.type == SDL_QUIT){
+                //std::cout << "Goodbye! (Leaving MainApplicationLoop())" << std::endl;
+                gQuit = true;
             }
-            break;
-        
-        case SDLK_1:
-            // Handle number 1 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/cube.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-        
-        case SDLK_2:
-            // Handle number 2 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/windmill.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-        
-        case SDLK_3:
-            // Handle number 3 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/Stone_Chalic_OBJ.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-        
-        case SDLK_4:
-            // Handle number 4 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/bunny_centered.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-        
-        case SDLK_5:
-            // Handle number 5 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/capsule.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-
-        case SDLK_6:
-            // Handle number 6 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/HandpaintedTree_Normalized.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-
-        case SDLK_7:
-            // Handle number 7 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/house_obj.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-
-        case SDLK_8:
-            // Handle number 8 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/lion_centered_triangulated.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-
-        case SDLK_9:
-            // Handle number 8 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/monkey_centered.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-
-        case SDLK_0:
-            // Handle number 8 key press
-            gModelFilepath = "/Users/natashadaas/CS4300TAPrep/Assignment06_ModelParser/part2/src/models/sphere.obj";
-            gModelVertices.clear();
-            gModelInformation.clear();
-            gModelIndices.clear();
-            gMesh.clear();
-            GenerateModelBufferData();
-            ConfigureVertexAttributes();
-            break;
-
-        default:
-            // Handle other keys
-            break;
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE){
+                //std::cout << "ESC: Goodbye! (Leaving MainApplicationLoop())" << std::endl;
+                gQuit = true;
+            }
+            if(e.type==SDL_MOUSEMOTION){
+                mouseX+=e.motion.xrel;
+                mouseY+=e.motion.yrel;
+                gCamera.MouseLook(mouseX,mouseY);
+            }
     }
-}
-	}
+	
 
     const Uint8 *state = SDL_GetKeyboardState(NULL);
 
@@ -630,10 +512,11 @@ void Input(){
 void MainLoop(){
 
     SDL_WarpMouseInWindow(gGraphicsApplicationWindow,gScreenWidth/2,gScreenHeight/2);
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+
+    SetupVertexData();
 
 	while(!gQuit){
-		Input();
+		Input();  
 		PreDraw();
 		Draw();
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
