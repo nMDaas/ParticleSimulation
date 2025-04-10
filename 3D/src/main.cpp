@@ -603,6 +603,79 @@ void VertexSpecification2(){
 	glDisableVertexAttribArray(1);
 }
 
+
+void DrawParticle(int i){
+    glBindVertexArray(gVertexArrayObjects[i]);
+    glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObjects[i]);
+    glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
+    glUseProgram(0);
+}
+
+void PreDrawParticle(int i){
+    // Use our shader
+	glUseProgram(gGraphicsPipelineShaderProgram);
+
+    // Model transformation by translating our object into world space
+    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(-5.0f,0.0f,-5.0f)); 
+
+    // Update our model matrix by applying a rotation after our translation
+    model           = glm::rotate(model,glm::radians(g_uRotate),glm::vec3(0.0f,1.0f,0.0f));
+
+	// TA_README: Send data to GPU    
+	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
+	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
+    if(u_ModelMatrixLocation >=0){
+        glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
+    }else{
+        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    // Projection matrix (in perspective) 
+    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
+                                             (float)gScreenWidth/(float)gScreenHeight,
+                                             0.1f,
+                                             20.0f);
+	// TA_README: Send data to GPU
+	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
+	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
+    if(u_ProjectionLocation>=0){
+        glUniformMatrix4fv(u_ProjectionLocation,1,GL_FALSE,&perspective[0][0]);
+    }else{
+        std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+}
+
+void PreDrawAndDraw(){
+    glEnable(GL_DEPTH_TEST);                    
+    glDisable(GL_CULL_FACE);
+
+    // Initialize clear color
+    // This is the background of the screen.
+    glViewport(0, 0, gScreenWidth, gScreenHeight);
+    glClearColor( 0.1f, 4.f, 7.f, 1.f );
+
+    //Clear color buffer and Depth Buffer
+  	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+    for (int i = 0; i < gVertexArrayObjects.size(); i++) {
+        PreDrawParticle(i);
+
+        // Update the View Matrix
+        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
+        if(u_ViewMatrixLocation>=0){
+            glm::mat4 viewMatrix = gCamera.GetViewMatrix();
+            glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
+        }else{
+            std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+            exit(EXIT_FAILURE);
+        }
+
+        DrawParticle(i);
+    }
+}
+
 void PreDraw(){
     glEnable(GL_DEPTH_TEST);                    
     glDisable(GL_CULL_FACE);
@@ -648,7 +721,7 @@ void PreDraw(){
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
-	
+
     // Perform our rotation update
     if(g_rotatePositive){
         g_uRotate+=0.5f;
@@ -836,25 +909,11 @@ void MainLoop(){
 	while(!gQuit){
 		// Handle Input
 		Input();
-		// Setup anything (i.e. OpenGL State) that needs to take
-		// place before draw calls
-		PreDraw();
-		// Draw Calls in OpenGL
-        // When we 'draw' in OpenGL, this activates the graphics pipeline.
-        // i.e. when we use glDrawElements or glDrawArrays,
-        //      The pipeline that is utilized is whatever 'glUseProgram' is
-        //      currently binded.
-		Draw();
-
-		// Setup anything (i.e. OpenGL State) that needs to take
-		// place before draw calls
-		PreDrawFloor();
-		// Draw Calls in OpenGL
-        // When we 'draw' in OpenGL, this activates the graphics pipeline.
-        // i.e. when we use glDrawElements or glDrawArrays,
-        //      The pipeline that is utilized is whatever 'glUseProgram' is
-        //      currently binded.
-		//DrawFloor();
+        PreDrawAndDraw();
+        //PreDraw();
+        //Draw();
+        //PreDrawFloor();
+		//PreDrawAndDraw();
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
 		SDL_Delay(16); // TA_README: This is to reduce the speed of rotation in certain computers
