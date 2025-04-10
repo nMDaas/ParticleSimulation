@@ -21,6 +21,7 @@
 #include "Camera.hpp"
 #include "Triangle.hpp"
 #include "Vertex.hpp"
+#include "Particle.hpp"
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Globals vvvvvvvvvvvvvvvvvvvvvvvvvv
 // Globals generally are prefixed with 'g' in this application.
@@ -45,6 +46,8 @@ GLuint 	gIndexBufferObjectFloor             = 0;
 std::vector<GLuint> gVertexArrayObjects;
 std::vector<GLuint> gVertexBufferObjects;
 std::vector<GLuint> gIndexBufferObjects;
+
+std::vector<Particle> gParticles;
 
 // Model information 
 std::vector<Vertex> gModelVertices;
@@ -382,6 +385,54 @@ void printAllVertexInformation(std::vector<float> vertices) {
     std::cout << "-------" << std::endl;
 }
 
+void GenerateModelBufferData2(){
+    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphere.obj";
+    parseModelData(gModelFilepath); 
+
+    getModelMesh();
+
+    std::vector<GLfloat> vertexData1 = getVerticesAndAddColorData();
+    std::vector<GLfloat> vertexData2 = getVerticesAndAddColorData();
+
+    offsetGModelIndices();
+
+    printGModelIndices();
+
+    gTotalIndices = gModelIndices.size();
+
+    glGenVertexArrays(1, &gVertexArrayObjects[0]);
+    glBindVertexArray(gVertexArrayObjects[0]);
+
+    glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                vertexData1.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                vertexData1.data(), 						// Raw array of data
+                GL_STATIC_DRAW);								// How we intend to use the data
+
+    // Generate EBO
+    glGenBuffers(1, &gIndexBufferObjects[0]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[0]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+    ConfigureVertexAttributes();
+
+    glGenVertexArrays(1, &gVertexArrayObjects[1]);
+    glBindVertexArray(gVertexArrayObjects[1]);
+
+    glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                vertexData2.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                vertexData2.data(), 						// Raw array of data
+                GL_STATIC_DRAW);								// How we intend to use the data
+
+    // Generate EBO
+    glGenBuffers(1, &gIndexBufferObjects[1]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[1]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+    ConfigureVertexAttributes();
+}
+
 void GenerateModelBufferData(){
     std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphere.obj";
     parseModelData(gModelFilepath); 
@@ -419,7 +470,7 @@ void GenerateModelBufferData(){
 
 void VertexSpecification(){
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < gParticles.size(); i++) {
         GLuint newGVertexArrayObject = 0;
         gVertexArrayObjects.push_back(newGVertexArrayObject);
         GLuint newGVertexBufferObject = 0;
@@ -433,10 +484,7 @@ void VertexSpecification(){
         glBindBuffer(GL_ARRAY_BUFFER, newGVertexBufferObject);
     }
 
-    GenerateModelBufferData();
-
-    ConfigureVertexAttributes();
-}
+    GenerateModelBufferData2();}
 
 /**
 * Setup your geometry during the vertex specification step
@@ -616,10 +664,9 @@ void PreDrawParticle(int i){
 	glUseProgram(gGraphicsPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
-    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(-5.0f,0.0f,-5.0f)); 
-
-    // Update our model matrix by applying a rotation after our translation
-    model           = glm::rotate(model,glm::radians(g_uRotate),glm::vec3(0.0f,1.0f,0.0f));
+    float r = gParticles[i].getRadius();
+    glm::mat4 model = glm::scale(glm::mat4(1.0f),glm::vec3(r,r,r)); 
+    model = glm::translate(model,gParticles[i].getPosition()); 
 
 	// TA_README: Send data to GPU    
 	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
@@ -694,9 +741,6 @@ void PreDraw(){
     // Model transformation by translating our object into world space
     glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,-5.0f)); 
 
-    // Update our model matrix by applying a rotation after our translation
-    model           = glm::rotate(model,glm::radians(g_uRotate),glm::vec3(0.0f,1.0f,0.0f));
-
 	// TA_README: Send data to GPU    
 	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
 	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
@@ -735,7 +779,7 @@ void PreDrawFloor(){
 	glUseProgram(gGraphicsPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
-    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,-5.0f)); 
+    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(-5.0f,0.0f,0.0f)); 
 
     // Retrieve our location of our Model Matrix
     GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
@@ -804,9 +848,9 @@ void Draw(){
 }
 
 void DrawFloor(){
-	glBindVertexArray(gVertexArrayObjectFloor);
-    glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObjectFloor);
-    glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+	glBindVertexArray(gVertexArrayObjects[1]);
+    glBindBuffer(GL_ARRAY_BUFFER, gVertexArrayObjects[1]);
+    glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
 }
 
@@ -909,11 +953,11 @@ void MainLoop(){
 	while(!gQuit){
 		// Handle Input
 		Input();
-        PreDrawAndDraw();
-        //PreDraw();
-        //Draw();
-        //PreDrawFloor();
-		//PreDrawAndDraw();
+        //PreDrawAndDraw();
+        PreDraw();
+        Draw();
+        PreDrawFloor();
+		DrawFloor();
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
 		SDL_Delay(16); // TA_README: This is to reduce the speed of rotation in certain computers
@@ -945,6 +989,12 @@ void CleanUp(){
 	SDL_Quit();
 }
 
+void SetUpParticles(){
+    Particle newParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
+    gParticles.push_back(newParticle);
+    Particle otherParticle(glm::vec3(2.0f,1.0f,0), 0.5f); // currently setting up dummy values
+    gParticles.push_back(otherParticle);
+}
 
 /**
 * The entry point into our C++ programs.
@@ -957,6 +1007,8 @@ int main( int argc, char* args[] ){
 
 	// 1. Setup the graphics program
 	InitializeProgram();
+
+    SetUpParticles();
 	
 	// 2. Setup our geometry
     VertexSpecification();
