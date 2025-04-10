@@ -14,10 +14,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <fstream>
 
 // Our libraries
 #include "Camera.hpp"
+#include "Triangle.hpp"
+#include "Vertex.hpp"
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Globals vvvvvvvvvvvvvvvvvvvvvvvvvv
 // Globals generally are prefixed with 'g' in this application.
@@ -38,6 +41,17 @@ GLuint 	gVertexBufferObject					= 0;
 GLuint  gVertexBufferObjectFloor            = 0;
 GLuint 	gIndexBufferObject                  = 0;
 GLuint 	gIndexBufferObjectFloor             = 0;
+
+std::vector<GLuint> gVertexArrayObjects;
+std::vector<GLuint> gVertexBufferObjects;
+std::vector<GLuint> gIndexBufferObjects;
+
+// Model information 
+std::vector<Vertex> gModelVertices;
+std::vector<GLfloat> gModelInformation;
+std::vector<int> gModelIndices;
+std::vector<Triangle> gMesh;
+size_t gTotalIndices = 0;
 
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
@@ -229,12 +243,207 @@ void InitializeProgram(){
 	
 }
 
+void ConfigureVertexAttributes() {
+   // Enable the vertex attribute for position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (GLvoid*)0);
+
+    // Enable the vertex attribute for color
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (GLvoid*)(sizeof(GL_FLOAT) * 3));
+
+
+	glBindVertexArray(0);
+	glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+}
+
+void parseModelData(std::string filepath){
+    std::ifstream inputFile(filepath);
+
+    // Check if the file opened successfully
+    if (!inputFile) {
+        std::cerr << "Error opening file: " << filepath << std::endl;
+    }
+
+    std::string line;
+    // Read each line from the file
+    while (std::getline(inputFile, line)) {
+        std::istringstream stream(line);
+        std::string word;
+        std::vector<std::string> words;
+
+        while (stream >> word) {
+            words.push_back(word); // Add each word to the vector
+        }
+
+        if (words[0] == "v") {
+            Vertex v(glm::vec3(std::stof(words[1]), std::stof(words[2]), std::stof(words[3])));
+            v.printVertex();
+            gModelVertices.push_back(v);
+        }
+         if (words[0] == "f") {
+            int index;
+            std::vector<int> indices;
+            for (int i = 1; i <=3; i++) {
+                std::stringstream ss(words[i]);
+                ss >> index;
+                indices.push_back(index);
+            }
+
+            std::cout << "Indices: " << indices[0] << "," << indices[1] << "," << indices[2] << std::endl;
+            gModelIndices.push_back(indices[0]);
+            gModelIndices.push_back(indices[1]);
+            gModelIndices.push_back(indices[2]);
+        }
+
+    }
+
+    // Close the file
+    inputFile.close();
+}
+
+void getModelMesh() {
+    //std::vector<Triangle> triangleModelMesh;
+
+    std::cout << "-------" << std::endl;
+    std::cout << "Collecting Indices into Triangles" << std::endl;
+    std::cout << "-------" << std::endl;
+
+    for (int i = 0; i < gModelIndices.size(); i++) {
+        
+        std::cout << "Triangle" << std::endl;
+
+        std::cout << "  Index 1: " << gModelIndices[i] << std::endl;
+        std::cout << "  Index 2: " << gModelIndices[i+1] << std::endl;
+        std::cout << "  Index 3: " << gModelIndices[i+2] << std::endl;
+
+        // print Vertices of Triangle
+        std::cout << "  Vertices: " << std::endl;
+        gModelVertices[gModelIndices[i] - 1].printVertex();
+        gModelVertices[gModelIndices[i + 1] - 1].printVertex();
+        gModelVertices[gModelIndices[i + 2] - 1].printVertex();
+
+         Triangle t(gModelVertices[gModelIndices[i] - 1], gModelVertices[gModelIndices[i + 1] - 1], gModelVertices[gModelIndices[i + 2] - 1]);
+         i = i + 2;
+         gMesh.push_back(t);
+    }
+
+    std::cout << "-------" << std::endl;
+    std::cout << "End Collecting Indices into Triangles" << std::endl;
+    std::cout << "-------" << std::endl;
+
+    //return triangleModelMesh;
+}
+
+std::vector<GLfloat> getVerticesAndAddColorData() {
+    std::vector<GLfloat> vertexPositionsAndColor;
+
+    for (int i = 0; i < gModelVertices.size(); i++) {
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.x);
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.y);
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.z);
+        vertexPositionsAndColor.push_back(0.0f);
+        vertexPositionsAndColor.push_back(0.3f);
+        vertexPositionsAndColor.push_back(0.7f);
+    }
+
+    return vertexPositionsAndColor;
+}
+
+void offsetGModelIndices() {
+    for (int i = 0; i < gModelIndices.size(); i++) {
+        gModelIndices[i] = gModelIndices[i] - 1; 
+    } 
+}
+
+void printGModelIndices() {
+    for (int i = 0; i < gModelIndices.size(); i++) {
+        std::cout << gModelIndices[i] << std::endl;
+    } 
+}
+
+// For debugging purposes
+void printAllVertexInformation(std::vector<float> vertices) {
+
+    std::cout << "-------" << std::endl;
+    std::cout << "printAllVertexInformation(): " << vertices.size() << std::endl;
+    std::cout << "-------" << std::endl;
+
+    for (int i = 0; i < vertices.size(); i++) {
+        std::cout << "Vertex " << std::endl;
+        std::cout << "  position: (" << vertices[i] << "," << vertices[i+1] << "," << vertices[i+2] << ")" << std::endl;
+        std::cout << "  color: (" << vertices[i+3] << "," << vertices[i+4] << "," << vertices[i+5] << ")" << std::endl;
+        i = i + 5;
+    }
+
+    std::cout << "-------" << std::endl;
+    std::cout << "end printAllVertexInformation()" << std::endl;
+    std::cout << "-------" << std::endl;
+}
+
+void GenerateModelBufferData(){
+    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphere.obj";
+    parseModelData(gModelFilepath); 
+
+    getModelMesh();
+
+    std::vector<GLfloat> vertexData = getVerticesAndAddColorData();
+
+    offsetGModelIndices();
+
+    printGModelIndices();
+
+    printAllVertexInformation(vertexData);
+
+    gTotalIndices = gModelIndices.size();
+
+    for (int i = 0; i < gVertexArrayObjects.size(); i++) {
+
+        glGenVertexArrays(1, &gVertexArrayObjects[i]);
+        glBindVertexArray(gVertexArrayObjects[i]);
+
+        glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                    // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                    vertexData.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                    vertexData.data(), 						// Raw array of data
+                    GL_STATIC_DRAW);								// How we intend to use the data
+
+        // Generate EBO
+        glGenBuffers(1, &gIndexBufferObjects[i]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+    }
+}
+
+void VertexSpecification(){
+
+    for (int i = 0; i < 1; i++) {
+        GLuint newGVertexArrayObject = 0;
+        gVertexArrayObjects.push_back(newGVertexArrayObject);
+        GLuint newGVertexBufferObject = 0;
+        gVertexBufferObjects.push_back(newGVertexBufferObject);
+        GLuint newGIndexBufferObject = 0;
+        gIndexBufferObjects.push_back(newGIndexBufferObject);
+
+        glGenVertexArrays(1, &newGVertexBufferObject);
+        glBindVertexArray(newGVertexBufferObject);
+        glGenBuffers(1, &newGVertexBufferObject);
+        glBindBuffer(GL_ARRAY_BUFFER, newGVertexBufferObject);
+    }
+
+    GenerateModelBufferData();
+
+    ConfigureVertexAttributes();
+}
+
 /**
 * Setup your geometry during the vertex specification step
 *
 * @return void
 */
-void VertexSpecification(){
+void VertexSpecification1(){
 
 	// Geometry Data
 	// Here we are going to store x,y, and z position attributes within vertexPositons for the data.
@@ -505,14 +714,14 @@ void PreDrawFloor(){
 */
 void Draw(){
     // Enable our attributes
-	glBindVertexArray(gVertexArrayObject);
+	glBindVertexArray(gVertexArrayObjects[0]);
 
 	// Select the vertex buffer object we want to enable
-    glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
+    glBindBuffer(GL_ARRAY_BUFFER, gVertexArrayObjects[0]);
 
     //Render data
     glDrawElements(GL_TRIANGLES,
-                    6,
+                    gTotalIndices,
                     GL_UNSIGNED_INT,
                     0);
 
@@ -645,7 +854,7 @@ void MainLoop(){
         // i.e. when we use glDrawElements or glDrawArrays,
         //      The pipeline that is utilized is whatever 'glUseProgram' is
         //      currently binded.
-		DrawFloor();
+		//DrawFloor();
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
 		SDL_Delay(16); // TA_README: This is to reduce the speed of rotation in certain computers
@@ -691,8 +900,9 @@ int main( int argc, char* args[] ){
 	InitializeProgram();
 	
 	// 2. Setup our geometry
-	VertexSpecification();
-	VertexSpecification2();
+    VertexSpecification();
+	//VertexSpecification1();
+	//VertexSpecification2();
 	
 	// 3. Create our graphics pipeline
 	// 	- At a minimum, this means the vertex and fragment shader
