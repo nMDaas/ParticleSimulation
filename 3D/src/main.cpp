@@ -723,137 +723,6 @@ void PreDrawAndDraw(){
     }
 }
 
-void PreDraw(){
-    glEnable(GL_DEPTH_TEST);                    
-    glDisable(GL_CULL_FACE);
-
-    // Initialize clear color
-    // This is the background of the screen.
-    glViewport(0, 0, gScreenWidth, gScreenHeight);
-    glClearColor( 0.1f, 4.f, 7.f, 1.f );
-
-    //Clear color buffer and Depth Buffer
-  	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
-    // Use our shader
-	glUseProgram(gGraphicsPipelineShaderProgram);
-
-    // Model transformation by translating our object into world space
-    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,-5.0f)); 
-
-	// TA_README: Send data to GPU    
-	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
-	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
-    if(u_ModelMatrixLocation >=0){
-        glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
-    }else{
-        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
-        exit(EXIT_FAILURE);
-    }
-
-    // Projection matrix (in perspective) 
-    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
-                                             (float)gScreenWidth/(float)gScreenHeight,
-                                             0.1f,
-                                             20.0f);
-	// TA_README: Send data to GPU
-	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
-	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
-    if(u_ProjectionLocation>=0){
-        glUniformMatrix4fv(u_ProjectionLocation,1,GL_FALSE,&perspective[0][0]);
-    }else{
-        std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
-        exit(EXIT_FAILURE);
-    }
-
-    // Perform our rotation update
-    if(g_rotatePositive){
-        g_uRotate+=0.5f;
-    }else{
-        g_uRotate-=0.5f;
-    }
-}
-
-void PreDrawFloor(){
-    // Use our shader
-	glUseProgram(gGraphicsPipelineShaderProgram);
-
-    // Model transformation by translating our object into world space
-    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(-5.0f,0.0f,0.0f)); 
-
-    // Retrieve our location of our Model Matrix
-    GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
-    if(u_ModelMatrixLocation >=0){
-        glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
-    }else{
-        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
-        exit(EXIT_FAILURE);
-    }
-
-
-    // Update the View Matrix
-    GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
-    if(u_ViewMatrixLocation>=0){
-        glm::mat4 viewMatrix = gCamera.GetViewMatrix();
-        glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
-    }else{
-        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
-        exit(EXIT_FAILURE);
-    }
-
-
-    // Projection matrix (in perspective) 
-    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
-                                             (float)gScreenWidth/(float)gScreenHeight,
-                                             0.1f,
-                                             20.0f);
-
-    // Retrieve our location of our perspective matrix uniform 
-    GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
-    if(u_ProjectionLocation>=0){
-        glUniformMatrix4fv(u_ProjectionLocation,1,GL_FALSE,&perspective[0][0]);
-    }else{
-        std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
-        exit(EXIT_FAILURE);
-    }
-
-}
-
-
-
-/**
-* Draw
-* The render function gets called once per loop.
-* Typically this includes 'glDraw' related calls, and the relevant setup of buffers
-* for those calls.
-*
-* @return void
-*/
-void Draw(){
-    // Enable our attributes
-	glBindVertexArray(gVertexArrayObjects[0]);
-
-	// Select the vertex buffer object we want to enable
-    glBindBuffer(GL_ARRAY_BUFFER, gVertexArrayObjects[0]);
-
-    //Render data
-    glDrawElements(GL_TRIANGLES,
-                    gTotalIndices,
-                    GL_UNSIGNED_INT,
-                    0);
-
-	// Stop using our current graphics pipeline
-	// Note: This is not necessary if we only have one graphics pipeline.
-    glUseProgram(0);
-}
-
-void DrawFloor(){
-	glBindVertexArray(gVertexArrayObjects[1]);
-    glBindBuffer(GL_ARRAY_BUFFER, gVertexArrayObjects[1]);
-    glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
-    glUseProgram(0);
-}
-
 /**
 * Helper Function to get OpenGL Version Information
 *
@@ -941,23 +810,13 @@ void Input(){
 */
 void MainLoop(){
 
-    // Little trick to map mouse to center of screen always.
-    // Useful for handling 'mouselook'
-    // This works because we effectively 're-center' our mouse at the start
-    // of every frame prior to detecting any mouse motion.
-    SDL_WarpMouseInWindow(gGraphicsApplicationWindow,gScreenWidth/2,gScreenHeight/2);
-    SDL_SetRelativeMouseMode(SDL_TRUE);
-
-
 	// While application is running
 	while(!gQuit){
 		// Handle Input
 		Input();
-        //PreDrawAndDraw();
-        PreDraw();
-        Draw();
-        PreDrawFloor();
-		DrawFloor();
+
+        PreDrawAndDraw();
+
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
 		SDL_Delay(16); // TA_README: This is to reduce the speed of rotation in certain computers
