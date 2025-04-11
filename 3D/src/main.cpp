@@ -56,6 +56,8 @@ std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
 size_t gTotalIndices = 0;
 
+std::vector<std::vector<GLfloat>> gVertexData;
+
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
 
@@ -380,79 +382,37 @@ void printAllVertexInformation(std::vector<float> vertices) {
     std::cout << "-------" << std::endl;
 }
 
-void GenerateModelBufferData2(){
+void GenerateParticleModelData(){
     std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphere.obj";
     parseModelData(gModelFilepath); 
-
     getModelMesh();
-
-    std::vector<GLfloat> vertexData1 = getVerticesAndAddColorData();
-    std::vector<GLfloat> vertexData2 = getVerticesAndAddColorData();
-
-    offsetGModelIndices();
-
-    printGModelIndices();
-
-    gTotalIndices = gModelIndices.size();
-
-    glGenVertexArrays(1, &gVertexArrayObjects[0]);
-    glBindVertexArray(gVertexArrayObjects[0]);
-
-    glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
-                                                                // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                vertexData1.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                vertexData1.data(), 						// Raw array of data
-                GL_STATIC_DRAW);								// How we intend to use the data
-
-    // Generate EBO
-    glGenBuffers(1, &gIndexBufferObjects[0]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[0]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
-
-    ConfigureVertexAttributes();
-
-    glGenVertexArrays(1, &gVertexArrayObjects[1]);
-    glBindVertexArray(gVertexArrayObjects[1]);
-
-    glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
-                                                                // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                vertexData2.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                vertexData2.data(), 						// Raw array of data
-                GL_STATIC_DRAW);								// How we intend to use the data
-
-    // Generate EBO
-    glGenBuffers(1, &gIndexBufferObjects[1]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
-
-    ConfigureVertexAttributes();
 }
 
 void GenerateModelBufferData(){
-    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphere.obj";
-    parseModelData(gModelFilepath); 
+    GenerateParticleModelData(); // This creates a particle "blueprint"
 
-    getModelMesh();
+    // Create vertex data lists for each particle
+    for (int i = 0; i < gParticles.size(); i++) {
+        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
+        gVertexData.push_back(vertexData_i);
+    }
 
-    std::vector<GLfloat> vertexData = getVerticesAndAddColorData();
-
+    // Fix indices information from 0 - n to 1 - n
     offsetGModelIndices();
-
     printGModelIndices();
-
-    printAllVertexInformation(vertexData);
 
     gTotalIndices = gModelIndices.size();
 
-    for (int i = 0; i < gVertexArrayObjects.size(); i++) {
+    // Send rendering data to buffers for each particle
+    for (int i = 0; i < gParticles.size(); i++) {
 
         glGenVertexArrays(1, &gVertexArrayObjects[i]);
         glBindVertexArray(gVertexArrayObjects[i]);
 
         glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
                                                                     // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                    vertexData.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                    vertexData.data(), 						// Raw array of data
+                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                    gVertexData[i].data(), 						// Raw array of data
                     GL_STATIC_DRAW);								// How we intend to use the data
 
         // Generate EBO
@@ -460,11 +420,13 @@ void GenerateModelBufferData(){
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
 
+        ConfigureVertexAttributes();
+
     }
 }
 
-void VertexSpecification(){
-
+// Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
+void GenerateGLuintObjects(){
     for (int i = 0; i < gParticles.size(); i++) {
         GLuint newGVertexArrayObject = 0;
         gVertexArrayObjects.push_back(newGVertexArrayObject);
@@ -473,13 +435,19 @@ void VertexSpecification(){
         GLuint newGIndexBufferObject = 0;
         gIndexBufferObjects.push_back(newGIndexBufferObject);
 
+        // Push GLuint objects to their respective vectors
         glGenVertexArrays(1, &newGVertexBufferObject);
         glBindVertexArray(newGVertexBufferObject);
         glGenBuffers(1, &newGVertexBufferObject);
         glBindBuffer(GL_ARRAY_BUFFER, newGVertexBufferObject);
     }
+}
 
-    GenerateModelBufferData2();
+void VertexSpecification(){
+
+    GenerateGLuintObjects();
+
+    GenerateModelBufferData();
 }
 
 void DrawParticle(int i){
@@ -668,8 +636,10 @@ void CleanUp(){
 	gGraphicsApplicationWindow = nullptr;
 
     // Delete our OpenGL Objects
-    glDeleteBuffers(1, &gVertexBufferObject);
-    glDeleteVertexArrays(1, &gVertexArrayObject);
+    for (int i = 0; i < gParticles.size(); i++){
+        glDeleteBuffers(1, &gVertexBufferObjects[i]);
+        glDeleteVertexArrays(1, &gVertexArrayObjects[i]);
+    }
 
 	// Delete our Graphics pipeline
     glDeleteProgram(gGraphicsPipelineShaderProgram);
@@ -681,8 +651,10 @@ void CleanUp(){
 void SetUpParticles(){
     Particle newParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
     gParticles.push_back(newParticle);
-    Particle otherParticle(glm::vec3(2.0f,1.0f,0), 0.5f); // currently setting up dummy values
+    Particle otherParticle(glm::vec3(2.0f,1.0f,0), 1.0f); // currently setting up dummy values
     gParticles.push_back(otherParticle);
+    Particle thirdParticle(glm::vec3(3.0f,1.0f,0), 3.0f); // currently setting up dummy values
+    gParticles.push_back(thirdParticle);
 }
 
 /**
@@ -712,3 +684,5 @@ int main( int argc, char* args[] ){
 
 	return 0;
 }
+
+// TODO: Might be issue with transform math
