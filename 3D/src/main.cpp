@@ -492,7 +492,7 @@ void PreDrawParticle(int i){
     }
 }
 
-void PreDrawAndDraw(){
+void PreDrawParticles(){
     glEnable(GL_DEPTH_TEST);                    
     glDisable(GL_CULL_FACE);
 
@@ -503,7 +503,9 @@ void PreDrawAndDraw(){
 
     //Clear color buffer and Depth Buffer
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+}
 
+void DrawParticles(){
     for (int i = 0; i < gVertexArrayObjects.size(); i++) {
         PreDrawParticle(i);
 
@@ -613,7 +615,9 @@ void MainLoop(){
 		// Handle Input
 		Input();
 
-        PreDrawAndDraw();
+        PreDrawParticles();
+
+        DrawParticles();
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
