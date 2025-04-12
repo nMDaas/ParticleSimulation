@@ -36,13 +36,6 @@ bool gQuit = false;
 
 GLuint gGraphicsPipelineShaderProgram	= 0;
 
-GLuint gVertexArrayObject					= 0;
-GLuint gVertexArrayObjectFloor= 0;
-GLuint 	gVertexBufferObject					= 0;
-GLuint  gVertexBufferObjectFloor            = 0;
-GLuint 	gIndexBufferObject                  = 0;
-GLuint 	gIndexBufferObjectFloor             = 0;
-
 std::vector<GLuint> gVertexArrayObjects;
 std::vector<GLuint> gVertexBufferObjects;
 std::vector<GLuint> gIndexBufferObjects;
@@ -51,12 +44,15 @@ std::vector<Particle> gParticles;
 
 // Model information 
 std::vector<Vertex> gModelVertices;
+std::vector<Vertex> gModelNormals;
 std::vector<GLfloat> gModelInformation;
 std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
 size_t gTotalIndices = 0;
 
 std::vector<std::vector<GLfloat>> gVertexData;
+
+std::ofstream outFile("output.txt");
 
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
@@ -246,16 +242,20 @@ void InitializeProgram(){
 void ConfigureVertexAttributes() {
    // Enable the vertex attribute for position
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (GLvoid*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
 
     // Enable the vertex attribute for color
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 6, (GLvoid*)(sizeof(GL_FLOAT) * 3));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 3));
 
+    // Enable the vertex attribute for normal
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 6));
 
 	glBindVertexArray(0);
 	glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 }
 
 void parseModelData(std::string filepath){
@@ -279,24 +279,39 @@ void parseModelData(std::string filepath){
 
         if (words[0] == "v") {
             Vertex v(glm::vec3(std::stof(words[1]), std::stof(words[2]), std::stof(words[3])));
-            v.printVertex();
+            v.printVertex("Vertex");
             gModelVertices.push_back(v);
         }
-         if (words[0] == "f") {
-            int index;
-            std::vector<int> indices;
+        if (words[0] == "vn") {
+            Vertex v(glm::vec3(std::stof(words[1]), std::stof(words[2]), std::stof(words[3])));
+            v.printVertex("Normal");
+            gModelNormals.push_back(v);
+        }
+        if (words[0] == "f") {
+            std::string vertexNormalIndex;
+            std::vector<int> indices; // for vertices
+            std::vector<int> normals; // for normals
+
             for (int i = 1; i <=3; i++) {
                 std::stringstream ss(words[i]);
-                ss >> index;
-                indices.push_back(index);
+                ss >> vertexNormalIndex; // vertexNormalIndex refers to vertexIndex//normalIndex
+                size_t pos = vertexNormalIndex.find("//");
+                std::string vertexIndexPart = vertexNormalIndex.substr(0, pos);
+                std::string normalIndexPart = vertexNormalIndex.substr(pos + 2);
+                indices.push_back(std::stoi(vertexIndexPart));
+                normals.push_back(std::stoi(normalIndexPart));
             }
 
-            std::cout << "Indices: " << indices[0] << "," << indices[1] << "," << indices[2] << std::endl;
+            outFile << "Indices: " << indices[0] << "," << indices[1] << "," << indices[2] << std::endl;
+            outFile << "Normals: " << normals[0] << "," << normals[1] << "," << normals[2] << std::endl;
+            outFile << "------" << std::endl;
             gModelIndices.push_back(indices[0]);
             gModelIndices.push_back(indices[1]);
             gModelIndices.push_back(indices[2]);
+            gModelIndices.push_back(normals[0]);
+            gModelIndices.push_back(normals[1]);
+            gModelIndices.push_back(normals[2]);
         }
-
     }
 
     // Close the file
@@ -317,16 +332,25 @@ void getModelMesh() {
         std::cout << "  Index 1: " << gModelIndices[i] << std::endl;
         std::cout << "  Index 2: " << gModelIndices[i+1] << std::endl;
         std::cout << "  Index 3: " << gModelIndices[i+2] << std::endl;
+        std::cout << "  Normal 1: " << gModelIndices[i+3] << std::endl;
+        std::cout << "  Normal 2: " << gModelIndices[i+4] << std::endl;
+        std::cout << "  Normal 3: " << gModelIndices[i+5] << std::endl;
 
         // print Vertices of Triangle
         std::cout << "  Vertices: " << std::endl;
-        gModelVertices[gModelIndices[i] - 1].printVertex();
-        gModelVertices[gModelIndices[i + 1] - 1].printVertex();
-        gModelVertices[gModelIndices[i + 2] - 1].printVertex();
+        gModelVertices[gModelIndices[i] - 1].printVertex("Vertex");
+        gModelVertices[gModelIndices[i + 1] - 1].printVertex("Vertex");
+        gModelVertices[gModelIndices[i + 2] - 1].printVertex("Vertex");
 
-         Triangle t(gModelVertices[gModelIndices[i] - 1], gModelVertices[gModelIndices[i + 1] - 1], gModelVertices[gModelIndices[i + 2] - 1]);
-         i = i + 2;
-         gMesh.push_back(t);
+        // print Normals of Triangle
+        std::cout << "  Normals: " << std::endl;
+        gModelVertices[gModelIndices[i + 3] - 1].printVertex("Normal");
+        gModelVertices[gModelIndices[i + 4] - 1].printVertex("Normal");
+        gModelVertices[gModelIndices[i + 5] - 1].printVertex("Normal");
+
+        Triangle t(gModelVertices[gModelIndices[i] - 1], gModelVertices[gModelIndices[i + 1] - 1], gModelVertices[gModelIndices[i + 2] - 1], gModelVertices[gModelIndices[i + 3] - 1], gModelVertices[gModelIndices[i + 4] - 1], gModelVertices[gModelIndices[i + 5] - 1]);
+        i = i + 5;
+        gMesh.push_back(t);
     }
 
     std::cout << "-------" << std::endl;
@@ -346,6 +370,10 @@ std::vector<GLfloat> getVerticesAndAddColorData() {
         vertexPositionsAndColor.push_back(0.0f);
         vertexPositionsAndColor.push_back(0.3f);
         vertexPositionsAndColor.push_back(0.7f);
+        vertexPositionsAndColor.push_back(gModelNormals[i].coordinates.x);
+        vertexPositionsAndColor.push_back(gModelNormals[i].coordinates.y);
+        vertexPositionsAndColor.push_back(gModelNormals[i].coordinates.z);
+        
     }
 
     return vertexPositionsAndColor;
@@ -383,7 +411,7 @@ void printAllVertexInformation(std::vector<float> vertices) {
 }
 
 void GenerateParticleModelData(){
-    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphere.obj";
+    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereBlenderWithNormalsTriangulated.obj";
     parseModelData(gModelFilepath); 
     getModelMesh();
 }
@@ -542,10 +570,6 @@ void getOpenGLVersionInfo(){
 * @return void
 */
 void Input(){
-    // Two static variables to hold the mouse position
-    static int mouseX=gScreenWidth/2;
-    static int mouseY=gScreenHeight/2; 
-
 	// Event handler that handles various events in SDL
 	// that are related to input and output
 	SDL_Event e;
@@ -561,29 +585,10 @@ void Input(){
 			std::cout << "ESC: Goodbye! (Leaving MainApplicationLoop())" << std::endl;
             gQuit = true;
         }
-        if(e.type==SDL_MOUSEMOTION){
-            // Capture the change in the mouse position
-            mouseX+=e.motion.xrel;
-            mouseY+=e.motion.yrel;
-            std::cout << mouseX << "," << mouseY << std::endl;
-            gCamera.MouseLook(mouseX,mouseY);
-        }
 	}
 
     // Retrieve keyboard state
     const Uint8 *state = SDL_GetKeyboardState(NULL);
-    if (state[SDL_SCANCODE_UP]) {
-    }
-    if (state[SDL_SCANCODE_DOWN]) {
-    }
-    if (state[SDL_SCANCODE_LEFT]) {
-        g_rotatePositive=false;
-        std::cout << "g_rotatePositive: " << g_rotatePositive << std::endl;
-    }
-    if (state[SDL_SCANCODE_RIGHT]) {
-        g_rotatePositive=true;
-        std::cout << "g_rotatePositive: " << g_rotatePositive << std::endl;
-    }
 
     // Camera
     // Update our position of the camera
