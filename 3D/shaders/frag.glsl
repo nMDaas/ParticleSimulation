@@ -8,5 +8,6 @@ out vec4 color;
 // Entry point of program
 void main()
 {
-	color = vec4(v_vertexColors.r,v_vertexColors.g, v_vertexColors.b, 1.0f);
+	vec3 normals  = normalize(v_vertexNormals); 
+	color = vec4(normals.r,normals.g, normals.b, 1.0f);
 }
