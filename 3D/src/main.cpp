@@ -480,7 +480,7 @@ void PreDrawParticle(int i){
     glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
                                              (float)gScreenWidth/(float)gScreenHeight,
                                              0.1f,
-                                             20.0f);
+                                             10000.0f);
 	// TA_README: Send data to GPU
 	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
 	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
