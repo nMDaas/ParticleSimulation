@@ -10,4 +10,5 @@ void main()
 {
 	vec3 normals  = normalize(v_vertexNormals); 
 	color = vec4(normals.r,normals.g, normals.b, 1.0f);
+	
 }

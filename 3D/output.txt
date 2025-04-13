@@ -1,0 +1,2182 @@
+--- In parseModelData() ---
+Indices: 2,3,1
+Normals: 1,1,1
+------
+Indices: 4,5,3
+Normals: 2,2,2
+------
+Indices: 6,7,5
+Normals: 3,3,3
+------
+Indices: 8,9,7
+Normals: 4,4,4
+------
+Indices: 10,11,9
+Normals: 5,5,5
+------
+Indices: 12,13,11
+Normals: 6,6,6
+------
+Indices: 14,15,13
+Normals: 7,7,7
+------
+Indices: 16,17,15
+Normals: 8,8,8
+------
+Indices: 18,19,17
+Normals: 9,9,9
+------
+Indices: 20,21,19
+Normals: 10,10,10
+------
+Indices: 22,23,21
+Normals: 11,11,11
+------
+Indices: 24,25,23
+Normals: 12,12,12
+------
+Indices: 26,27,25
+Normals: 13,13,13
+------
+Indices: 28,29,27
+Normals: 14,14,14
+------
+Indices: 30,31,29
+Normals: 15,15,15
+------
+Indices: 32,33,31
+Normals: 16,16,16
+------
+Indices: 34,35,33
+Normals: 17,17,17
+------
+Indices: 36,37,35
+Normals: 18,18,18
+------
+Indices: 38,39,37
+Normals: 19,19,19
+------
+Indices: 40,41,39
+Normals: 20,20,20
+------
+Indices: 42,43,41
+Normals: 21,21,21
+------
+Indices: 44,45,43
+Normals: 22,22,22
+------
+Indices: 46,47,45
+Normals: 23,23,23
+------
+Indices: 48,49,47
+Normals: 24,24,24
+------
+Indices: 50,51,49
+Normals: 25,25,25
+------
+Indices: 52,53,51
+Normals: 26,26,26
+------
+Indices: 54,55,53
+Normals: 27,27,27
+------
+Indices: 56,57,55
+Normals: 28,28,28
+------
+Indices: 58,59,57
+Normals: 29,29,29
+------
+Indices: 60,61,59
+Normals: 30,30,30
+------
+Indices: 54,38,22
+Normals: 31,31,31
+------
+Indices: 62,63,61
+Normals: 32,32,32
+------
+Indices: 64,1,63
+Normals: 33,33,33
+------
+Indices: 15,31,47
+Normals: 34,34,34
+------
+Indices: 2,4,3
+Normals: 1,1,1
+------
+Indices: 4,6,5
+Normals: 2,2,2
+------
+Indices: 6,8,7
+Normals: 3,3,3
+------
+Indices: 8,10,9
+Normals: 4,4,4
+------
+Indices: 10,12,11
+Normals: 5,5,5
+------
+Indices: 12,14,13
+Normals: 6,6,6
+------
+Indices: 14,16,15
+Normals: 7,7,7
+------
+Indices: 16,18,17
+Normals: 8,8,8
+------
+Indices: 18,20,19
+Normals: 9,9,9
+------
+Indices: 20,22,21
+Normals: 10,10,10
+------
+Indices: 22,24,23
+Normals: 11,11,11
+------
+Indices: 24,26,25
+Normals: 12,12,12
+------
+Indices: 26,28,27
+Normals: 13,13,13
+------
+Indices: 28,30,29
+Normals: 14,14,14
+------
+Indices: 30,32,31
+Normals: 15,15,15
+------
+Indices: 32,34,33
+Normals: 16,16,16
+------
+Indices: 34,36,35
+Normals: 17,17,17
+------
+Indices: 36,38,37
+Normals: 18,18,18
+------
+Indices: 38,40,39
+Normals: 19,19,19
+------
+Indices: 40,42,41
+Normals: 20,20,20
+------
+Indices: 42,44,43
+Normals: 21,21,21
+------
+Indices: 44,46,45
+Normals: 22,22,22
+------
+Indices: 46,48,47
+Normals: 23,23,23
+------
+Indices: 48,50,49
+Normals: 24,24,24
+------
+Indices: 50,52,51
+Normals: 25,25,25
+------
+Indices: 52,54,53
+Normals: 26,26,26
+------
+Indices: 54,56,55
+Normals: 27,27,27
+------
+Indices: 56,58,57
+Normals: 28,28,28
+------
+Indices: 58,60,59
+Normals: 29,29,29
+------
+Indices: 60,62,61
+Normals: 30,30,30
+------
+Indices: 6,4,62
+Normals: 31,31,31
+------
+Indices: 4,2,62
+Normals: 31,31,31
+------
+Indices: 2,64,62
+Normals: 31,31,31
+------
+Indices: 62,60,58
+Normals: 31,31,31
+------
+Indices: 58,56,62
+Normals: 31,31,31
+------
+Indices: 56,54,62
+Normals: 31,31,31
+------
+Indices: 54,52,50
+Normals: 31,31,31
+------
+Indices: 50,48,46
+Normals: 31,31,31
+------
+Indices: 46,44,42
+Normals: 31,31,31
+------
+Indices: 42,40,38
+Normals: 31,31,31
+------
+Indices: 38,36,34
+Normals: 31,31,31
+------
+Indices: 34,32,30
+Normals: 31,31,31
+------
+Indices: 30,28,26
+Normals: 31,31,31
+------
+Indices: 26,24,22
+Normals: 31,31,31
+------
+Indices: 22,20,18
+Normals: 31,31,31
+------
+Indices: 18,16,14
+Normals: 31,31,31
+------
+Indices: 14,12,10
+Normals: 31,31,31
+------
+Indices: 10,8,6
+Normals: 31,31,31
+------
+Indices: 54,50,38
+Normals: 31,31,31
+------
+Indices: 50,46,38
+Normals: 31,31,31
+------
+Indices: 46,42,38
+Normals: 31,31,31
+------
+Indices: 38,34,30
+Normals: 31,31,31
+------
+Indices: 30,26,38
+Normals: 31,31,31
+------
+Indices: 26,22,38
+Normals: 31,31,31
+------
+Indices: 22,18,6
+Normals: 31,31,31
+------
+Indices: 18,14,6
+Normals: 31,31,31
+------
+Indices: 14,10,6
+Normals: 31,31,31
+------
+Indices: 6,62,54
+Normals: 31,31,31
+------
+Indices: 6,54,22
+Normals: 31,31,31
+------
+Indices: 62,64,63
+Normals: 32,32,32
+------
+Indices: 64,2,1
+Normals: 33,33,33
+------
+Indices: 63,1,3
+Normals: 34,34,34
+------
+Indices: 3,5,7
+Normals: 34,34,34
+------
+Indices: 7,9,11
+Normals: 34,34,34
+------
+Indices: 11,13,15
+Normals: 34,34,34
+------
+Indices: 15,17,19
+Normals: 34,34,34
+------
+Indices: 19,21,23
+Normals: 34,34,34
+------
+Indices: 23,25,27
+Normals: 34,34,34
+------
+Indices: 27,29,31
+Normals: 34,34,34
+------
+Indices: 31,33,35
+Normals: 34,34,34
+------
+Indices: 35,37,39
+Normals: 34,34,34
+------
+Indices: 39,41,43
+Normals: 34,34,34
+------
+Indices: 43,45,47
+Normals: 34,34,34
+------
+Indices: 47,49,51
+Normals: 34,34,34
+------
+Indices: 51,53,47
+Normals: 34,34,34
+------
+Indices: 53,55,47
+Normals: 34,34,34
+------
+Indices: 55,57,63
+Normals: 34,34,34
+------
+Indices: 57,59,63
+Normals: 34,34,34
+------
+Indices: 59,61,63
+Normals: 34,34,34
+------
+Indices: 63,3,15
+Normals: 34,34,34
+------
+Indices: 3,7,15
+Normals: 34,34,34
+------
+Indices: 7,11,15
+Normals: 34,34,34
+------
+Indices: 15,19,23
+Normals: 34,34,34
+------
+Indices: 23,27,15
+Normals: 34,34,34
+------
+Indices: 27,31,15
+Normals: 34,34,34
+------
+Indices: 31,35,47
+Normals: 34,34,34
+------
+Indices: 35,39,47
+Normals: 34,34,34
+------
+Indices: 39,43,47
+Normals: 34,34,34
+------
+Indices: 47,55,63
+Normals: 34,34,34
+------
+Indices: 63,15,47
+Normals: 34,34,34
+------
+--- Exiting parseModelData() ---
+--- In getModelMesh() ---
+-------
+Collecting Indices into Triangles
+-------
+Triangle
+  Index 1: 2
+  Index 2: 3
+  Index 3: 1
+  Normal 1: 1
+  Normal 2: 1
+  Normal 3: 1
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 4
+  Index 2: 5
+  Index 3: 3
+  Normal 1: 2
+  Normal 2: 2
+  Normal 3: 2
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 6
+  Index 2: 7
+  Index 3: 5
+  Normal 1: 3
+  Normal 2: 3
+  Normal 3: 3
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 8
+  Index 2: 9
+  Index 3: 7
+  Normal 1: 4
+  Normal 2: 4
+  Normal 3: 4
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 10
+  Index 2: 11
+  Index 3: 9
+  Normal 1: 5
+  Normal 2: 5
+  Normal 3: 5
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 12
+  Index 2: 13
+  Index 3: 11
+  Normal 1: 6
+  Normal 2: 6
+  Normal 3: 6
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 14
+  Index 2: 15
+  Index 3: 13
+  Normal 1: 7
+  Normal 2: 7
+  Normal 3: 7
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 16
+  Index 2: 17
+  Index 3: 15
+  Normal 1: 8
+  Normal 2: 8
+  Normal 3: 8
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 18
+  Index 2: 19
+  Index 3: 17
+  Normal 1: 9
+  Normal 2: 9
+  Normal 3: 9
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 20
+  Index 2: 21
+  Index 3: 19
+  Normal 1: 10
+  Normal 2: 10
+  Normal 3: 10
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 22
+  Index 2: 23
+  Index 3: 21
+  Normal 1: 11
+  Normal 2: 11
+  Normal 3: 11
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 24
+  Index 2: 25
+  Index 3: 23
+  Normal 1: 12
+  Normal 2: 12
+  Normal 3: 12
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 26
+  Index 2: 27
+  Index 3: 25
+  Normal 1: 13
+  Normal 2: 13
+  Normal 3: 13
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 28
+  Index 2: 29
+  Index 3: 27
+  Normal 1: 14
+  Normal 2: 14
+  Normal 3: 14
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 30
+  Index 2: 31
+  Index 3: 29
+  Normal 1: 15
+  Normal 2: 15
+  Normal 3: 15
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 32
+  Index 2: 33
+  Index 3: 31
+  Normal 1: 16
+  Normal 2: 16
+  Normal 3: 16
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 34
+  Index 2: 35
+  Index 3: 33
+  Normal 1: 17
+  Normal 2: 17
+  Normal 3: 17
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 36
+  Index 2: 37
+  Index 3: 35
+  Normal 1: 18
+  Normal 2: 18
+  Normal 3: 18
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 38
+  Index 2: 39
+  Index 3: 37
+  Normal 1: 19
+  Normal 2: 19
+  Normal 3: 19
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 40
+  Index 2: 41
+  Index 3: 39
+  Normal 1: 20
+  Normal 2: 20
+  Normal 3: 20
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 42
+  Index 2: 43
+  Index 3: 41
+  Normal 1: 21
+  Normal 2: 21
+  Normal 3: 21
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 44
+  Index 2: 45
+  Index 3: 43
+  Normal 1: 22
+  Normal 2: 22
+  Normal 3: 22
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 46
+  Index 2: 47
+  Index 3: 45
+  Normal 1: 23
+  Normal 2: 23
+  Normal 3: 23
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 48
+  Index 2: 49
+  Index 3: 47
+  Normal 1: 24
+  Normal 2: 24
+  Normal 3: 24
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 50
+  Index 2: 51
+  Index 3: 49
+  Normal 1: 25
+  Normal 2: 25
+  Normal 3: 25
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 52
+  Index 2: 53
+  Index 3: 51
+  Normal 1: 26
+  Normal 2: 26
+  Normal 3: 26
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 54
+  Index 2: 55
+  Index 3: 53
+  Normal 1: 27
+  Normal 2: 27
+  Normal 3: 27
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 56
+  Index 2: 57
+  Index 3: 55
+  Normal 1: 28
+  Normal 2: 28
+  Normal 3: 28
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 58
+  Index 2: 59
+  Index 3: 57
+  Normal 1: 29
+  Normal 2: 29
+  Normal 3: 29
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 60
+  Index 2: 61
+  Index 3: 59
+  Normal 1: 30
+  Normal 2: 30
+  Normal 3: 30
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 54
+  Index 2: 38
+  Index 3: 22
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 62
+  Index 2: 63
+  Index 3: 61
+  Normal 1: 32
+  Normal 2: 32
+  Normal 3: 32
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 64
+  Index 2: 1
+  Index 3: 63
+  Normal 1: 33
+  Normal 2: 33
+  Normal 3: 33
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 15
+  Index 2: 31
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 2
+  Index 2: 4
+  Index 3: 3
+  Normal 1: 1
+  Normal 2: 1
+  Normal 3: 1
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 4
+  Index 2: 6
+  Index 3: 5
+  Normal 1: 2
+  Normal 2: 2
+  Normal 3: 2
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 6
+  Index 2: 8
+  Index 3: 7
+  Normal 1: 3
+  Normal 2: 3
+  Normal 3: 3
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 8
+  Index 2: 10
+  Index 3: 9
+  Normal 1: 4
+  Normal 2: 4
+  Normal 3: 4
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 10
+  Index 2: 12
+  Index 3: 11
+  Normal 1: 5
+  Normal 2: 5
+  Normal 3: 5
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 12
+  Index 2: 14
+  Index 3: 13
+  Normal 1: 6
+  Normal 2: 6
+  Normal 3: 6
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 14
+  Index 2: 16
+  Index 3: 15
+  Normal 1: 7
+  Normal 2: 7
+  Normal 3: 7
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 16
+  Index 2: 18
+  Index 3: 17
+  Normal 1: 8
+  Normal 2: 8
+  Normal 3: 8
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 18
+  Index 2: 20
+  Index 3: 19
+  Normal 1: 9
+  Normal 2: 9
+  Normal 3: 9
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 20
+  Index 2: 22
+  Index 3: 21
+  Normal 1: 10
+  Normal 2: 10
+  Normal 3: 10
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 22
+  Index 2: 24
+  Index 3: 23
+  Normal 1: 11
+  Normal 2: 11
+  Normal 3: 11
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 24
+  Index 2: 26
+  Index 3: 25
+  Normal 1: 12
+  Normal 2: 12
+  Normal 3: 12
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 26
+  Index 2: 28
+  Index 3: 27
+  Normal 1: 13
+  Normal 2: 13
+  Normal 3: 13
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 28
+  Index 2: 30
+  Index 3: 29
+  Normal 1: 14
+  Normal 2: 14
+  Normal 3: 14
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 30
+  Index 2: 32
+  Index 3: 31
+  Normal 1: 15
+  Normal 2: 15
+  Normal 3: 15
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 32
+  Index 2: 34
+  Index 3: 33
+  Normal 1: 16
+  Normal 2: 16
+  Normal 3: 16
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 34
+  Index 2: 36
+  Index 3: 35
+  Normal 1: 17
+  Normal 2: 17
+  Normal 3: 17
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 36
+  Index 2: 38
+  Index 3: 37
+  Normal 1: 18
+  Normal 2: 18
+  Normal 3: 18
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 38
+  Index 2: 40
+  Index 3: 39
+  Normal 1: 19
+  Normal 2: 19
+  Normal 3: 19
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 40
+  Index 2: 42
+  Index 3: 41
+  Normal 1: 20
+  Normal 2: 20
+  Normal 3: 20
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 42
+  Index 2: 44
+  Index 3: 43
+  Normal 1: 21
+  Normal 2: 21
+  Normal 3: 21
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 44
+  Index 2: 46
+  Index 3: 45
+  Normal 1: 22
+  Normal 2: 22
+  Normal 3: 22
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 46
+  Index 2: 48
+  Index 3: 47
+  Normal 1: 23
+  Normal 2: 23
+  Normal 3: 23
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 48
+  Index 2: 50
+  Index 3: 49
+  Normal 1: 24
+  Normal 2: 24
+  Normal 3: 24
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 50
+  Index 2: 52
+  Index 3: 51
+  Normal 1: 25
+  Normal 2: 25
+  Normal 3: 25
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 52
+  Index 2: 54
+  Index 3: 53
+  Normal 1: 26
+  Normal 2: 26
+  Normal 3: 26
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 54
+  Index 2: 56
+  Index 3: 55
+  Normal 1: 27
+  Normal 2: 27
+  Normal 3: 27
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 56
+  Index 2: 58
+  Index 3: 57
+  Normal 1: 28
+  Normal 2: 28
+  Normal 3: 28
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 58
+  Index 2: 60
+  Index 3: 59
+  Normal 1: 29
+  Normal 2: 29
+  Normal 3: 29
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 60
+  Index 2: 62
+  Index 3: 61
+  Normal 1: 30
+  Normal 2: 30
+  Normal 3: 30
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 6
+  Index 2: 4
+  Index 3: 62
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 4
+  Index 2: 2
+  Index 3: 62
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 2
+  Index 2: 64
+  Index 3: 62
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 62
+  Index 2: 60
+  Index 3: 58
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 58
+  Index 2: 56
+  Index 3: 62
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 56
+  Index 2: 54
+  Index 3: 62
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 54
+  Index 2: 52
+  Index 3: 50
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 50
+  Index 2: 48
+  Index 3: 46
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 46
+  Index 2: 44
+  Index 3: 42
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 42
+  Index 2: 40
+  Index 3: 38
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 38
+  Index 2: 36
+  Index 3: 34
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 34
+  Index 2: 32
+  Index 3: 30
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 30
+  Index 2: 28
+  Index 3: 26
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 26
+  Index 2: 24
+  Index 3: 22
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 22
+  Index 2: 20
+  Index 3: 18
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 18
+  Index 2: 16
+  Index 3: 14
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 14
+  Index 2: 12
+  Index 3: 10
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 10
+  Index 2: 8
+  Index 3: 6
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 54
+  Index 2: 50
+  Index 3: 38
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 50
+  Index 2: 46
+  Index 3: 38
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 46
+  Index 2: 42
+  Index 3: 38
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 38
+  Index 2: 34
+  Index 3: 30
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 30
+  Index 2: 26
+  Index 3: 38
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 26
+  Index 2: 22
+  Index 3: 38
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 22
+  Index 2: 18
+  Index 3: 6
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 18
+  Index 2: 14
+  Index 3: 6
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 14
+  Index 2: 10
+  Index 3: 6
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 6
+  Index 2: 62
+  Index 3: 54
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 6
+  Index 2: 54
+  Index 3: 22
+  Normal 1: 31
+  Normal 2: 31
+  Normal 3: 31
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 62
+  Index 2: 64
+  Index 3: 63
+  Normal 1: 32
+  Normal 2: 32
+  Normal 3: 32
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 64
+  Index 2: 2
+  Index 3: 1
+  Normal 1: 33
+  Normal 2: 33
+  Normal 3: 33
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 63
+  Index 2: 1
+  Index 3: 3
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 3
+  Index 2: 5
+  Index 3: 7
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 7
+  Index 2: 9
+  Index 3: 11
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 11
+  Index 2: 13
+  Index 3: 15
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 15
+  Index 2: 17
+  Index 3: 19
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 19
+  Index 2: 21
+  Index 3: 23
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 23
+  Index 2: 25
+  Index 3: 27
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 27
+  Index 2: 29
+  Index 3: 31
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 31
+  Index 2: 33
+  Index 3: 35
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 35
+  Index 2: 37
+  Index 3: 39
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 39
+  Index 2: 41
+  Index 3: 43
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 43
+  Index 2: 45
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 47
+  Index 2: 49
+  Index 3: 51
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 51
+  Index 2: 53
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 53
+  Index 2: 55
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 55
+  Index 2: 57
+  Index 3: 63
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 57
+  Index 2: 59
+  Index 3: 63
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 59
+  Index 2: 61
+  Index 3: 63
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 63
+  Index 2: 3
+  Index 3: 15
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 3
+  Index 2: 7
+  Index 3: 15
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 7
+  Index 2: 11
+  Index 3: 15
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 15
+  Index 2: 19
+  Index 3: 23
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 23
+  Index 2: 27
+  Index 3: 15
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 27
+  Index 2: 31
+  Index 3: 15
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 31
+  Index 2: 35
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 35
+  Index 2: 39
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 39
+  Index 2: 43
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 47
+  Index 2: 55
+  Index 3: 63
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+Triangle
+  Index 1: 63
+  Index 2: 15
+  Index 3: 47
+  Normal 1: 34
+  Normal 2: 34
+  Normal 3: 34
+  Vertices: 
+  Normals: 
+-------
+End Collecting Indices into Triangles
+-------
+--- Exiting getModelMesh() ---
+--- In getVerticesAndAddColorData() ---
+Index: 0
+gModelNormalsMap[i]: 33
+Index: 1
+gModelNormalsMap[i]: 32
+Index: 2
+gModelNormalsMap[i]: 33
+Index: 3
+gModelNormalsMap[i]: 30
+Index: 4
+gModelNormalsMap[i]: 33
+Index: 5
+gModelNormalsMap[i]: 30
+Index: 6
+gModelNormalsMap[i]: 33
+Index: 7
+gModelNormalsMap[i]: 30
+Index: 8
+gModelNormalsMap[i]: 33
+Index: 9
+gModelNormalsMap[i]: 30
+Index: 10
+gModelNormalsMap[i]: 33
+Index: 11
+gModelNormalsMap[i]: 30
+Index: 12
+gModelNormalsMap[i]: 33
+Index: 13
+gModelNormalsMap[i]: 30
+Index: 14
+gModelNormalsMap[i]: 33
+Index: 15
+gModelNormalsMap[i]: 30
+Index: 16
+gModelNormalsMap[i]: 33
+Index: 17
+gModelNormalsMap[i]: 30
+Index: 18
+gModelNormalsMap[i]: 33
+Index: 19
+gModelNormalsMap[i]: 30
+Index: 20
+gModelNormalsMap[i]: 33
+Index: 21
+gModelNormalsMap[i]: 30
+Index: 22
+gModelNormalsMap[i]: 33
+Index: 23
+gModelNormalsMap[i]: 30
+Index: 24
+gModelNormalsMap[i]: 33
+Index: 25
+gModelNormalsMap[i]: 30
+Index: 26
+gModelNormalsMap[i]: 33
+Index: 27
+gModelNormalsMap[i]: 30
+Index: 28
+gModelNormalsMap[i]: 33
+Index: 29
+gModelNormalsMap[i]: 30
+Index: 30
+gModelNormalsMap[i]: 33
+Index: 31
+gModelNormalsMap[i]: 30
+Index: 32
+gModelNormalsMap[i]: 33
+Index: 33
+gModelNormalsMap[i]: 30
+Index: 34
+gModelNormalsMap[i]: 33
+Index: 35
+gModelNormalsMap[i]: 30
+Index: 36
+gModelNormalsMap[i]: 33
+Index: 37
+gModelNormalsMap[i]: 30
+Index: 38
+gModelNormalsMap[i]: 33
+Index: 39
+gModelNormalsMap[i]: 30
+Index: 40
+gModelNormalsMap[i]: 33
+Index: 41
+gModelNormalsMap[i]: 30
+Index: 42
+gModelNormalsMap[i]: 33
+Index: 43
+gModelNormalsMap[i]: 30
+Index: 44
+gModelNormalsMap[i]: 33
+Index: 45
+gModelNormalsMap[i]: 30
+Index: 46
+gModelNormalsMap[i]: 33
+Index: 47
+gModelNormalsMap[i]: 30
+Index: 48
+gModelNormalsMap[i]: 33
+Index: 49
+gModelNormalsMap[i]: 30
+Index: 50
+gModelNormalsMap[i]: 33
+Index: 51
+gModelNormalsMap[i]: 30
+Index: 52
+gModelNormalsMap[i]: 33
+Index: 53
+gModelNormalsMap[i]: 30
+Index: 54
+gModelNormalsMap[i]: 33
+Index: 55
+gModelNormalsMap[i]: 30
+Index: 56
+gModelNormalsMap[i]: 33
+Index: 57
+gModelNormalsMap[i]: 30
+Index: 58
+gModelNormalsMap[i]: 33
+Index: 59
+gModelNormalsMap[i]: 30
+Index: 60
+gModelNormalsMap[i]: 33
+Index: 61
+gModelNormalsMap[i]: 31
+Index: 62
+gModelNormalsMap[i]: 33
+Index: 63
+gModelNormalsMap[i]: 32
+--- Exiting getVerticesAndAddColorData() ---
+31470)
+Printing Vertex: vec3(0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(0.707107, -1.000000, -0.707107)
+Printing Normal: vec3(-0.980785, 1.000000, -0.195090)
+Printing Normal: vec3(-0.980785, 1.000000, -0.195090)
+Printing Normal: vec3(-0.980785, 1.000000, -0.195090)
+Printing Vertex: vec3(0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(0.831469, 1.000000, -0.555570)
+Printing Vertex: vec3(0.831469, -1.000000, -0.555570)
+Printing Normal: vec3(-0.923880, -1.000000, -0.382683)
+Printing Normal: vec3(-0.923880, -1.000000, -0.382683)
+Printing Normal: vec3(-0.923880, -1.000000, -0.382683)
+Printing Vertex: vec3(0.831469, 1.000000, -0.555570)
+Printing Vertex: vec3(0.923880, 1.000000, -0.382684)
+Printing Vertex: vec3(0.923880, -1.000000, -0.382684)
+Printing Normal: vec3(-0.923880, 1.000000, -0.382683)
+Printing Normal: vec3(-0.923880, 1.000000, -0.382683)
+Printing Normal: vec3(-0.923880, 1.000000, -0.382683)
+Printing Vertex: vec3(0.923880, 1.000000, -0.382684)
+Printing Vertex: vec3(0.980785, 1.000000, -0.195090)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(-0.831470, -1.000000, -0.555570)
+Printing Normal: vec3(-0.831470, -1.000000, -0.555570)
+Printing Normal: vec3(-0.831470, -1.000000, -0.555570)
+Printing Vertex: vec3(0.980785, 1.000000, -0.195090)
+Printing Vertex: vec3(1.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(1.000000, -1.000000, 0.000000)
+Printing Normal: vec3(-0.831470, 1.000000, -0.555570)
+Printing Normal: vec3(-0.831470, 1.000000, -0.555570)
+Printing Normal: vec3(-0.831470, 1.000000, -0.555570)
+Printing Vertex: vec3(1.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.980785, 1.000000, 0.195090)
+Printing Vertex: vec3(0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(-0.707107, -1.000000, -0.707107)
+Printing Normal: vec3(-0.707107, -1.000000, -0.707107)
+Printing Normal: vec3(-0.707107, -1.000000, -0.707107)
+Printing Vertex: vec3(0.980785, 1.000000, 0.195090)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Vertex: vec3(0.923879, -1.000000, 0.382684)
+Printing Normal: vec3(-0.707107, 1.000000, -0.707107)
+Printing Normal: vec3(-0.707107, 1.000000, -0.707107)
+Printing Normal: vec3(-0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Vertex: vec3(0.831470, 1.000000, 0.555570)
+Printing Vertex: vec3(0.831470, -1.000000, 0.555570)
+Printing Normal: vec3(-0.555570, -1.000000, -0.831470)
+Printing Normal: vec3(-0.555570, -1.000000, -0.831470)
+Printing Normal: vec3(-0.555570, -1.000000, -0.831470)
+Printing Vertex: vec3(0.831470, 1.000000, 0.555570)
+Printing Vertex: vec3(0.707107, 1.000000, 0.707107)
+Printing Vertex: vec3(0.707107, -1.000000, 0.707107)
+Printing Normal: vec3(-0.555570, 1.000000, -0.831470)
+Printing Normal: vec3(-0.555570, 1.000000, -0.831470)
+Printing Normal: vec3(-0.555570, 1.000000, -0.831470)
+Printing Vertex: vec3(0.707107, 1.000000, 0.707107)
+Printing Vertex: vec3(0.555570, 1.000000, 0.831470)
+Printing Vertex: vec3(0.555570, -1.000000, 0.831470)
+Printing Normal: vec3(-0.382683, -1.000000, -0.923880)
+Printing Normal: vec3(-0.382683, -1.000000, -0.923880)
+Printing Normal: vec3(-0.382683, -1.000000, -0.923880)
+Printing Vertex: vec3(0.555570, 1.000000, 0.831470)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Vertex: vec3(0.382683, -1.000000, 0.923880)
+Printing Normal: vec3(-0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.382683, 1.000000, -0.923880)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Vertex: vec3(-0.195090, 1.000000, 0.980785)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.195090, 1.000000, 0.980785)
+Printing Vertex: vec3(0.000000, 1.000000, 1.000000)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.000000, 1.000000, 1.000000)
+Printing Vertex: vec3(0.195090, 1.000000, 0.980785)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Vertex: vec3(0.555570, 1.000000, 0.831470)
+Printing Vertex: vec3(0.707107, 1.000000, 0.707107)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.707107, 1.000000, 0.707107)
+Printing Vertex: vec3(0.831470, 1.000000, 0.555570)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.831470, 1.000000, 0.555570)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Vertex: vec3(0.980785, 1.000000, 0.195090)
+Printing Vertex: vec3(1.000000, 1.000000, 0.000000)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(1.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.980785, 1.000000, -0.195090)
+Printing Vertex: vec3(0.923880, 1.000000, -0.382684)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.923880, 1.000000, -0.382684)
+Printing Vertex: vec3(0.831469, 1.000000, -0.555570)
+Printing Vertex: vec3(0.707107, 1.000000, -0.707107)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(0.555570, 1.000000, -0.831470)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Vertex: vec3(0.195090, 1.000000, -0.980785)
+Printing Vertex: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.195090, 1.000000, -0.980785)
+Printing Vertex: vec3(-0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.382683, 1.000000, -0.923880)
+Printing Vertex: vec3(-0.555570, 1.000000, -0.831470)
+Printing Vertex: vec3(-0.707107, 1.000000, -0.707107)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(-0.831470, 1.000000, -0.555570)
+Printing Vertex: vec3(-0.923880, 1.000000, -0.382683)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.923880, 1.000000, -0.382683)
+Printing Vertex: vec3(-0.980785, 1.000000, -0.195090)
+Printing Vertex: vec3(-1.000000, 1.000000, -0.000000)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-1.000000, 1.000000, -0.000000)
+Printing Vertex: vec3(-0.980785, 1.000000, 0.195090)
+Printing Vertex: vec3(-0.923880, 1.000000, 0.382683)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.923880, 1.000000, 0.382683)
+Printing Vertex: vec3(-0.831470, 1.000000, 0.555570)
+Printing Vertex: vec3(-0.707107, 1.000000, 0.707107)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.707107, 1.000000, 0.707107)
+Printing Vertex: vec3(-0.555570, 1.000000, 0.831470)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Vertex: vec3(1.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(1.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.923880, 1.000000, -0.382684)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.923880, 1.000000, -0.382684)
+Printing Vertex: vec3(0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Vertex: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.382683, 1.000000, -0.923880)
+Printing Vertex: vec3(-0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.707107, 1.000000, -0.707107)
+Printing Vertex: vec3(-0.923880, 1.000000, -0.382683)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.923880, 1.000000, -0.382683)
+Printing Vertex: vec3(-1.000000, 1.000000, -0.000000)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-1.000000, 1.000000, -0.000000)
+Printing Vertex: vec3(-0.923880, 1.000000, 0.382683)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.923880, 1.000000, 0.382683)
+Printing Vertex: vec3(-0.707107, 1.000000, 0.707107)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Vertex: vec3(-0.923880, 1.000000, -0.382683)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Vertex: vec3(0.195090, 1.000000, 0.980785)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(-0.195090, 1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, 1.000000, -0.980785)
+Printing Normal: vec3(-0.195090, 1.000000, -0.980785)
+Printing Vertex: vec3(0.195090, 1.000000, 0.980785)
+Printing Vertex: vec3(0.000000, 1.000000, 1.000000)
+Printing Vertex: vec3(0.000000, -1.000000, 1.000000)
+Printing Normal: vec3(0.000000, -1.000000, -1.000000)
+Printing Normal: vec3(0.000000, -1.000000, -1.000000)
+Printing Normal: vec3(0.000000, -1.000000, -1.000000)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Vertex: vec3(0.000000, -1.000000, 1.000000)
+Printing Vertex: vec3(-0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.195090, -1.000000, 0.980785)
+Printing Vertex: vec3(-0.382683, -1.000000, 0.923880)
+Printing Vertex: vec3(-0.555570, -1.000000, 0.831470)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.555570, -1.000000, 0.831470)
+Printing Vertex: vec3(-0.707107, -1.000000, 0.707107)
+Printing Vertex: vec3(-0.831470, -1.000000, 0.555570)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.831470, -1.000000, 0.555570)
+Printing Vertex: vec3(-0.923880, -1.000000, 0.382683)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Vertex: vec3(-1.000000, -1.000000, -0.000000)
+Printing Vertex: vec3(-0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.980785, -1.000000, -0.195090)
+Printing Vertex: vec3(-0.923880, -1.000000, -0.382683)
+Printing Vertex: vec3(-0.831470, -1.000000, -0.555570)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.831470, -1.000000, -0.555570)
+Printing Vertex: vec3(-0.707107, -1.000000, -0.707107)
+Printing Vertex: vec3(-0.555570, -1.000000, -0.831470)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.555570, -1.000000, -0.831470)
+Printing Vertex: vec3(-0.382683, -1.000000, -0.923880)
+Printing Vertex: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.000000, -1.000000, -1.000000)
+Printing Vertex: vec3(0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.382683, -1.000000, -0.923880)
+Printing Vertex: vec3(0.555570, -1.000000, -0.831470)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.555570, -1.000000, -0.831470)
+Printing Vertex: vec3(0.707107, -1.000000, -0.707107)
+Printing Vertex: vec3(0.831469, -1.000000, -0.555570)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.831469, -1.000000, -0.555570)
+Printing Vertex: vec3(0.923880, -1.000000, -0.382684)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Vertex: vec3(1.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.980785, -1.000000, 0.195090)
+Printing Vertex: vec3(0.923879, -1.000000, 0.382684)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.923879, -1.000000, 0.382684)
+Printing Vertex: vec3(0.831470, -1.000000, 0.555570)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.831470, -1.000000, 0.555570)
+Printing Vertex: vec3(0.707107, -1.000000, 0.707107)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.707107, -1.000000, 0.707107)
+Printing Vertex: vec3(0.555570, -1.000000, 0.831470)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.555570, -1.000000, 0.831470)
+Printing Vertex: vec3(0.382683, -1.000000, 0.923880)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Vertex: vec3(-0.195090, -1.000000, 0.980785)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.195090, -1.000000, 0.980785)
+Printing Vertex: vec3(-0.555570, -1.000000, 0.831470)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.555570, -1.000000, 0.831470)
+Printing Vertex: vec3(-0.831470, -1.000000, 0.555570)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Vertex: vec3(-0.980785, -1.000000, -0.195090)
+Printing Vertex: vec3(-0.831470, -1.000000, -0.555570)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.831470, -1.000000, -0.555570)
+Printing Vertex: vec3(-0.555570, -1.000000, -0.831470)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.555570, -1.000000, -0.831470)
+Printing Vertex: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(-0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.195090, -1.000000, -0.980785)
+Printing Vertex: vec3(0.555570, -1.000000, -0.831470)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.555570, -1.000000, -0.831470)
+Printing Vertex: vec3(0.831469, -1.000000, -0.555570)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Vertex: vec3(0.831470, -1.000000, 0.555570)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, -1.000000)
+Printing Vertex: vec3(0.000000, -1.000000, 1.000000)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.000000, 1.000000, 1.000000)
+Printing Normal: vec3(0.098000, 0.000000, 0.995200)
+Printing Vertex: vec3(-0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.195090, 1.000000, 0.980785)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.382683, -1.000000, 0.923880)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.555570, -1.000000, 0.831470)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.555570, 1.000000, 0.831470)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.707107, -1.000000, 0.707107)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.707107, 1.000000, 0.707107)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.831470, -1.000000, 0.555570)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.831470, 1.000000, 0.555570)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.923880, -1.000000, 0.382683)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.923880, 1.000000, 0.382683)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.980785, 1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-1.000000, -1.000000, -0.000000)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-1.000000, 1.000000, -0.000000)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.980785, 1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.923880, -1.000000, -0.382683)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.923880, 1.000000, -0.382683)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.831470, -1.000000, -0.555570)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.831470, 1.000000, -0.555570)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.707107, -1.000000, -0.707107)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.707107, 1.000000, -0.707107)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.555570, -1.000000, -0.831470)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.555570, 1.000000, -0.831470)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.382683, -1.000000, -0.923880)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(-0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(-0.195090, 1.000000, -0.980785)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.000000, -1.000000, -1.000000)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.000000, 1.000000, -1.000000)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.195090, -1.000000, -0.980785)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.195090, 1.000000, -0.980785)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.382683, -1.000000, -0.923880)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.382683, 1.000000, -0.923880)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.555570, -1.000000, -0.831470)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.555570, 1.000000, -0.831470)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.707107, -1.000000, -0.707107)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.707107, 1.000000, -0.707107)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.831469, -1.000000, -0.555570)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.831469, 1.000000, -0.555570)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.923880, -1.000000, -0.382684)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.923880, 1.000000, -0.382684)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.980785, -1.000000, -0.195090)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.980785, 1.000000, -0.195090)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(1.000000, -1.000000, 0.000000)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(1.000000, 1.000000, 0.000000)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.980785, -1.000000, 0.195090)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.980785, 1.000000, 0.195090)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.923879, -1.000000, 0.382684)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.923879, 1.000000, 0.382684)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.831470, -1.000000, 0.555570)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.831470, 1.000000, 0.555570)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.707107, -1.000000, 0.707107)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.707107, 1.000000, 0.707107)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.555570, -1.000000, 0.831470)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.555570, 1.000000, 0.831470)
+Printing Normal: vec3(0.000000, 1.000000, 0.000000)
+Printing Vertex: vec3(0.382683, -1.000000, 0.923880)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.382683, 1.000000, 0.923880)
+Printing Normal: vec3(0.290300, 0.000000, 0.956900)
+Printing Vertex: vec3(0.195090, -1.000000, 0.980785)
+Printing Normal: vec3(0.000000, -1.000000, 0.000000)
+Printing Vertex: vec3(0.195090, 1.000000, 0.980785)
+Printing Normal: vec3(0.098000, 0.000000, 0.995200)

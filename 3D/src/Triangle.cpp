@@ -9,9 +9,9 @@ Triangle::Triangle(Vertex v1, Vertex v2, Vertex v3) {
 }
 
 Triangle::Triangle(Vertex v1, Vertex v2, Vertex v3, Vertex n1, Vertex n2, Vertex n3) {
-    vertex1 = Vertex(v1.coordinates, glm::vec3(0.0f, 0.3f, 0.7f), n1.coordinates);
-    vertex2 = Vertex(v2.coordinates, glm::vec3(0.0f, 0.3f, 0.7f), n2.coordinates);
-    vertex3 = Vertex(v3.coordinates, glm::vec3(0.0f, 0.3f, 0.7f), n3.coordinates);
+    vertex1 = Vertex(v1.coordinates, glm::vec3(0.0f, 0.3f, 0.7f), glm::normalize(n1.coordinates));
+    vertex2 = Vertex(v2.coordinates, glm::vec3(0.0f, 0.3f, 0.7f), glm::normalize(n2.coordinates));
+    vertex3 = Vertex(v3.coordinates, glm::vec3(0.0f, 0.3f, 0.7f), glm::normalize(n3.coordinates));
 }
 
 Triangle::Triangle(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3) {

@@ -16,6 +16,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <unordered_map>
 
 // Our libraries
 #include "Camera.hpp"
@@ -45,6 +46,7 @@ std::vector<Particle> gParticles;
 // Model information 
 std::vector<Vertex> gModelVertices;
 std::vector<Vertex> gModelNormals;
+std::unordered_map<int, int> gModelNormalsMap;
 std::vector<GLfloat> gModelInformation;
 std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
@@ -259,6 +261,7 @@ void ConfigureVertexAttributes() {
 }
 
 void parseModelData(std::string filepath){
+    outFile << "--- In parseModelData() ---" << std::endl;
     std::ifstream inputFile(filepath);
 
     // Check if the file opened successfully
@@ -311,39 +314,43 @@ void parseModelData(std::string filepath){
             gModelIndices.push_back(normals[0]);
             gModelIndices.push_back(normals[1]);
             gModelIndices.push_back(normals[2]);
+            gModelNormalsMap[indices[0] - 1] = normals[0] - 1;
+            gModelNormalsMap[indices[1] - 1] = normals[1] - 1;
+            gModelNormalsMap[indices[2] - 1] = normals[2] - 1;
         }
     }
 
     // Close the file
     inputFile.close();
+    outFile << "--- Exiting parseModelData() ---" << std::endl;
 }
 
 void getModelMesh() {
-    //std::vector<Triangle> triangleModelMesh;
+    outFile << "--- In getModelMesh() ---" << std::endl;
 
-    std::cout << "-------" << std::endl;
-    std::cout << "Collecting Indices into Triangles" << std::endl;
-    std::cout << "-------" << std::endl;
+    outFile << "-------" << std::endl;
+    outFile << "Collecting Indices into Triangles" << std::endl;
+    outFile << "-------" << std::endl;
 
     for (int i = 0; i < gModelIndices.size(); i++) {
         
-        std::cout << "Triangle" << std::endl;
+        outFile << "Triangle" << std::endl;
 
-        std::cout << "  Index 1: " << gModelIndices[i] << std::endl;
-        std::cout << "  Index 2: " << gModelIndices[i+1] << std::endl;
-        std::cout << "  Index 3: " << gModelIndices[i+2] << std::endl;
-        std::cout << "  Normal 1: " << gModelIndices[i+3] << std::endl;
-        std::cout << "  Normal 2: " << gModelIndices[i+4] << std::endl;
-        std::cout << "  Normal 3: " << gModelIndices[i+5] << std::endl;
+        outFile << "  Index 1: " << gModelIndices[i] << std::endl;
+        outFile << "  Index 2: " << gModelIndices[i+1] << std::endl;
+        outFile << "  Index 3: " << gModelIndices[i+2] << std::endl;
+        outFile << "  Normal 1: " << gModelIndices[i+3] << std::endl;
+        outFile << "  Normal 2: " << gModelIndices[i+4] << std::endl;
+        outFile << "  Normal 3: " << gModelIndices[i+5] << std::endl;
 
         // print Vertices of Triangle
-        std::cout << "  Vertices: " << std::endl;
+        outFile << "  Vertices: " << std::endl;
         gModelVertices[gModelIndices[i] - 1].printVertex("Vertex");
         gModelVertices[gModelIndices[i + 1] - 1].printVertex("Vertex");
         gModelVertices[gModelIndices[i + 2] - 1].printVertex("Vertex");
 
         // print Normals of Triangle
-        std::cout << "  Normals: " << std::endl;
+        outFile << "  Normals: " << std::endl;
         gModelVertices[gModelIndices[i + 3] - 1].printVertex("Normal");
         gModelVertices[gModelIndices[i + 4] - 1].printVertex("Normal");
         gModelVertices[gModelIndices[i + 5] - 1].printVertex("Normal");
@@ -353,28 +360,36 @@ void getModelMesh() {
         gMesh.push_back(t);
     }
 
-    std::cout << "-------" << std::endl;
-    std::cout << "End Collecting Indices into Triangles" << std::endl;
-    std::cout << "-------" << std::endl;
+    outFile << "-------" << std::endl;
+    outFile<< "End Collecting Indices into Triangles" << std::endl;
+    outFile << "-------" << std::endl;
 
-    //return triangleModelMesh;
+   outFile << "--- Exiting getModelMesh() ---" << std::endl;
 }
 
 std::vector<GLfloat> getVerticesAndAddColorData() {
     std::vector<GLfloat> vertexPositionsAndColor;
 
+    outFile << "--- In getVerticesAndAddColorData() ---" << std::endl;
+
     for (int i = 0; i < gModelVertices.size(); i++) {
         vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.x);
         vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.y);
         vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.z);
+        outFile << "Index: " << i << std::endl;
+        gModelVertices[i].printVertex("Vertex");
         vertexPositionsAndColor.push_back(0.0f);
         vertexPositionsAndColor.push_back(0.3f);
         vertexPositionsAndColor.push_back(0.7f);
-        vertexPositionsAndColor.push_back(gModelNormals[i].coordinates.x);
-        vertexPositionsAndColor.push_back(gModelNormals[i].coordinates.y);
-        vertexPositionsAndColor.push_back(gModelNormals[i].coordinates.z);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.x);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.y);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.z);
+        outFile << "gModelNormalsMap[i]: " << gModelNormalsMap[i] << std::endl;
+        gModelNormals[gModelNormalsMap[i]].printVertex("Normal");
         
     }
+
+    outFile << "--- Exiting getVerticesAndAddColorData() ---" << std::endl;
 
     return vertexPositionsAndColor;
 }
@@ -411,7 +426,7 @@ void printAllVertexInformation(std::vector<float> vertices) {
 }
 
 void GenerateParticleModelData(){
-    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/bunny.obj";
+    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/cylinder.obj";
     parseModelData(gModelFilepath); 
     getModelMesh();
 }
@@ -427,7 +442,7 @@ void GenerateModelBufferData(){
 
     // Fix indices information from 0 - n to 1 - n
     offsetGModelIndices();
-    printGModelIndices();
+    //printGModelIndices();
 
     gTotalIndices = gModelIndices.size();
 
