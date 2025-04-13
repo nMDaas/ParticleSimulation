@@ -339,9 +339,9 @@ void getModelMesh() {
         outFile << "  Index 1: " << gModelIndices[i] << std::endl;
         outFile << "  Index 2: " << gModelIndices[i+1] << std::endl;
         outFile << "  Index 3: " << gModelIndices[i+2] << std::endl;
-        outFile << "  Normal 1: " << gModelIndices[i+3] << std::endl;
-        outFile << "  Normal 2: " << gModelIndices[i+4] << std::endl;
-        outFile << "  Normal 3: " << gModelIndices[i+5] << std::endl;
+        outFile << "  Normal 1: " << gModelNormalsMap[gModelIndices[i] - 1] + 1<< std::endl;
+        outFile << "  Normal 2: " << gModelNormalsMap[gModelIndices[i+1] - 1] + 1<< std::endl;
+        outFile << "  Normal 3: " << gModelNormalsMap[gModelIndices[i+2] - 1] + 1<< std::endl;
 
         // print Vertices of Triangle
         outFile << "  Vertices: " << std::endl;
@@ -377,7 +377,7 @@ std::vector<GLfloat> getVerticesAndAddColorData() {
         vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.y);
         vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.z);
         outFile << "Index: " << i << std::endl;
-        gModelVertices[i].printVertex("Vertex");
+        outFile << "Vertex: (" << gModelVertices[i].coordinates.x << "," << gModelVertices[i].coordinates.y << "," << gModelVertices[i].coordinates.z << ")" << std::endl;
         vertexPositionsAndColor.push_back(0.0f);
         vertexPositionsAndColor.push_back(0.3f);
         vertexPositionsAndColor.push_back(0.7f);
@@ -385,7 +385,7 @@ std::vector<GLfloat> getVerticesAndAddColorData() {
         vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.y);
         vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.z);
         outFile << "gModelNormalsMap[i]: " << gModelNormalsMap[i] << std::endl;
-        gModelNormals[gModelNormalsMap[i]].printVertex("Normal");
+        outFile << "Normal: (" << gModelNormals[gModelNormalsMap[i]].coordinates.x << "," << gModelNormals[gModelNormalsMap[i]].coordinates.y << "," << gModelNormals[gModelNormalsMap[i]].coordinates.z << ")" << std::endl;
         
     }
 
@@ -426,7 +426,7 @@ void printAllVertexInformation(std::vector<float> vertices) {
 }
 
 void GenerateParticleModelData(){
-    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/cylinder.obj";
+    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
     parseModelData(gModelFilepath); 
     getModelMesh();
 }
@@ -507,6 +507,7 @@ void PreDrawParticle(int i){
     // Model transformation by translating our object into world space
     float r = gParticles[i].getRadius();
     glm::mat4 model = glm::translate(glm::mat4(1.0f), gParticles[i].getPosition());
+    model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(r, r, r));
 
 	// TA_README: Send data to GPU    
@@ -632,6 +633,7 @@ void MainLoop(){
 
 	// While application is running
 	while(!gQuit){
+        g_uRotate = g_uRotate + 1.0f;
 		// Handle Input
 		Input();
 
