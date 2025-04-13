@@ -507,7 +507,7 @@ void PreDrawParticle(int i){
     // Model transformation by translating our object into world space
     float r = gParticles[i].getRadius();
     glm::mat4 model = glm::translate(glm::mat4(1.0f), gParticles[i].getPosition());
-    model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
+    //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(r, r, r));
 
 	// TA_README: Send data to GPU    
@@ -675,14 +675,14 @@ void CleanUp(){
 }
 
 void SetUpParticles(){
-    Particle newParticle(glm::vec3(0.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
-    gParticles.push_back(newParticle);
-    //Particle newParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
+    //Particle newParticle(glm::vec3(0.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
     //gParticles.push_back(newParticle);
-    //Particle otherParticle(glm::vec3(2.0f,1.0f,0), 1.0f); // currently setting up dummy values
-    //gParticles.push_back(otherParticle);
-    //Particle thirdParticle(glm::vec3(5.0f,1.0f,0), 2.0f); // currently setting up dummy values
-    //gParticles.push_back(thirdParticle);
+    Particle newParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
+    gParticles.push_back(newParticle);
+    Particle otherParticle(glm::vec3(2.0f,1.0f,0), 1.0f); // currently setting up dummy values
+    gParticles.push_back(otherParticle);
+    Particle thirdParticle(glm::vec3(5.0f,1.0f,0), 2.0f); // currently setting up dummy values
+    gParticles.push_back(thirdParticle);
 }
 
 /**
