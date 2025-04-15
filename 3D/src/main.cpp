@@ -53,6 +53,11 @@ std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
 size_t gTotalIndices = 0;
 
+Particle gLightParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f);
+GLuint lightVertexArrayObject = 0;
+GLuint lightVertexBufferObject = 0;
+GLuint lightIndexBufferObject = 0;
+
 std::vector<std::vector<GLfloat>> gVertexData;
 
 std::ofstream outFile("output.txt");
@@ -186,7 +191,7 @@ void CreateGraphicsLighterPipeline(){
     std::string vertexShaderSource      = LoadShaderAsString("./shaders/vertLight.glsl");
     std::string fragmentShaderSource    = LoadShaderAsString("./shaders/fragLight.glsl");
 
-	gGraphicsPipelineShaderProgram = CreateShaderProgram(vertexShaderSource,fragmentShaderSource);
+	gGraphicsLighterPipelineShaderProgram = CreateShaderProgram(vertexShaderSource,fragmentShaderSource);
 }
 
 
@@ -473,12 +478,31 @@ void GenerateModelBufferData(){
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
 
         ConfigureVertexAttributes();
-
     }
+
+    // Create vertex data lists for light particle
+
+    std::vector<GLfloat> vertexData_light = getVerticesAndAddColorData();
+    glGenVertexArrays(1, &lightVertexArrayObject);
+    glBindVertexArray(lightVertexArrayObject);
+    glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                vertexData_light.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                vertexData_light.data(), 						// Raw array of data
+                GL_STATIC_DRAW);								// How we intend to use the data
+
+    // Generate EBO
+    glGenBuffers(1, &lightIndexBufferObject);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightIndexBufferObject);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+
+    ConfigureVertexAttributes();
 }
 
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
 void GenerateGLuintObjects(){
+    // For Particles
     for (int i = 0; i < gParticles.size(); i++) {
         GLuint newGVertexArrayObject = 0;
         gVertexArrayObjects.push_back(newGVertexArrayObject);
@@ -493,6 +517,12 @@ void GenerateGLuintObjects(){
         glGenBuffers(1, &newGVertexBufferObject);
         glBindBuffer(GL_ARRAY_BUFFER, newGVertexBufferObject);
     }
+
+    // For Light
+    glGenVertexArrays(1, &lightVertexBufferObject);
+    glBindVertexArray(lightVertexBufferObject);
+    glGenBuffers(1, &lightVertexBufferObject);
+    glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
 }
 
 void VertexSpecification(){
@@ -507,6 +537,49 @@ void DrawParticle(int i){
     glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObjects[i]);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
+}
+
+void DrawLight(){
+    glBindVertexArray(lightVertexArrayObject);
+    glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
+    glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
+    glUseProgram(0);
+}
+
+void PreDrawLight(){
+    // Use our shader
+	glUseProgram(gGraphicsLighterPipelineShaderProgram);
+
+    // Model transformation by translating our object into world space
+    float r = gLightParticle.getRadius();
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), gLightParticle.getPosition());
+    //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(r, r, r));
+
+	// TA_README: Send data to GPU    
+	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
+	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"u_ModelMatrix");
+    if(u_ModelMatrixLocation >=0){
+        glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
+    }else{
+        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    // Projection matrix (in perspective) 
+    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
+                                             (float)gScreenWidth/(float)gScreenHeight,
+                                             0.1f,
+                                             10000.0f);
+	// TA_README: Send data to GPU
+	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
+	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"u_Projection");
+    if(u_ProjectionLocation>=0){
+        glUniformMatrix4fv(u_ProjectionLocation,1,GL_FALSE,&perspective[0][0]);
+    }else{
+        std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
 }
 
 void PreDrawParticle(int i){
@@ -574,6 +647,20 @@ void DrawParticles(){
 
         DrawParticle(i);
     }
+
+    PreDrawLight();
+
+    // Update the View Matrix
+        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
+        if(u_ViewMatrixLocation>=0){
+            glm::mat4 viewMatrix = gCamera.GetViewMatrix();
+            glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
+        }else{
+            std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+            exit(EXIT_FAILURE);
+        }
+
+    DrawLight();
 }
 
 /**
@@ -678,6 +765,7 @@ void CleanUp(){
 
 	// Delete our Graphics pipeline
     glDeleteProgram(gGraphicsPipelineShaderProgram);
+    glDeleteProgram(gGraphicsLighterPipelineShaderProgram);
 
 	//Quit SDL subsystems
 	SDL_Quit();
@@ -686,12 +774,12 @@ void CleanUp(){
 void SetUpParticles(){
     //Particle newParticle(glm::vec3(0.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
     //gParticles.push_back(newParticle);
-    Particle newParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
-    gParticles.push_back(newParticle);
+    //Particle newParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
+    //gParticles.push_back(newParticle);
     Particle otherParticle(glm::vec3(2.0f,1.0f,0), 1.0f); // currently setting up dummy values
     gParticles.push_back(otherParticle);
-    Particle thirdParticle(glm::vec3(5.0f,1.0f,0), 2.0f); // currently setting up dummy values
-    gParticles.push_back(thirdParticle);
+    //Particle thirdParticle(glm::vec3(5.0f,1.0f,0), 2.0f); // currently setting up dummy values
+    //gParticles.push_back(thirdParticle);
 }
 
 /**
@@ -711,7 +799,7 @@ int main( int argc, char* args[] ){
 	// Setup geometry
     VertexSpecification();
 	
-    //CreateGraphicsPipeline();
+    CreateGraphicsPipeline();
 	CreateGraphicsLighterPipeline();
 	
 	// Call the main application loop
