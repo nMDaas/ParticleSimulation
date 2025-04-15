@@ -202,8 +202,8 @@ void CreateGraphicsLighterPipeline(){
 */
 void CreateGraphicsPipeline(){
 
-    std::string vertexShaderSource      = LoadShaderAsString("./shaders/vert.glsl");
-    std::string fragmentShaderSource    = LoadShaderAsString("./shaders/frag.glsl");
+    std::string vertexShaderSource      = LoadShaderAsString("./shaders/vertPhong.glsl");
+    std::string fragmentShaderSource    = LoadShaderAsString("./shaders/fragPhong.glsl");
 
 	gGraphicsPipelineShaderProgram = CreateShaderProgram(vertexShaderSource,fragmentShaderSource);
 }
