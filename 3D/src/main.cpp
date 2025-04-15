@@ -479,10 +479,12 @@ void GenerateModelBufferData(){
 
         ConfigureVertexAttributes();
     }
+}
 
+void GenerateLightBufferData(){
     // Create vertex data lists for light particle
-
     std::vector<GLfloat> vertexData_light = getVerticesAndAddColorData();
+
     glGenVertexArrays(1, &lightVertexArrayObject);
     glBindVertexArray(lightVertexArrayObject);
     glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
@@ -495,7 +497,6 @@ void GenerateModelBufferData(){
     glGenBuffers(1, &lightIndexBufferObject);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightIndexBufferObject);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
-
 
     ConfigureVertexAttributes();
 }
@@ -517,7 +518,9 @@ void GenerateGLuintObjects(){
         glGenBuffers(1, &newGVertexBufferObject);
         glBindBuffer(GL_ARRAY_BUFFER, newGVertexBufferObject);
     }
+}
 
+void GenerateGLuintLight(){
     // For Light
     glGenVertexArrays(1, &lightVertexBufferObject);
     glBindVertexArray(lightVertexBufferObject);
@@ -529,7 +532,11 @@ void VertexSpecification(){
 
     GenerateGLuintObjects();
 
+    GenerateGLuintLight();
+
     GenerateModelBufferData();
+
+    GenerateLightBufferData();
 }
 
 void DrawParticle(int i){
@@ -618,7 +625,7 @@ void PreDrawParticle(int i){
     }
 }
 
-void PreDrawParticles(){
+void PreDraw(){
     glEnable(GL_DEPTH_TEST);                    
     glDisable(GL_CULL_FACE);
 
@@ -647,7 +654,9 @@ void DrawParticles(){
 
         DrawParticle(i);
     }
+}
 
+void DrawLights(){
     PreDrawLight();
 
     // Update the View Matrix
@@ -733,7 +742,9 @@ void MainLoop(){
 		// Handle Input
 		Input();
 
-        PreDrawParticles();
+        PreDraw();
+
+        DrawLights();
 
         DrawParticles();
 
@@ -796,11 +807,11 @@ int main( int argc, char* args[] ){
     // Setup gParticles that will be in the scene
     SetUpParticles();
 	
-	// Setup geometry
+	// Setup geometry (for particles and lights)
     VertexSpecification();
 	
-    CreateGraphicsPipeline();
-	CreateGraphicsLighterPipeline();
+    CreateGraphicsPipeline(); // For particles
+	CreateGraphicsLighterPipeline(); // For lights
 	
 	// Call the main application loop
 	MainLoop();	
