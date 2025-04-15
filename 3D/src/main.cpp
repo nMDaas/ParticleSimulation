@@ -36,6 +36,7 @@ SDL_GLContext gOpenGLContext			= nullptr;
 bool gQuit = false;
 
 GLuint gGraphicsPipelineShaderProgram	= 0;
+GLuint gGraphicsLighterPipelineShaderProgram	= 0;
 
 std::vector<GLuint> gVertexArrayObjects;
 std::vector<GLuint> gVertexBufferObjects;
@@ -178,6 +179,14 @@ GLuint CreateShaderProgram(const std::string& vertexShaderSource, const std::str
     glDeleteShader(myFragmentShader);
 
     return programObject;
+}
+
+void CreateGraphicsLighterPipeline(){
+
+    std::string vertexShaderSource      = LoadShaderAsString("./shaders/vertLight.glsl");
+    std::string fragmentShaderSource    = LoadShaderAsString("./shaders/fragLight.glsl");
+
+	gGraphicsPipelineShaderProgram = CreateShaderProgram(vertexShaderSource,fragmentShaderSource);
 }
 
 
@@ -702,7 +711,8 @@ int main( int argc, char* args[] ){
 	// Setup geometry
     VertexSpecification();
 	
-	CreateGraphicsPipeline();
+    //CreateGraphicsPipeline();
+	CreateGraphicsLighterPipeline();
 	
 	// Call the main application loop
 	MainLoop();	
