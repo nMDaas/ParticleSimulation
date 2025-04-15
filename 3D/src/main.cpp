@@ -274,6 +274,15 @@ void ConfigureVertexAttributes() {
     glDisableVertexAttribArray(2);
 }
 
+void ConfigureLightVertexAttributes() {
+   // Enable the vertex attribute for position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
+
+	glBindVertexArray(0);
+	glDisableVertexAttribArray(0);
+}
+
 void parseModelData(std::string filepath){
     outFile << "--- In parseModelData() ---" << std::endl;
     std::ifstream inputFile(filepath);
@@ -498,7 +507,7 @@ void GenerateLightBufferData(){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightIndexBufferObject);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
 
-    ConfigureVertexAttributes();
+    ConfigureLightVertexAttributes();
 }
 
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
