@@ -15,16 +15,18 @@ uniform mat4 u_Projection; // We'll use a perspective projection
 // Pass vertex colors into the fragment shader
 out vec3 v_vertexColors;
 out vec3 v_vertexNormals;
+out vec3 FragPos; 
 
 void main()
 {
   v_vertexColors = vertexColors;
   v_vertexNormals= vertexNormals;
-
-
+  
   vec4 newPosition = u_Projection * u_ViewMatrix * u_ModelMatrix * vec4(position,1.0f);
-                                                                    // Don't forget 'w'
-	gl_Position = vec4(newPosition.x, newPosition.y, newPosition.z, newPosition.w);
+
+  FragPos = vec3(u_ModelMatrix * vec4(position, 1.0));
+  
+  gl_Position = vec4(newPosition.x, newPosition.y, newPosition.z, newPosition.w);
 }
 
 
