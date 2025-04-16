@@ -61,6 +61,10 @@ void Camera::SetCameraEyePosition(float x, float y, float z){
     m_eyePosition.z = z;
 }
 
+glm::vec3 Camera::GetCameraEyePosition(){
+    return m_eyePosition;
+}
+
 float Camera::GetEyeXPosition(){
     return m_eyePosition.x;
 }

@@ -28,6 +28,7 @@ public:
     void MoveRight(float speed);
     void MoveUp(float speed);
     void MoveDown(float speed);
+    glm::vec3 GetCameraEyePosition();
     // Set the position for the camera
     void SetCameraEyePosition(float x, float y, float z);
     // Returns the Camera X Position where the eye is 

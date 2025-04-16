@@ -633,6 +633,15 @@ void PreDrawParticle(int i){
         exit(EXIT_FAILURE);
     }
 
+    GLint i_viewPos = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_viewPos");
+    if(i_viewPos >=0){
+        glUniform3fv(i_viewPos, 1, &gCamera.GetCameraEyePosition()[0]);
+    }else{
+        std::cout << "Could not find i_viewPos, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+
     // Projection matrix (in perspective) 
     glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
                                              (float)gScreenWidth/(float)gScreenHeight,
