@@ -53,7 +53,7 @@ std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
 size_t gTotalIndices = 0;
 
-Particle gLightParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f);
+Particle gLightParticle(glm::vec3(3.0f,1.0f,5.0f), 1.0f);
 GLuint lightVertexArrayObject = 0;
 GLuint lightVertexBufferObject = 0;
 GLuint lightIndexBufferObject = 0;
@@ -608,13 +608,28 @@ void PreDrawParticle(int i){
     //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(r, r, r));
 
-	// TA_README: Send data to GPU    
 	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
 	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
     if(u_ModelMatrixLocation >=0){
         glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
     }else{
         std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    GLint i_lightColor = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_lightColor");
+    if(i_lightColor >=0){
+        glUniform3fv(i_lightColor, 1, &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
+    }else{
+        std::cout << "Could not find i_lightColor, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    GLint i_lightPosition = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_lightPosition");
+    if(i_lightPosition >=0){
+        glUniform3fv(i_lightPosition, 1, &gLightParticle.getPosition()[0]);
+    }else{
+        std::cout << "Could not find i_lightPosition, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
 
@@ -669,7 +684,7 @@ void DrawLights(){
     PreDrawLight();
 
     // Update the View Matrix
-        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
+        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
         if(u_ViewMatrixLocation>=0){
             glm::mat4 viewMatrix = gCamera.GetViewMatrix();
             glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);

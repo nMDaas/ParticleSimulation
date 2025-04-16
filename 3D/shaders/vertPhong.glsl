@@ -11,16 +11,23 @@ layout(location=2) in vec3 vertexNormals;
 uniform mat4 u_ModelMatrix;
 uniform mat4 u_ViewMatrix;
 uniform mat4 u_Projection; // We'll use a perspective projection
+uniform vec3 i_lightColor;
+uniform vec3 i_lightPosition;
 
 // Pass vertex colors into the fragment shader
 out vec3 v_vertexColors;
 out vec3 v_vertexNormals;
 out vec3 FragPos; 
+out vec3 u_lightColor;
+out vec3 u_lightPosition;
 
 void main()
 {
   v_vertexColors = vertexColors;
-  v_vertexNormals= vertexNormals;
+  v_vertexNormals = vertexNormals;
+
+  u_lightColor = i_lightColor;
+  u_lightPosition = i_lightPosition;
   
   vec4 newPosition = u_Projection * u_ViewMatrix * u_ModelMatrix * vec4(position,1.0f);
 
