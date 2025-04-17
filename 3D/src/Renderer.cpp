@@ -2,21 +2,26 @@
 
 Renderer::Renderer(){}
 
-void Renderer::PreDraw(int gScreenWidth, int gScreenHeight) {
+Renderer::Renderer(int i_screenWidth, int i_screenHeight){
+    screenWidth = i_screenWidth;
+    screenHeight = i_screenHeight;
+}
+
+void Renderer::PreDraw() {
     glEnable(GL_DEPTH_TEST);                    
     glDisable(GL_CULL_FACE);
 
     // Initialize clear color
     // This is the background of the screen.
-    glViewport(0, 0, gScreenWidth, gScreenHeight);
+    glViewport(0, 0, screenWidth, screenHeight);
     glClearColor( 0.1f, 4.f, 7.f, 1.f );
 
     //Clear color buffer and Depth Buffer
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::DrawLights(GLuint gGraphicsLighterPipelineShaderProgram, Particle gLightParticle, int gScreenWidth, int gScreenHeight, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera){
-    PreDrawLight(gGraphicsLighterPipelineShaderProgram, gLightParticle, gScreenWidth, gScreenHeight);
+void Renderer::DrawLights(GLuint gGraphicsLighterPipelineShaderProgram, Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera){
+    PreDrawLight(gGraphicsLighterPipelineShaderProgram, gLightParticle);
 
     GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
     if(u_ViewMatrixLocation>=0){
@@ -30,7 +35,7 @@ void Renderer::DrawLights(GLuint gGraphicsLighterPipelineShaderProgram, Particle
     DrawLight(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices);
 }
 
-void Renderer::PreDrawLight(GLuint gGraphicsLighterPipelineShaderProgram, Particle gLightParticle, int gScreenWidth, int gScreenHeight) {
+void Renderer::PreDrawLight(GLuint gGraphicsLighterPipelineShaderProgram, Particle gLightParticle) {
     // Use our shader
 	glUseProgram(gGraphicsLighterPipelineShaderProgram);
 
@@ -52,7 +57,7 @@ void Renderer::PreDrawLight(GLuint gGraphicsLighterPipelineShaderProgram, Partic
 
     // Projection matrix (in perspective) 
     glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
-                                             (float)gScreenWidth/(float)gScreenHeight,
+                                             (float)screenWidth/(float)screenHeight,
                                              0.1f,
                                              10000.0f);
 	// TA_README: Send data to GPU

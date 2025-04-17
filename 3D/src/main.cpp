@@ -49,7 +49,7 @@ std::vector<Particle> gParticles;
 // Solver information
 Solver gSolver;
 
-Renderer gRenderer;
+Renderer gRenderer(gScreenWidth, gScreenHeight);
 
 // Model information for particle ("sphere")
 std::vector<Vertex> gModelVertices;
@@ -787,10 +787,10 @@ void MainLoop(){
 		Input();
 
         //PreDraw();
-        gRenderer.PreDraw(gScreenWidth, gScreenHeight);
+        gRenderer.PreDraw();
 
         //DrawLights();
-        gRenderer.DrawLights(gGraphicsLighterPipelineShaderProgram, gLightParticle, gScreenWidth, gScreenHeight, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+        gRenderer.DrawLights(gGraphicsLighterPipelineShaderProgram, gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
 
 
         DrawParticles();
