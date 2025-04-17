@@ -23,6 +23,7 @@
 #include "Triangle.hpp"
 #include "Vertex.hpp"
 #include "Particle.hpp"
+#include "Solver.hpp"
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Globals vvvvvvvvvvvvvvvvvvvvvvvvvv
 // Globals generally are prefixed with 'g' in this application.
@@ -44,7 +45,10 @@ std::vector<GLuint> gIndexBufferObjects;
 
 std::vector<Particle> gParticles;
 
-// Model information 
+// Solver information
+Solver gSolver;
+
+// Model information for particle ("sphere")
 std::vector<Vertex> gModelVertices;
 std::vector<Vertex> gModelNormals;
 std::unordered_map<int, int> gModelNormalsMap;
@@ -53,6 +57,7 @@ std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
 size_t gTotalIndices = 0;
 
+// Light information
 Particle gLightParticle(glm::vec3(3.0f,1.0f,5.0f), 1.0f);
 GLuint lightVertexArrayObject = 0;
 GLuint lightVertexBufferObject = 0;
@@ -458,7 +463,7 @@ void GenerateModelBufferData(){
     GenerateParticleModelData(); // This creates a particle "blueprint"
 
     // Create vertex data lists for each particle
-    for (int i = 0; i < gParticles.size(); i++) {
+    for (int i = 0; i < gSolver.getParticles().size(); i++) {
         std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
         gVertexData.push_back(vertexData_i);
     }
@@ -470,7 +475,7 @@ void GenerateModelBufferData(){
     gTotalIndices = gModelIndices.size();
 
     // Send rendering data to buffers for each particle
-    for (int i = 0; i < gParticles.size(); i++) {
+    for (int i = 0; i < gSolver.getParticles().size(); i++) {
 
         glGenVertexArrays(1, &gVertexArrayObjects[i]);
         glBindVertexArray(gVertexArrayObjects[i]);
@@ -513,7 +518,7 @@ void GenerateLightBufferData(){
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
 void GenerateGLuintObjects(){
     // For Particles
-    for (int i = 0; i < gParticles.size(); i++) {
+    for (int i = 0; i < gSolver.getParticles().size(); i++) {
         GLuint newGVertexArrayObject = 0;
         gVertexArrayObjects.push_back(newGVertexArrayObject);
         GLuint newGVertexBufferObject = 0;
@@ -603,8 +608,8 @@ void PreDrawParticle(int i){
 	glUseProgram(gGraphicsPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
-    float r = gParticles[i].getRadius();
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), gParticles[i].getPosition());
+    float r = gSolver.getParticles()[i]->getRadius();
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), gSolver.getParticles()[i]->getPosition());
     //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(r, r, r));
 
@@ -802,7 +807,7 @@ void CleanUp(){
 	gGraphicsApplicationWindow = nullptr;
 
     // Delete our OpenGL Objects
-    for (int i = 0; i < gParticles.size(); i++){
+    for (int i = 0; i < gSolver.getParticles().size(); i++){
         glDeleteBuffers(1, &gVertexBufferObjects[i]);
         glDeleteVertexArrays(1, &gVertexArrayObjects[i]);
     }
@@ -813,6 +818,10 @@ void CleanUp(){
 
 	//Quit SDL subsystems
 	SDL_Quit();
+}
+
+void SetUpSolver(){
+    gSolver.addParticle(glm::vec3(2.0f,1.0f,0), 1.0f);
 }
 
 void SetUpParticles(){
@@ -837,8 +846,11 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
+    // Setup solver
+    SetUpSolver();
+
     // Setup gParticles that will be in the scene
-    SetUpParticles();
+    //SetUpParticles();
 	
 	// Setup geometry (for particles and lights)
     VertexSpecification();
