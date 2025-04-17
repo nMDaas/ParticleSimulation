@@ -790,7 +790,7 @@ void MainLoop(){
         gRenderer.PreDraw();
 
         //DrawLights();
-        gRenderer.DrawLights(gGraphicsLighterPipelineShaderProgram, gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+        gRenderer.DrawLights(gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
 
 
         DrawParticles();
@@ -865,7 +865,8 @@ int main( int argc, char* args[] ){
     VertexSpecification();
 	
     //CreateGraphicsPipeline(); // For particles
-	CreateGraphicsLighterPipeline(); // For lights
+	//CreateGraphicsLighterPipeline(); // For lights
+    gRenderer.CreateGraphicsPipelines();
 	
 	// Call the main application loop
 	MainLoop();	
