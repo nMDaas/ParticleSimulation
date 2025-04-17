@@ -24,6 +24,7 @@
 #include "Vertex.hpp"
 #include "Particle.hpp"
 #include "Solver.hpp"
+#include "Renderer.hpp"
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Globals vvvvvvvvvvvvvvvvvvvvvvvvvv
 // Globals generally are prefixed with 'g' in this application.
@@ -47,6 +48,8 @@ std::vector<Particle> gParticles;
 
 // Solver information
 Solver gSolver;
+
+Renderer gRenderer;
 
 // Model information for particle ("sphere")
 std::vector<Vertex> gModelVertices;
@@ -694,21 +697,24 @@ void DrawParticles(){
     }
 }
 
+/*
 void DrawLights(){
-    PreDrawLight();
+    //PreDrawLight();
+    //gRenderer.PreDrawLight(gGraphicsLighterPipelineShaderProgram, gLightParticle, gScreenWidth, gScreenHeight);
 
     // Update the View Matrix
-        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
-        if(u_ViewMatrixLocation>=0){
-            glm::mat4 viewMatrix = gCamera.GetViewMatrix();
-            glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
-        }else{
-            std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
-            exit(EXIT_FAILURE);
-        }
+    GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
+    if(u_ViewMatrixLocation>=0){
+        glm::mat4 viewMatrix = gCamera.GetViewMatrix();
+        glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
+    }else{
+        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
 
-    DrawLight();
-}
+    //DrawLight();
+    //gRenderer.DrawLight(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices);
+}*/
 
 /**
 * Helper Function to get OpenGL Version Information
@@ -780,9 +786,12 @@ void MainLoop(){
 		// Handle Input
 		Input();
 
-        PreDraw();
+        //PreDraw();
+        gRenderer.PreDraw(gScreenWidth, gScreenHeight);
 
-        DrawLights();
+        //DrawLights();
+        gRenderer.DrawLights(gGraphicsLighterPipelineShaderProgram, gLightParticle, gScreenWidth, gScreenHeight, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+
 
         DrawParticles();
 
@@ -847,7 +856,7 @@ int main( int argc, char* args[] ){
 	InitializeProgram();
 
     // Setup solver
-    SetUpSolver();
+    //SetUpSolver();
 
     // Setup gParticles that will be in the scene
     //SetUpParticles();
@@ -855,7 +864,7 @@ int main( int argc, char* args[] ){
 	// Setup geometry (for particles and lights)
     VertexSpecification();
 	
-    CreateGraphicsPipeline(); // For particles
+    //CreateGraphicsPipeline(); // For particles
 	CreateGraphicsLighterPipeline(); // For lights
 	
 	// Call the main application loop
