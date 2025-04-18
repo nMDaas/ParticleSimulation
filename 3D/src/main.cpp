@@ -25,6 +25,7 @@
 #include "Particle.hpp"
 #include "Solver.hpp"
 #include "Renderer.hpp"
+#include "Scene.hpp"
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Globals vvvvvvvvvvvvvvvvvvvvvvvvvv
 // Globals generally are prefixed with 'g' in this application.
@@ -49,7 +50,13 @@ std::vector<Particle> gParticles;
 // Solver information
 Solver gSolver;
 
-Renderer gRenderer(gScreenWidth, gScreenHeight);
+// Scene information 
+Scene gScene;
+
+// Renderer information
+Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
+
+
 
 // Model information for particle ("sphere")
 std::vector<Vertex> gModelVertices;
@@ -786,7 +793,7 @@ void MainLoop(){
 		// Handle Input
 		Input();
 
-        gRenderer.RenderScene(gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+        gRenderer.RenderScene(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
 
         /*
         //PreDraw();
@@ -836,6 +843,10 @@ void SetUpSolver(){
     gSolver.addParticle(glm::vec3(2.0f,1.0f,0), 1.0f);
 }
 
+void SetUpLights(){
+    gScene.addLight(glm::vec3(3.0f,1.0f,5.0f), 1.0f);
+}
+
 void SetUpParticles(){
     //Particle newParticle(glm::vec3(0.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
     //gParticles.push_back(newParticle);
@@ -858,8 +869,11 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-    // Setup solver
+    // Setup solver 
     //SetUpSolver();
+
+    // Setup scene with lights
+    SetUpLights();
 
     // Setup gParticles that will be in the scene
     //SetUpParticles();

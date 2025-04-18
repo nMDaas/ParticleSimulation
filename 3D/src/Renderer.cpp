@@ -2,9 +2,10 @@
 
 Renderer::Renderer(){}
 
-Renderer::Renderer(int i_screenWidth, int i_screenHeight){
+Renderer::Renderer(int i_screenWidth, int i_screenHeight, Scene* scene){
     screenWidth = i_screenWidth;
     screenHeight = i_screenHeight;
+    mainScene = scene;
 }
 
 void Renderer::CreateGraphicsPipelines(){
@@ -106,9 +107,9 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera) {
+void Renderer::RenderScene(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera) {
     PreDraw();
-    DrawLights(gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+    DrawLights(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
 }
 
 void Renderer::PreDraw() {
@@ -124,8 +125,8 @@ void Renderer::PreDraw() {
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::DrawLights(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera){
-    PreDrawLight(gLightParticle);
+void Renderer::DrawLights(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera){
+    PreDrawLight();
 
     GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
     if(u_ViewMatrixLocation>=0){
@@ -139,13 +140,15 @@ void Renderer::DrawLights(Particle gLightParticle, GLuint lightVertexArrayObject
     DrawLight(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices);
 }
 
-void Renderer::PreDrawLight(Particle gLightParticle) {
+void Renderer::PreDrawLight() {
+    Particle* gLightParticle = mainScene->getLights()[0];
+
     // Use our shader
 	glUseProgram(gGraphicsLighterPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
-    float r = gLightParticle.getRadius();
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), gLightParticle.getPosition());
+    float r = gLightParticle->getRadius();
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), gLightParticle->getPosition());
     //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(r, r, r));
 

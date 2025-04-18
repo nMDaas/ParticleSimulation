@@ -21,6 +21,7 @@
 #include "Camera.hpp"
 #include "Vertex.hpp"
 #include "Triangle.hpp"
+#include "Scene.hpp"
 
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
@@ -28,14 +29,15 @@
 class Renderer{
 public:
     Renderer();
-    Renderer(int i_screenWidth, int i_screenHeight);
+    Renderer(int i_screenWidth, int i_screenHeight, Scene* scene);
 
     void CreateGraphicsPipelines();
-    void RenderScene(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
+    void RenderScene(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
 
 private:
     int screenWidth;
     int screenHeight; 
+    Scene* mainScene;
 
     GLuint gGraphicsLighterPipelineShaderProgram = 0;
 
@@ -44,8 +46,8 @@ private:
     GLuint CompileShader(GLuint type, const std::string& source);
 
     void PreDraw();
-    void DrawLights(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
-    void PreDrawLight(Particle gLightParticle);
+    void DrawLights(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
+    void PreDrawLight();
     void DrawLight(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices);
 };
 
