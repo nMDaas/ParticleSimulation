@@ -793,7 +793,7 @@ void MainLoop(){
 		// Handle Input
 		Input();
 
-        gRenderer.RenderScene(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+        gRenderer.RenderScene(gTotalIndices, gCamera);
 
         /*
         //PreDraw();
@@ -880,6 +880,8 @@ int main( int argc, char* args[] ){
 	
 	// Setup geometry (for particles and lights)
     VertexSpecification();
+
+    gScene.setLightGLuints(&lightVertexArrayObject, &lightVertexBufferObject);
 	
     //CreateGraphicsPipeline(); // For particles
 	//CreateGraphicsLighterPipeline(); // For lights

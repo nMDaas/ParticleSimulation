@@ -32,7 +32,7 @@ public:
     Renderer(int i_screenWidth, int i_screenHeight, Scene* scene);
 
     void CreateGraphicsPipelines();
-    void RenderScene(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
+    void RenderScene(int gTotalIndices, Camera gCamera);
 
 private:
     int screenWidth;
@@ -46,9 +46,9 @@ private:
     GLuint CompileShader(GLuint type, const std::string& source);
 
     void PreDraw();
-    void DrawLights(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
+    void DrawLights(int gTotalIndices, Camera gCamera);
     void PreDrawLight();
-    void DrawLight(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices);
+    void DrawLight(int gTotalIndices);
 };
 
 

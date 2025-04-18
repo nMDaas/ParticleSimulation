@@ -107,9 +107,9 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera) {
+void Renderer::RenderScene(int gTotalIndices, Camera gCamera) {
     PreDraw();
-    DrawLights(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+    DrawLights(gTotalIndices, gCamera);
 }
 
 void Renderer::PreDraw() {
@@ -125,7 +125,7 @@ void Renderer::PreDraw() {
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::DrawLights(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera){
+void Renderer::DrawLights(int gTotalIndices, Camera gCamera){
     PreDrawLight();
 
     GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
@@ -137,7 +137,7 @@ void Renderer::DrawLights(GLuint lightVertexArrayObject, GLuint lightVertexBuffe
         exit(EXIT_FAILURE);
     }
 
-    DrawLight(lightVertexArrayObject, lightVertexBufferObject, gTotalIndices);
+    DrawLight(gTotalIndices);
 }
 
 void Renderer::PreDrawLight() {
@@ -178,7 +178,10 @@ void Renderer::PreDrawLight() {
     }
 }
 
-void Renderer::DrawLight(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices){
+void Renderer::DrawLight(int gTotalIndices){
+    GLuint lightVertexArrayObject = *(mainScene->getLightVertexArrayObject());
+    GLuint lightVertexBufferObject = *(mainScene->getLightVertexBufferObject());
+
     glBindVertexArray(lightVertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
