@@ -786,12 +786,15 @@ void MainLoop(){
 		// Handle Input
 		Input();
 
+        gRenderer.RenderScene(gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+
+        /*
         //PreDraw();
         gRenderer.PreDraw();
 
         //DrawLights();
         gRenderer.DrawLights(gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
-
+        */
 
         DrawParticles();
 

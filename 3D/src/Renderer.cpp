@@ -106,6 +106,11 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
+void Renderer::RenderScene(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera) {
+    PreDraw();
+    DrawLights(gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
+}
+
 void Renderer::PreDraw() {
     glEnable(GL_DEPTH_TEST);                    
     glDisable(GL_CULL_FACE);

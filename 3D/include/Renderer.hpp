@@ -31,8 +31,7 @@ public:
     Renderer(int i_screenWidth, int i_screenHeight);
 
     void CreateGraphicsPipelines();
-    void PreDraw();
-    void DrawLights(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
+    void RenderScene(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
 
 private:
     int screenWidth;
@@ -44,6 +43,8 @@ private:
     GLuint CreateShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
     GLuint CompileShader(GLuint type, const std::string& source);
 
+    void PreDraw();
+    void DrawLights(Particle gLightParticle, GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices, Camera gCamera);
     void PreDrawLight(Particle gLightParticle);
     void DrawLight(GLuint lightVertexArrayObject, GLuint lightVertexBufferObject, int gTotalIndices);
 };
