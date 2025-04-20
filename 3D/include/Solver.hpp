@@ -13,6 +13,7 @@
 class Solver{
 public:
     Solver();
+    ~Solver();
     void addParticle(glm::vec3 position, float radius);
     void applyGravity();
     void update();

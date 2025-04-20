@@ -5,6 +5,12 @@ Solver::Solver() {
     step_dt = 1.0/60;
 }
 
+Solver::~Solver(){
+    for (int i = 0; i < particles.size(); i++) {
+        delete particles[i];
+    }
+}
+
 void Solver::addParticle(glm::vec3 position, float radius){
     particles.push_back(new Particle(position, radius));
 }
