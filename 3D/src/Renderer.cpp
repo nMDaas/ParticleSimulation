@@ -9,10 +9,17 @@ Renderer::Renderer(int i_screenWidth, int i_screenHeight, Scene* scene){
 }
 
 void Renderer::CreateGraphicsPipelines(){
-    std::string vertexShaderSource      = LoadShaderAsString("./shaders/vertLight.glsl");
-    std::string fragmentShaderSource    = LoadShaderAsString("./shaders/fragLight.glsl");
 
-    gGraphicsLighterPipelineShaderProgram = CreateShaderProgram(vertexShaderSource,fragmentShaderSource);
+    std::string vertexShaderSource      = LoadShaderAsString("./shaders/vertPhong.glsl");
+    std::string fragmentShaderSource    = LoadShaderAsString("./shaders/fragPhong.glsl");
+
+	gGraphicsPipelineShaderProgram = CreateShaderProgram(vertexShaderSource,fragmentShaderSource);
+
+
+    std::string vertexShaderSource_light      = LoadShaderAsString("./shaders/vertLight.glsl");
+    std::string fragmentShaderSource_light    = LoadShaderAsString("./shaders/fragLight.glsl");
+
+    gGraphicsLighterPipelineShaderProgram = CreateShaderProgram(vertexShaderSource_light,fragmentShaderSource_light);
 }
 
 std::string Renderer::LoadShaderAsString(const std::string& filename){
@@ -107,8 +114,9 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(int gTotalIndices, Camera gCamera) {
+void Renderer::RenderScene(int gTotalIndices, Camera gCamera, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects) {
     PreDraw();
+    DrawParticles(gTotalIndices, gCamera, gSolver, gVertexArrayObjects, gVertexBufferObjects);
     DrawLights(gTotalIndices, gCamera);
 }
 
@@ -123,6 +131,91 @@ void Renderer::PreDraw() {
 
     //Clear color buffer and Depth Buffer
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+} 
+
+void Renderer::DrawParticles(int gTotalIndices, Camera gCamera, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
+    for (int i = 0; i < gVertexArrayObjects.size(); i++) {
+        PreDrawParticle(i, gSolver, gCamera);
+
+        // Update the View Matrix
+        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
+        if(u_ViewMatrixLocation>=0){
+            glm::mat4 viewMatrix = gCamera.GetViewMatrix();
+            glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
+        }else{
+            std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+            exit(EXIT_FAILURE);
+        }
+
+        DrawParticle(i, gTotalIndices, gVertexArrayObjects, gVertexBufferObjects);
+    }
+}
+
+void Renderer::PreDrawParticle(int i, Solver gSolver, Camera gCamera){
+    // Use our shader
+	glUseProgram(gGraphicsPipelineShaderProgram);
+
+    // Model transformation by translating our object into world space
+    float r = gSolver.getParticles()[i]->getRadius();
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), gSolver.getParticles()[i]->getPosition());
+    //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(r, r, r));
+
+	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
+	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
+    if(u_ModelMatrixLocation >=0){
+        glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
+    }else{
+        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    GLint i_lightColor = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_lightColor");
+    if(i_lightColor >=0){
+        glUniform3fv(i_lightColor, 1, &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
+    }else{
+        std::cout << "Could not find i_lightColor, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    Particle* gLightParticle = mainScene->getLights()[0];
+    GLint i_lightPosition = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_lightPosition");
+    if(i_lightPosition >=0){
+        glUniform3fv(i_lightPosition, 1, &gLightParticle->getPosition()[0]);
+    }else{
+        std::cout << "Could not find i_lightPosition, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    GLint i_viewPos = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_viewPos");
+    if(i_viewPos >=0){
+        glUniform3fv(i_viewPos, 1, &gCamera.GetCameraEyePosition()[0]);
+    }else{
+        std::cout << "Could not find i_viewPos, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    // Projection matrix (in perspective) 
+    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
+                                             (float)screenWidth/(float)screenHeight,
+                                             0.1f,
+                                             10000.0f);
+	// TA_README: Send data to GPU
+	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
+	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
+    if(u_ProjectionLocation>=0){
+        glUniformMatrix4fv(u_ProjectionLocation,1,GL_FALSE,&perspective[0][0]);
+    }else{
+        std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+}
+
+void Renderer::DrawParticle(int i, int gTotalIndices, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
+    glBindVertexArray(gVertexArrayObjects[i]);
+    glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObjects[i]);
+    glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
+    glUseProgram(0);
 }
 
 void Renderer::DrawLights(int gTotalIndices, Camera gCamera){

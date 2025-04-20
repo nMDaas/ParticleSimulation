@@ -793,7 +793,7 @@ void MainLoop(){
 		// Handle Input
 		Input();
 
-        gRenderer.RenderScene(gTotalIndices, gCamera);
+        gRenderer.RenderScene(gTotalIndices, gCamera, gSolver, gVertexArrayObjects, gVertexBufferObjects);
 
         /*
         //PreDraw();
@@ -803,7 +803,7 @@ void MainLoop(){
         gRenderer.DrawLights(gLightParticle, lightVertexArrayObject, lightVertexBufferObject, gTotalIndices, gCamera);
         */
 
-        DrawParticles();
+        //DrawParticles();
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
@@ -841,6 +841,7 @@ void CleanUp(){
 
 void SetUpSolver(){
     gSolver.addParticle(glm::vec3(2.0f,1.0f,0), 1.0f);
+    gSolver.addParticle(glm::vec3(-1.0f,0.0f,0), 0.5f);
 }
 
 void SetUpLights(){
@@ -870,7 +871,7 @@ int main( int argc, char* args[] ){
 	InitializeProgram();
 
     // Setup solver 
-    //SetUpSolver();
+    SetUpSolver();
 
     // Setup scene with lights
     SetUpLights();
