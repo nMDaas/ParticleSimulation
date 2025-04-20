@@ -13,6 +13,20 @@ Scene::~Scene(){
     }
 }
 
+void Scene::SetupSolverAndLights(){
+    SetUpSolver();
+    SetUpLights();
+}
+
+void Scene::SetUpSolver(){
+    gSolver->addParticle(glm::vec3(2.0f,1.0f,0), 1.0f);
+    gSolver->addParticle(glm::vec3(-1.0f,0.0f,0), 0.5f);
+}
+
+void Scene::SetUpLights(){
+    addLight(glm::vec3(3.0f,1.0f,5.0f), 1.0f);
+}
+
 void Scene::addLight(glm::vec3 position, float radius) {
     lights.push_back(new Particle(position, radius));
 }

@@ -712,11 +712,13 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
+    gScene.SetupSolverAndLights();
+
     // Setup solver 
-    SetUpSolver();
+    //SetUpSolver();
 
     // Setup scene with lights
-    SetUpLights();
+    //SetUpLights();
 	
 	// Setup geometry (for particles and lights)
     VertexSpecification();

@@ -24,6 +24,7 @@ public:
     Scene(Solver* i_gSolver, Camera* i_gCamera);
     ~Scene();
     
+    void SetupSolverAndLights(); // Calls SetUpSolver() and SetUpLights()
     void addLight(glm::vec3 position, float radius);
     void setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject);
 
@@ -40,6 +41,9 @@ private:
     GLuint* lightVertexBufferObject;
     Solver* gSolver;
     Camera* gCamera;
+
+    void SetUpSolver();
+    void SetUpLights();
 };
 
 #endif
