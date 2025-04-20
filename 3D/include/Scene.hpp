@@ -15,21 +15,30 @@
 
 // Reusing the Particle class - think of it as a "Particle of Light"
 #include "Particle.hpp"
+#include "Camera.hpp"
+#include "Solver.hpp"
 
 class Scene{
 public:
     Scene();
+    Scene(Solver* i_gSolver, Camera* i_gCamera);
     
     void addLight(glm::vec3 position, float radius);
-    std::vector<Particle*> getLights();
     void setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject);
+
+    // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
+    std::vector<Particle*> getLights();
     GLuint* getLightVertexArrayObject();
     GLuint* getLightVertexBufferObject();
+    Solver* getSolver();
+    Camera* getCamera();
 
 private:
     std::vector<Particle*> lights; 
     GLuint* lightVertexArrayObject;
     GLuint* lightVertexBufferObject;
+    Solver* gSolver;
+    Camera* gCamera;
 };
 
 #endif

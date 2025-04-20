@@ -50,8 +50,11 @@ std::vector<Particle> gParticles;
 // Solver information
 Solver gSolver;
 
+// Camera information
+Camera gCamera;
+
 // Scene information 
-Scene gScene;
+Scene gScene(&gSolver, &gCamera);
 
 // Renderer information
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
@@ -79,8 +82,6 @@ std::ofstream outFile("output.txt");
 
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
-
-Camera gCamera;
 
 static void GLClearAllErrors(){
     while(glGetError() != GL_NO_ERROR){
@@ -728,7 +729,7 @@ int main( int argc, char* args[] ){
 	while(!gQuit){
 		Input(); // Handle Input
 
-        gRenderer.RenderScene(gTotalIndices, gCamera, gSolver, gVertexArrayObjects, gVertexBufferObjects);
+        gRenderer.RenderScene(gTotalIndices, gSolver, gVertexArrayObjects, gVertexBufferObjects);
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);

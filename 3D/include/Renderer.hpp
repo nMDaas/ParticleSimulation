@@ -32,7 +32,7 @@ public:
     Renderer(int i_screenWidth, int i_screenHeight, Scene* scene);
 
     void CreateGraphicsPipelines();
-    void RenderScene(int gTotalIndices, Camera gCamera, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects);
+    void RenderScene(int gTotalIndices, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects);
 
 private:
     int screenWidth;
@@ -47,10 +47,10 @@ private:
     GLuint CompileShader(GLuint type, const std::string& source);
 
     void PreDraw();
-    void DrawParticles(int gTotalIndices, Camera gCamera, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects);
-    void PreDrawParticle(int i, Solver gSolver, Camera gCamera);
+    void DrawParticles(int gTotalIndices, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects);
+    void PreDrawParticle(int i, Solver gSolver);
     void DrawParticle(int i, int gTotalIndices, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects);
-    void DrawLights(int gTotalIndices, Camera gCamera);
+    void DrawLights(int gTotalIndices);
     void PreDrawLight();
     void DrawLight(int gTotalIndices);
     

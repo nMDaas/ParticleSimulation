@@ -114,10 +114,10 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(int gTotalIndices, Camera gCamera, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects) {
+void Renderer::RenderScene(int gTotalIndices, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects) {
     PreDraw();
-    DrawParticles(gTotalIndices, gCamera, gSolver, gVertexArrayObjects, gVertexBufferObjects);
-    DrawLights(gTotalIndices, gCamera);
+    DrawParticles(gTotalIndices, gSolver, gVertexArrayObjects, gVertexBufferObjects);
+    DrawLights(gTotalIndices);
 }
 
 void Renderer::PreDraw() {
@@ -133,14 +133,14 @@ void Renderer::PreDraw() {
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 } 
 
-void Renderer::DrawParticles(int gTotalIndices, Camera gCamera, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
+void Renderer::DrawParticles(int gTotalIndices, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
     for (int i = 0; i < gVertexArrayObjects.size(); i++) {
-        PreDrawParticle(i, gSolver, gCamera);
+        PreDrawParticle(i, gSolver);
 
         // Update the View Matrix
         GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
         if(u_ViewMatrixLocation>=0){
-            glm::mat4 viewMatrix = gCamera.GetViewMatrix();
+            glm::mat4 viewMatrix = mainScene->getCamera()->GetViewMatrix();
             glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
         }else{
             std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
@@ -151,7 +151,7 @@ void Renderer::DrawParticles(int gTotalIndices, Camera gCamera, Solver gSolver, 
     }
 }
 
-void Renderer::PreDrawParticle(int i, Solver gSolver, Camera gCamera){
+void Renderer::PreDrawParticle(int i, Solver gSolver){
     // Use our shader
 	glUseProgram(gGraphicsPipelineShaderProgram);
 
@@ -189,7 +189,7 @@ void Renderer::PreDrawParticle(int i, Solver gSolver, Camera gCamera){
 
     GLint i_viewPos = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_viewPos");
     if(i_viewPos >=0){
-        glUniform3fv(i_viewPos, 1, &gCamera.GetCameraEyePosition()[0]);
+        glUniform3fv(i_viewPos, 1, &mainScene->getCamera()->GetCameraEyePosition()[0]);
     }else{
         std::cout << "Could not find i_viewPos, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
@@ -218,12 +218,12 @@ void Renderer::DrawParticle(int i, int gTotalIndices, std::vector<GLuint> gVerte
     glUseProgram(0);
 }
 
-void Renderer::DrawLights(int gTotalIndices, Camera gCamera){
+void Renderer::DrawLights(int gTotalIndices){
     PreDrawLight();
 
     GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
     if(u_ViewMatrixLocation>=0){
-        glm::mat4 viewMatrix = gCamera.GetViewMatrix();
+        glm::mat4 viewMatrix = mainScene->getCamera()->GetViewMatrix();
         glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
     }else{
         std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
