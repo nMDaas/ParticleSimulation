@@ -26,6 +26,7 @@
 #include "Solver.hpp"
 #include "Renderer.hpp"
 #include "Scene.hpp"
+#include "Sphere.hpp"
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Globals vvvvvvvvvvvvvvvvvvvvvvvvvv
 // Globals generally are prefixed with 'g' in this application.
@@ -59,7 +60,8 @@ Scene gScene(&gSolver, &gCamera);
 // Renderer information
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
-
+// Sphere information 
+Sphere gSphere;
 
 // Model information for particle ("sphere")
 std::vector<Vertex> gModelVertices;
@@ -342,7 +344,13 @@ void printAllVertexInformation(std::vector<float> vertices) {
 
 void GenerateParticleModelData(){
     std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
-    parseModelData(gModelFilepath); 
+    gSphere.parseModelData(gModelFilepath); 
+
+    gModelVertices = gSphere.getModelVertices();
+    gModelNormals = gSphere.getModelNormals();
+    gModelNormalsMap = gSphere.getModelNormalsMap();
+    gModelIndices = gSphere.getModelIndices();
+
     getModelMesh();
 }
 
