@@ -7,6 +7,12 @@ Scene::Scene(Solver* i_gSolver, Camera* i_gCamera){
     gCamera = i_gCamera;
 }
 
+Scene::~Scene(){
+    for (int i = 0; i < lights.size(); i++) {
+        delete lights[i];
+    }
+}
+
 void Scene::addLight(glm::vec3 position, float radius) {
     lights.push_back(new Particle(position, radius));
 }

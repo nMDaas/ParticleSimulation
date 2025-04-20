@@ -22,6 +22,7 @@ class Scene{
 public:
     Scene();
     Scene(Solver* i_gSolver, Camera* i_gCamera);
+    ~Scene();
     
     void addLight(glm::vec3 position, float radius);
     void setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject);
