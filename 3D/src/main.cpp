@@ -654,31 +654,6 @@ void Input(){
     }
 }
 
-
-/**
-* Main Application Loop
-* This is an infinite loop in our graphics application
-*
-* @return void
-*/
-void MainLoop(){
-
-	// While application is running
-	while(!gQuit){
-        g_uRotate = g_uRotate + 1.0f;
-		// Handle Input
-		Input();
-
-        gRenderer.RenderScene(gTotalIndices, gCamera, gSolver, gVertexArrayObjects, gVertexBufferObjects);
-
-		//Update screen of our specified window
-		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
-		SDL_Delay(16); // TA_README: This is to reduce the speed of rotation in certain computers
-	}
-}
-
-
-
 /**
 * The last function called in the program
 * This functions responsibility is to destroy any global
@@ -749,8 +724,16 @@ int main( int argc, char* args[] ){
 	
     gRenderer.CreateGraphicsPipelines();
 	
-	// Call the main application loop
-	MainLoop();	
+	// While application is running
+	while(!gQuit){
+		Input(); // Handle Input
+
+        gRenderer.RenderScene(gTotalIndices, gCamera, gSolver, gVertexArrayObjects, gVertexBufferObjects);
+
+		//Update screen of our specified window
+		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
+		SDL_Delay(16); // TA_README: This is to reduce the speed of rotation in certain computers
+	}
 
 	// Call the cleanup function when our program terminates
 	CleanUp();
