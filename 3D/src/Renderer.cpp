@@ -114,9 +114,9 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(int gTotalIndices, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects) {
+void Renderer::RenderScene(int gTotalIndices, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects) {
     PreDraw();
-    DrawParticles(gTotalIndices, gSolver, gVertexArrayObjects, gVertexBufferObjects);
+    DrawParticles(gTotalIndices, gVertexArrayObjects, gVertexBufferObjects);
     DrawLights(gTotalIndices);
 }
 
@@ -133,9 +133,9 @@ void Renderer::PreDraw() {
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 } 
 
-void Renderer::DrawParticles(int gTotalIndices, Solver gSolver, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
+void Renderer::DrawParticles(int gTotalIndices, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
     for (int i = 0; i < gVertexArrayObjects.size(); i++) {
-        PreDrawParticle(i, gSolver);
+        PreDrawParticle(i);
 
         // Update the View Matrix
         GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
@@ -151,13 +151,13 @@ void Renderer::DrawParticles(int gTotalIndices, Solver gSolver, std::vector<GLui
     }
 }
 
-void Renderer::PreDrawParticle(int i, Solver gSolver){
+void Renderer::PreDrawParticle(int i){
     // Use our shader
 	glUseProgram(gGraphicsPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
-    float r = gSolver.getParticles()[i]->getRadius();
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), gSolver.getParticles()[i]->getPosition());
+    float r = mainScene->getSolver()->getParticles()[i]->getRadius();
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), mainScene->getSolver()->getParticles()[i]->getPosition());
     //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(r, r, r));
 

@@ -729,7 +729,7 @@ int main( int argc, char* args[] ){
 	while(!gQuit){
 		Input(); // Handle Input
 
-        gRenderer.RenderScene(gTotalIndices, gSolver, gVertexArrayObjects, gVertexBufferObjects);
+        gRenderer.RenderScene(gTotalIndices, gVertexArrayObjects, gVertexBufferObjects);
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
