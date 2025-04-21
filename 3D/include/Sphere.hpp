@@ -24,12 +24,19 @@ class Sphere{
 public:
     Sphere();
 
-    void parseModelData(std::string filepath);
-    
+    void VertexSpecification(int gSolverGetParticlesSize);
+    void CleanUp(int gSolverGetParticlesSize);
+    int getTotalIndices();
+
     std::vector<int> getModelIndices();
     std::vector<Vertex> getModelVertices();
     std::vector<Vertex> getModelNormals();
     std::unordered_map<int, int> getModelNormalsMap();
+
+    std::vector<GLuint> getGVertexArrayObjects();
+    std::vector<GLuint> getGVertexBufferObjects();
+    GLuint* getLightVertexArrayObject();
+    GLuint* getLightVertexBufferObject();
 
 private:
     std::ofstream outFile;
@@ -39,6 +46,32 @@ private:
     std::vector<Vertex> gModelNormals;
     std::unordered_map<int, int> gModelNormalsMap;
     std::vector<int> gModelIndices;
+
+    std::vector<std::vector<GLfloat>> gVertexData;
+    std::vector<Triangle> gMesh;
+    size_t gTotalIndices = 0;
+
+    // Particle information
+    std::vector<GLuint> gVertexArrayObjects;
+    std::vector<GLuint> gVertexBufferObjects;
+    std::vector<GLuint> gIndexBufferObjects;
+
+    // Light information
+    GLuint lightVertexArrayObject = 0;
+    GLuint lightVertexBufferObject = 0;
+    GLuint lightIndexBufferObject = 0;
+
+    void GenerateGLuintObjects(int gSolverGetParticlesSize);
+    void GenerateGLuintLight();
+    void GenerateModelBufferData(int gSolverGetParticlesSize);
+    void GenerateParticleModelData();
+    void ParseModelData(std::string filepath);
+    void getModelMesh();
+    std::vector<GLfloat> getVerticesAndAddColorData();
+    void offsetGModelIndices();
+    void ConfigureVertexAttributes();
+    void GenerateLightBufferData();
+    void ConfigureLightVertexAttributes();
 
 };
 

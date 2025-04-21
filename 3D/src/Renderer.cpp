@@ -115,9 +115,14 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
 }
 
 void Renderer::RenderScene(int gTotalIndices) {
+    std::cout << "-- In Render Scene -- " << std::endl;
+    mainScene->InitializeParticleGLuints();
+    mainScene->InitializeLightGLuints();
     PreDraw();
     DrawParticles(gTotalIndices);
     DrawLights(gTotalIndices);
+    std::cout << "-- Exiting Render Scene -- " << std::endl;
+    std::cout << std::endl;
 }
 
 void Renderer::PreDraw() {
@@ -134,6 +139,8 @@ void Renderer::PreDraw() {
 } 
 
 void Renderer::DrawParticles(int gTotalIndices){
+    std::cout << "-- In Draw Particles -- " << std::endl;
+    std::cout << "mainScene->getGVertexArrayObjects().size(): " << mainScene->getGVertexArrayObjects().size() << std::endl;
     for (int i = 0; i < mainScene->getGVertexArrayObjects().size(); i++) {
         PreDrawParticle(i);
 
@@ -149,9 +156,12 @@ void Renderer::DrawParticles(int gTotalIndices){
 
         DrawParticle(i, gTotalIndices);
     }
+    std::cout << "-- Exiting Draw Particles -- " << std::endl;
+    std::cout << std::endl;
 }
 
 void Renderer::PreDrawParticle(int i){
+    std::cout << "-- In PreDrawParticle -- " << std::endl;
     // Use our shader
 	glUseProgram(gGraphicsPipelineShaderProgram);
 
@@ -209,16 +219,22 @@ void Renderer::PreDrawParticle(int i){
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
+    std::cout << "-- Exiting PreDrawParticle -- " << std::endl;
+    std::cout << std::endl;
 }
 
 void Renderer::DrawParticle(int i, int gTotalIndices){
+    std::cout << "-- In DrawParticle -- " << std::endl;
     glBindVertexArray(mainScene->getGVertexArrayObjects()[i]);
     glBindBuffer(GL_ARRAY_BUFFER, mainScene->getGVertexBufferObjects()[i]);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
+    std::cout << "-- Exiting DrawParticle -- " << std::endl;
+    std::cout << std::endl;
 }
 
 void Renderer::DrawLights(int gTotalIndices){
+    std::cout << "-- In DrawLights -- " << std::endl;
     PreDrawLight();
 
     GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
@@ -231,9 +247,12 @@ void Renderer::DrawLights(int gTotalIndices){
     }
 
     DrawLight(gTotalIndices);
+    std::cout << "-- Exiting DrawLights -- " << std::endl;
+    std::cout << std::endl;
 }
 
 void Renderer::PreDrawLight() {
+    std::cout << "-- In PreDrawLight -- " << std::endl;
     Particle* gLightParticle = mainScene->getLights()[0];
 
     // Use our shader
@@ -269,9 +288,12 @@ void Renderer::PreDrawLight() {
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
+    std::cout << "-- Exiting PreDrawLight -- " << std::endl;
+    std::cout << std::endl;
 }
 
 void Renderer::DrawLight(int gTotalIndices){
+    std::cout << "-- In DrawLight -- " << std::endl;
     GLuint lightVertexArrayObject = *(mainScene->getLightVertexArrayObject());
     GLuint lightVertexBufferObject = *(mainScene->getLightVertexBufferObject());
 
@@ -279,4 +301,11 @@ void Renderer::DrawLight(int gTotalIndices){
     glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
+    std::cout << "-- Exiting DrawLight -- " << std::endl;
+    std::cout << std::endl;
+}
+
+void Renderer::CleanUp(){
+    glDeleteProgram(gGraphicsPipelineShaderProgram);
+    glDeleteProgram(gGraphicsLighterPipelineShaderProgram);
 }

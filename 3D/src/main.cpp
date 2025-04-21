@@ -39,12 +39,13 @@ SDL_GLContext gOpenGLContext			= nullptr;
 
 bool gQuit = false;
 
+/*
 GLuint gGraphicsPipelineShaderProgram	= 0;
 GLuint gGraphicsLighterPipelineShaderProgram	= 0;
 
 std::vector<GLuint> gVertexArrayObjects;
 std::vector<GLuint> gVertexBufferObjects;
-std::vector<GLuint> gIndexBufferObjects;
+std::vector<GLuint> gIndexBufferObjects;*/
 
 std::vector<Particle> gParticles;
 
@@ -54,31 +55,34 @@ Solver gSolver;
 // Camera information
 Camera gCamera;
 
+// Sphere information 
+Sphere gSphere;
+
 // Scene information 
-Scene gScene(&gSolver, &gCamera);
+Scene gScene(&gSolver, &gCamera, &gSphere);
 
 // Renderer information
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
-// Sphere information 
-Sphere gSphere;
+
 
 // Model information for particle ("sphere")
+/*
 std::vector<Vertex> gModelVertices;
 std::vector<Vertex> gModelNormals;
 std::unordered_map<int, int> gModelNormalsMap;
 std::vector<GLfloat> gModelInformation;
 std::vector<int> gModelIndices;
 std::vector<Triangle> gMesh;
-size_t gTotalIndices = 0;
+size_t gTotalIndices = 0;*/
 
 // Light information
 Particle gLightParticle(glm::vec3(3.0f,1.0f,5.0f), 1.0f);
-GLuint lightVertexArrayObject = 0;
+/*GLuint lightVertexArrayObject = 0;
 GLuint lightVertexBufferObject = 0;
-GLuint lightIndexBufferObject = 0;
+GLuint lightIndexBufferObject = 0;*/
 
-std::vector<std::vector<GLfloat>> gVertexData;
+//std::vector<std::vector<GLfloat>> gVertexData;
 
 std::ofstream outFile("output.txt");
 
@@ -149,6 +153,7 @@ void InitializeProgram(){
 	
 }
 
+/*
 void ConfigureVertexAttributes() {
    // Enable the vertex attribute for position
     glEnableVertexAttribArray(0);
@@ -321,7 +326,7 @@ void printGModelIndices() {
     for (int i = 0; i < gModelIndices.size(); i++) {
         std::cout << gModelIndices[i] << std::endl;
     } 
-}
+}*/
 
 // For debugging purposes
 void printAllVertexInformation(std::vector<float> vertices) {
@@ -342,9 +347,10 @@ void printAllVertexInformation(std::vector<float> vertices) {
     std::cout << "-------" << std::endl;
 }
 
+/*
 void GenerateParticleModelData(){
     std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
-    gSphere.parseModelData(gModelFilepath); 
+    parseModelData(gModelFilepath); 
 
     gModelVertices = gSphere.getModelVertices();
     gModelNormals = gSphere.getModelNormals();
@@ -446,7 +452,7 @@ void VertexSpecification(){
     GenerateModelBufferData();
 
     GenerateLightBufferData();
-}
+}*/
 
 /**
 * Helper Function to get OpenGL Version Information
@@ -516,14 +522,10 @@ void CleanUp(){
 	gGraphicsApplicationWindow = nullptr;
 
     // Delete our OpenGL Objects
-    for (int i = 0; i < gSolver.getParticles().size(); i++){
-        glDeleteBuffers(1, &gVertexBufferObjects[i]);
-        glDeleteVertexArrays(1, &gVertexArrayObjects[i]);
-    }
+    gSphere.CleanUp(gSolver.getParticles().size());
 
 	// Delete our Graphics pipeline
-    glDeleteProgram(gGraphicsPipelineShaderProgram);
-    glDeleteProgram(gGraphicsLighterPipelineShaderProgram);
+    gRenderer.CleanUp();
 
 	//Quit SDL subsystems
 	SDL_Quit();
@@ -544,12 +546,14 @@ int main( int argc, char* args[] ){
     gScene.SetupSolverAndLights();
 	
 	// Setup geometry (for particles and lights)
-    VertexSpecification();
+    gSphere.VertexSpecification(gSolver.getParticles().size());
 
-    gScene.setLightGLuints(&lightVertexArrayObject, &lightVertexBufferObject);
-    gScene.setParticleGLuints(gVertexArrayObjects, gVertexBufferObjects);
+    //gScene.setLightGLuints(&lightVertexArrayObject, &lightVertexBufferObject);
+    //gScene.setParticleGLuints(gVertexArrayObjects, gVertexBufferObjects);
 	
     gRenderer.CreateGraphicsPipelines();
+
+    int gTotalIndices = gSphere.getTotalIndices();
 	
 	// While application is running
 	while(!gQuit){

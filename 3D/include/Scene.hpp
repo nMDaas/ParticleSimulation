@@ -17,11 +17,12 @@
 #include "Particle.hpp"
 #include "Camera.hpp"
 #include "Solver.hpp"
+#include "Sphere.hpp"
 
 class Scene{
 public:
     Scene();
-    Scene(Solver* i_gSolver, Camera* i_gCamera);
+    Scene(Solver* i_gSolver, Camera* i_gCamera, Sphere* i_gSphere);
     ~Scene();
     
     void SetupSolverAndLights(); // Calls SetUpSolver() and SetUpLights()
@@ -30,6 +31,8 @@ public:
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Set Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     void setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject);
     void setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::vector<GLuint> i_gVertexBufferObjects);
+    void InitializeParticleGLuints();
+    void InitializeLightGLuints();
 
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     std::vector<Particle*> getLights();
@@ -50,6 +53,7 @@ private:
 
     Solver* gSolver;
     Camera* gCamera;
+    Sphere *gSphere;
 
     void SetUpSolver();
     void SetUpLights();

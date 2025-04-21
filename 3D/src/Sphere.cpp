@@ -2,7 +2,89 @@
 
 Sphere::Sphere() : outFile("output.txt"){}
 
-void Sphere::parseModelData(std::string filepath){
+void Sphere::VertexSpecification(int gSolverGetParticlesSize){
+    std::cout << "-- In Vertex Specification -- " << std::endl;
+    GenerateGLuintObjects(gSolverGetParticlesSize);
+
+    GenerateGLuintLight();
+
+    GenerateModelBufferData(gSolverGetParticlesSize);
+
+    GenerateLightBufferData();
+    std::cout << "-- Exiting Vertex Specification -- " << std::endl;
+}
+
+// Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
+void Sphere::GenerateGLuintObjects(int gSolverGetParticlesSize){
+    // For Particles
+    for (int i = 0; i < gSolverGetParticlesSize; i++) {
+        GLuint newGVertexArrayObject = 0;
+        gVertexArrayObjects.push_back(newGVertexArrayObject);
+        GLuint newGVertexBufferObject = 0;
+        gVertexBufferObjects.push_back(newGVertexBufferObject);
+        GLuint newGIndexBufferObject = 0;
+        gIndexBufferObjects.push_back(newGIndexBufferObject);
+
+        // Push GLuint objects to their respective vectors
+        glGenVertexArrays(1, &newGVertexBufferObject);
+        glBindVertexArray(newGVertexBufferObject);
+        glGenBuffers(1, &newGVertexBufferObject);
+        glBindBuffer(GL_ARRAY_BUFFER, newGVertexBufferObject);
+    }
+}
+
+void Sphere::GenerateGLuintLight(){
+    // For Light
+    glGenVertexArrays(1, &lightVertexBufferObject);
+    glBindVertexArray(lightVertexBufferObject);
+    glGenBuffers(1, &lightVertexBufferObject);
+    glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
+}
+
+void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
+    GenerateParticleModelData(); // This creates a particle "blueprint"
+
+    // Create vertex data lists for each particle
+    for (int i = 0; i < gSolverGetParticlesSize; i++) {
+        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
+        gVertexData.push_back(vertexData_i);
+    }
+
+    // Fix indices information from 0 - n to 1 - n
+    offsetGModelIndices();
+    //printGModelIndices();
+
+    gTotalIndices = gModelIndices.size();
+
+    // Send rendering data to buffers for each particle
+    for (int i = 0; i < gSolverGetParticlesSize; i++) {
+
+        glGenVertexArrays(1, &gVertexArrayObjects[i]);
+        glBindVertexArray(gVertexArrayObjects[i]);
+
+        glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                    // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                    gVertexData[i].data(), 						// Raw array of data
+                    GL_STATIC_DRAW);								// How we intend to use the data
+
+        // Generate EBO
+        glGenBuffers(1, &gIndexBufferObjects[i]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+        ConfigureVertexAttributes();
+    }
+}
+
+void Sphere::GenerateParticleModelData(){
+    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
+    ParseModelData(gModelFilepath); 
+
+    getModelMesh();
+}
+
+void Sphere::ParseModelData(std::string filepath){
     outFile << "--- In parseModelData() ---" << std::endl;
     std::ifstream inputFile(filepath);
 
@@ -67,6 +149,129 @@ void Sphere::parseModelData(std::string filepath){
     outFile << "--- Exiting parseModelData() ---" << std::endl;
 }
 
+void Sphere::getModelMesh() {
+    outFile << "--- In getModelMesh() ---" << std::endl;
+
+    outFile << "-------" << std::endl;
+    outFile << "Collecting Indices into Triangles" << std::endl;
+    outFile << "-------" << std::endl;
+
+    for (int i = 0; i < gModelIndices.size(); i++) {
+        
+        outFile << "Triangle" << std::endl;
+
+        outFile << "  Index 1: " << gModelIndices[i] << std::endl;
+        outFile << "  Index 2: " << gModelIndices[i+1] << std::endl;
+        outFile << "  Index 3: " << gModelIndices[i+2] << std::endl;
+        outFile << "  Normal 1: " << gModelNormalsMap[gModelIndices[i] - 1] + 1<< std::endl;
+        outFile << "  Normal 2: " << gModelNormalsMap[gModelIndices[i+1] - 1] + 1<< std::endl;
+        outFile << "  Normal 3: " << gModelNormalsMap[gModelIndices[i+2] - 1] + 1<< std::endl;
+
+        // print Vertices of Triangle
+        outFile << "  Vertices: " << std::endl;
+        gModelVertices[gModelIndices[i] - 1].printVertex("Vertex");
+        gModelVertices[gModelIndices[i + 1] - 1].printVertex("Vertex");
+        gModelVertices[gModelIndices[i + 2] - 1].printVertex("Vertex");
+
+        // print Normals of Triangle
+        outFile << "  Normals: " << std::endl;
+        gModelVertices[gModelIndices[i + 3] - 1].printVertex("Normal");
+        gModelVertices[gModelIndices[i + 4] - 1].printVertex("Normal");
+        gModelVertices[gModelIndices[i + 5] - 1].printVertex("Normal");
+
+        Triangle t(gModelVertices[gModelIndices[i] - 1], gModelVertices[gModelIndices[i + 1] - 1], gModelVertices[gModelIndices[i + 2] - 1], gModelVertices[gModelIndices[i + 3] - 1], gModelVertices[gModelIndices[i + 4] - 1], gModelVertices[gModelIndices[i + 5] - 1]);
+        i = i + 5;
+        gMesh.push_back(t);
+    }
+
+    outFile << "-------" << std::endl;
+    outFile<< "End Collecting Indices into Triangles" << std::endl;
+    outFile << "-------" << std::endl;
+
+   outFile << "--- Exiting getModelMesh() ---" << std::endl;
+}
+
+std::vector<GLfloat> Sphere::getVerticesAndAddColorData() {
+    std::vector<GLfloat> vertexPositionsAndColor;
+
+    outFile << "--- In getVerticesAndAddColorData() ---" << std::endl;
+
+    for (int i = 0; i < gModelVertices.size(); i++) {
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.x);
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.y);
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.z);
+        outFile << "Index: " << i << std::endl;
+        outFile << "Vertex: (" << gModelVertices[i].coordinates.x << "," << gModelVertices[i].coordinates.y << "," << gModelVertices[i].coordinates.z << ")" << std::endl;
+        vertexPositionsAndColor.push_back(0.0f);
+        vertexPositionsAndColor.push_back(0.3f);
+        vertexPositionsAndColor.push_back(0.7f);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.x);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.y);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.z);
+        outFile << "gModelNormalsMap[i]: " << gModelNormalsMap[i] << std::endl;
+        outFile << "Normal: (" << gModelNormals[gModelNormalsMap[i]].coordinates.x << "," << gModelNormals[gModelNormalsMap[i]].coordinates.y << "," << gModelNormals[gModelNormalsMap[i]].coordinates.z << ")" << std::endl;
+        
+    }
+
+    outFile << "--- Exiting getVerticesAndAddColorData() ---" << std::endl;
+
+    return vertexPositionsAndColor;
+}
+
+void Sphere::offsetGModelIndices() {
+    for (int i = 0; i < gModelIndices.size(); i++) {
+        gModelIndices[i] = gModelIndices[i] - 1; 
+    } 
+}
+
+void Sphere::ConfigureVertexAttributes() {
+   // Enable the vertex attribute for position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
+
+    // Enable the vertex attribute for color
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 3));
+
+    // Enable the vertex attribute for normal
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 6));
+
+	glBindVertexArray(0);
+	glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+}
+
+void Sphere::GenerateLightBufferData(){
+    // Create vertex data lists for light particle
+    std::vector<GLfloat> vertexData_light = getVerticesAndAddColorData();
+
+    glGenVertexArrays(1, &lightVertexArrayObject);
+    glBindVertexArray(lightVertexArrayObject);
+    glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                vertexData_light.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                vertexData_light.data(), 						// Raw array of data
+                GL_STATIC_DRAW);								// How we intend to use the data
+
+    // Generate EBO
+    glGenBuffers(1, &lightIndexBufferObject);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightIndexBufferObject);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+    ConfigureLightVertexAttributes();
+}
+
+void Sphere::ConfigureLightVertexAttributes() {
+   // Enable the vertex attribute for position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
+
+	glBindVertexArray(0);
+	glDisableVertexAttribArray(0);
+}
+
 std::vector<int> Sphere::getModelIndices(){
     return gModelIndices;
 }
@@ -81,4 +286,34 @@ std::unordered_map<int, int> Sphere::getModelNormalsMap(){
 
 std::vector<Vertex> Sphere::getModelNormals(){
     return gModelNormals;
+}
+
+void Sphere::CleanUp(int gSolverGetParticlesSize){
+    for (int i = 0; i < gSolverGetParticlesSize; i++){
+        glDeleteBuffers(1, &gVertexBufferObjects[i]);
+        glDeleteVertexArrays(1, &gVertexArrayObjects[i]);
+    }
+
+    glDeleteBuffers(1, &lightVertexArrayObject);
+    glDeleteBuffers(1, &lightVertexBufferObject);
+}
+
+int Sphere::getTotalIndices(){
+    return gTotalIndices;
+}
+
+std::vector<GLuint> Sphere::getGVertexArrayObjects(){
+    return gVertexArrayObjects;
+}
+
+std::vector<GLuint> Sphere::getGVertexBufferObjects(){
+    return gVertexBufferObjects;
+}
+
+GLuint* Sphere::getLightVertexArrayObject(){
+    return &lightVertexArrayObject;
+}
+
+GLuint* Sphere::getLightVertexBufferObject(){
+    return &lightVertexBufferObject;
 }

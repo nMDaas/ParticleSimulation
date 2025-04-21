@@ -33,6 +33,7 @@ public:
 
     void CreateGraphicsPipelines();
     void RenderScene(int gTotalIndices);
+    void CleanUp();
 
 private:
     int screenWidth;
