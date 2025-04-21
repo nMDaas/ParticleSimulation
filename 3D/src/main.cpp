@@ -125,6 +125,14 @@ void InitializeProgram(){
 	
 }
 
+// Helper Function to get OpenGL Version Information
+void getOpenGLVersionInfo(){
+  std::cout << "Vendor: " << glGetString(GL_VENDOR) << "\n";
+  std::cout << "Renderer: " << glGetString(GL_RENDERER) << "\n";
+  std::cout << "Version: " << glGetString(GL_VERSION) << "\n";
+  std::cout << "Shading language: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+}
+
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Most Relevant main() Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
 
 // For debugging purposes
@@ -144,14 +152,6 @@ void printAllVertexInformation(std::vector<float> vertices) {
     std::cout << "-------" << std::endl;
     std::cout << "end printAllVertexInformation()" << std::endl;
     std::cout << "-------" << std::endl;
-}
-
-// Helper Function to get OpenGL Version Information
-void getOpenGLVersionInfo(){
-  std::cout << "Vendor: " << glGetString(GL_VENDOR) << "\n";
-  std::cout << "Renderer: " << glGetString(GL_RENDERER) << "\n";
-  std::cout << "Version: " << glGetString(GL_VERSION) << "\n";
-  std::cout << "Shading language: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 }
 
 // Function called in the Main application loop to handle user input
