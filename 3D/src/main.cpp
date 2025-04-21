@@ -529,25 +529,6 @@ void CleanUp(){
 	SDL_Quit();
 }
 
-void SetUpSolver(){
-    gSolver.addParticle(glm::vec3(2.0f,1.0f,0), 1.0f);
-    gSolver.addParticle(glm::vec3(-1.0f,0.0f,0), 0.5f);
-}
-
-void SetUpLights(){
-    gScene.addLight(glm::vec3(3.0f,1.0f,5.0f), 1.0f);
-}
-
-void SetUpParticles(){
-    //Particle newParticle(glm::vec3(0.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
-    //gParticles.push_back(newParticle);
-    //Particle newParticle(glm::vec3(-3.0f,0.0f,0.0f), 1.0f); // currently setting up dummy values
-    //gParticles.push_back(newParticle);
-    Particle otherParticle(glm::vec3(2.0f,1.0f,0), 1.0f); // currently setting up dummy values
-    gParticles.push_back(otherParticle);
-    //Particle thirdParticle(glm::vec3(5.0f,1.0f,0), 2.0f); // currently setting up dummy values
-    //gParticles.push_back(thirdParticle);
-}
 
 /**
 * The entry point into our C++ programs.
@@ -561,12 +542,6 @@ int main( int argc, char* args[] ){
 	InitializeProgram();
 
     gScene.SetupSolverAndLights();
-
-    // Setup solver 
-    //SetUpSolver();
-
-    // Setup scene with lights
-    //SetUpLights();
 	
 	// Setup geometry (for particles and lights)
     VertexSpecification();
@@ -583,7 +558,7 @@ int main( int argc, char* args[] ){
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
-		SDL_Delay(16); // TA_README: This is to reduce the speed of rotation in certain computers
+		SDL_Delay(16); 
 	}
 
 	// Call the cleanup function when our program terminates
