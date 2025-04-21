@@ -114,9 +114,9 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(int gTotalIndices, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects) {
+void Renderer::RenderScene(int gTotalIndices) {
     PreDraw();
-    DrawParticles(gTotalIndices, gVertexArrayObjects, gVertexBufferObjects);
+    DrawParticles(gTotalIndices);
     DrawLights(gTotalIndices);
 }
 
@@ -133,8 +133,8 @@ void Renderer::PreDraw() {
   	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 } 
 
-void Renderer::DrawParticles(int gTotalIndices, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
-    for (int i = 0; i < gVertexArrayObjects.size(); i++) {
+void Renderer::DrawParticles(int gTotalIndices){
+    for (int i = 0; i < mainScene->getGVertexArrayObjects().size(); i++) {
         PreDrawParticle(i);
 
         // Update the View Matrix
@@ -147,7 +147,7 @@ void Renderer::DrawParticles(int gTotalIndices, std::vector<GLuint> gVertexArray
             exit(EXIT_FAILURE);
         }
 
-        DrawParticle(i, gTotalIndices, gVertexArrayObjects, gVertexBufferObjects);
+        DrawParticle(i, gTotalIndices);
     }
 }
 
@@ -211,9 +211,9 @@ void Renderer::PreDrawParticle(int i){
     }
 }
 
-void Renderer::DrawParticle(int i, int gTotalIndices, std::vector<GLuint> gVertexArrayObjects, std::vector<GLuint> gVertexBufferObjects){
-    glBindVertexArray(gVertexArrayObjects[i]);
-    glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObjects[i]);
+void Renderer::DrawParticle(int i, int gTotalIndices){
+    glBindVertexArray(mainScene->getGVertexArrayObjects()[i]);
+    glBindBuffer(GL_ARRAY_BUFFER, mainScene->getGVertexBufferObjects()[i]);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
 }

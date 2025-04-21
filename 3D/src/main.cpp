@@ -547,6 +547,7 @@ int main( int argc, char* args[] ){
     VertexSpecification();
 
     gScene.setLightGLuints(&lightVertexArrayObject, &lightVertexBufferObject);
+    gScene.setParticleGLuints(gVertexArrayObjects, gVertexBufferObjects);
 	
     gRenderer.CreateGraphicsPipelines();
 	
@@ -554,7 +555,7 @@ int main( int argc, char* args[] ){
 	while(!gQuit){
 		Input(); // Handle Input
 
-        gRenderer.RenderScene(gTotalIndices, gVertexArrayObjects, gVertexBufferObjects);
+        gRenderer.RenderScene(gTotalIndices);
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);

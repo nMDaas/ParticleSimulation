@@ -26,7 +26,10 @@ public:
     
     void SetupSolverAndLights(); // Calls SetUpSolver() and SetUpLights()
     void addLight(glm::vec3 position, float radius);
+    
+    // vvvvvvvvvvvvvvvvvvvvvvvvvv Set Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     void setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject);
+    void setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::vector<GLuint> i_gVertexBufferObjects);
 
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     std::vector<Particle*> getLights();
@@ -34,11 +37,17 @@ public:
     GLuint* getLightVertexBufferObject();
     Solver* getSolver();
     Camera* getCamera();
+    std::vector<GLuint> getGVertexArrayObjects();
+    std::vector<GLuint> getGVertexBufferObjects();
 
 private:
     std::vector<Particle*> lights; 
+
     GLuint* lightVertexArrayObject;
     GLuint* lightVertexBufferObject;
+    std::vector<GLuint> gVertexArrayObjects;
+    std::vector<GLuint> gVertexBufferObjects;
+
     Solver* gSolver;
     Camera* gCamera;
 

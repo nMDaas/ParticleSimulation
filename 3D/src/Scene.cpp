@@ -31,10 +31,18 @@ void Scene::addLight(glm::vec3 position, float radius) {
     lights.push_back(new Particle(position, radius));
 }
 
+// vvvvvvvvvvvvvvvvvvvvvvvvvv Set Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
+
 void Scene::setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject) {
     lightVertexArrayObject = i_lightVertexArrayObject;
     lightVertexBufferObject = i_lightVertexBufferObject;
 }
+
+void Scene::setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::vector<GLuint> i_gVertexBufferObjects){
+    gVertexArrayObjects = i_gVertexArrayObjects;
+    gVertexBufferObjects = i_gVertexBufferObjects;
+}
+
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
 
@@ -56,4 +64,12 @@ Solver* Scene::getSolver(){
 
 Camera* Scene::getCamera(){
     return gCamera;
+}
+
+std::vector<GLuint> Scene::getGVertexArrayObjects(){
+    return gVertexArrayObjects;
+}
+
+std::vector<GLuint> Scene::getGVertexBufferObjects(){
+    return gVertexArrayObjects;
 }
