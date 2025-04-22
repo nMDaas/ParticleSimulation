@@ -66,6 +66,11 @@ void Scene::InitializeLightGLuints(){
     std::cout << std::endl;
 }
 
+void Scene::InitializeBoxGLuints(){
+    boxVertexArrayObject = gSphere->getBoxVertexArrayObject();
+    boxVertexBufferObject = gSphere->getBoxVertexBufferObject();
+}
+
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
 
 std::vector<Particle*> Scene::getLights(){
@@ -94,4 +99,12 @@ std::vector<GLuint> Scene::getGVertexArrayObjects(){
 
 std::vector<GLuint> Scene::getGVertexBufferObjects(){
     return gVertexArrayObjects;
+}
+
+GLuint* Scene::getBoxVertexArrayObject(){
+    return boxVertexArrayObject;
+}
+
+GLuint* Scene::getBoxVertexBufferObject(){
+    return boxVertexBufferObject;
 }

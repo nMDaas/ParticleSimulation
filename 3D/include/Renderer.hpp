@@ -32,7 +32,7 @@ public:
     Renderer(int i_screenWidth, int i_screenHeight, Scene* scene);
 
     void CreateGraphicsPipelines();
-    void RenderScene(int gTotalIndices);
+    void RenderScene(int gTotalIndices, int gBoxTotalIndices);
     void CleanUp();
 
 private:
@@ -54,6 +54,9 @@ private:
     void DrawLights(int gTotalIndices);
     void PreDrawLight();
     void DrawLight(int gTotalIndices);
+    void DrawBox(int gBoxTotalIndices);
+    void PreDrawBox();
+    void DrawBoxActually(int gBoxTotalIndices);
     
 };
 

@@ -114,13 +114,15 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(int gTotalIndices) {
+void Renderer::RenderScene(int gTotalIndices, int gBoxTotalIndices) {
     std::cout << "-- In Render Scene -- " << std::endl;
     mainScene->InitializeParticleGLuints();
     mainScene->InitializeLightGLuints();
+    mainScene->InitializeBoxGLuints();
     PreDraw();
-    DrawParticles(gTotalIndices);
-    DrawLights(gTotalIndices);
+    //DrawParticles(gTotalIndices);
+    //DrawLights(gTotalIndices);
+    DrawBox(gBoxTotalIndices);
     std::cout << "-- Exiting Render Scene -- " << std::endl;
     std::cout << std::endl;
 }
@@ -302,6 +304,68 @@ void Renderer::DrawLight(int gTotalIndices){
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
     std::cout << "-- Exiting DrawLight -- " << std::endl;
+    std::cout << std::endl;
+}
+
+void Renderer::DrawBox(int gBoxTotalIndices){
+    PreDrawBox();
+
+    GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
+    if(u_ViewMatrixLocation>=0){
+        glm::mat4 viewMatrix = mainScene->getCamera()->GetViewMatrix();
+        glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
+    }else{
+        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    DrawBoxActually(gBoxTotalIndices);
+    std::cout << std::endl;
+}
+
+void Renderer::PreDrawBox(){
+    // Use our shader
+	glUseProgram(gGraphicsLighterPipelineShaderProgram);
+
+    // Model transformation by translating our object into world space
+    float r = 5.0f;
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+    //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(r, r, r));
+
+	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
+	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"u_ModelMatrix");
+    if(u_ModelMatrixLocation >=0){
+        glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
+    }else{
+        std::cout << "Could not find u_ModelMatrix, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+
+    // Projection matrix (in perspective) 
+    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
+                                             (float)screenWidth/(float)screenHeight,
+                                             0.1f,
+                                             10000.0f);
+	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
+	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"u_Projection");
+    if(u_ProjectionLocation>=0){
+        glUniformMatrix4fv(u_ProjectionLocation,1,GL_FALSE,&perspective[0][0]);
+    }else{
+        std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
+        exit(EXIT_FAILURE);
+    }
+    std::cout << std::endl;
+}
+
+void Renderer::DrawBoxActually(int gBoxTotalIndices){
+    GLuint boxVertexArrayObject = *(mainScene->getBoxVertexArrayObject());
+    GLuint boxVertexBufferObject = *(mainScene->getBoxVertexBufferObject());
+
+    glBindVertexArray(boxVertexArrayObject);
+    glBindBuffer(GL_ARRAY_BUFFER, boxVertexArrayObject);
+    glDrawElements(GL_TRIANGLES,gBoxTotalIndices,GL_UNSIGNED_INT,0);
+    glUseProgram(0);
     std::cout << std::endl;
 }
 

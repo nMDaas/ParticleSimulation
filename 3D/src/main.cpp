@@ -227,12 +227,13 @@ int main( int argc, char* args[] ){
     gRenderer.CreateGraphicsPipelines();
 
     int gTotalIndices = gSphere.getTotalIndices();
+	int gBoxTotalIndices = gSphere.getBoxTotalIndices();
 	
 	// While application is running
 	while(!gQuit){
 		Input(); // Handle Input
 
-        gRenderer.RenderScene(gTotalIndices);
+        gRenderer.RenderScene(gTotalIndices, gBoxTotalIndices);
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);

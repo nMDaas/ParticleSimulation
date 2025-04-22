@@ -27,6 +27,7 @@ public:
     void VertexSpecification(int gSolverGetParticlesSize);
     void CleanUp(int gSolverGetParticlesSize);
     int getTotalIndices();
+    int getBoxTotalIndices();
 
     std::vector<int> getModelIndices();
     std::vector<Vertex> getModelVertices();
@@ -37,6 +38,8 @@ public:
     std::vector<GLuint> getGVertexBufferObjects();
     GLuint* getLightVertexArrayObject();
     GLuint* getLightVertexBufferObject();
+    GLuint* getBoxVertexArrayObject();
+    GLuint* getBoxVertexBufferObject();
 
 private:
     std::ofstream outFile;
@@ -46,6 +49,14 @@ private:
     std::vector<Vertex> gModelNormals;
     std::unordered_map<int, int> gModelNormalsMap;
     std::vector<int> gModelIndices;
+
+    // Model information for box
+    std::vector<Vertex> gModelBoxVertices;
+    std::vector<Vertex> gModelBoxNormals;
+    std::vector<int> gModelBoxIndices;
+    std::unordered_map<int, int> gModelBoxNormalsMap;
+    std::vector<Triangle> gBoxMesh;
+    size_t gTotalBoxIndices = 0;
 
     std::vector<std::vector<GLfloat>> gVertexData;
     std::vector<Triangle> gMesh;
@@ -61,8 +72,14 @@ private:
     GLuint lightVertexBufferObject = 0;
     GLuint lightIndexBufferObject = 0;
 
+    // Box information
+    GLuint boxVertexArrayObject = 0;
+    GLuint boxVertexBufferObject = 0;
+    GLuint boxIndexBufferObject = 0;
+
     void GenerateGLuintObjects(int gSolverGetParticlesSize);
     void GenerateGLuintLight();
+    void GenerateGluintBoxObjects();
     void GenerateModelBufferData(int gSolverGetParticlesSize);
     void GenerateParticleModelData();
     void ParseModelData(std::string filepath);
@@ -72,6 +89,13 @@ private:
     void ConfigureVertexAttributes();
     void GenerateLightBufferData();
     void ConfigureLightVertexAttributes();
+    void GenerateBoxBufferData();
+    void GenerateBoxModelData();
+    void offsetGBoxIndices();
+    void ParseBoxModelData(std::string filepath);
+    void getBoxModelMesh();
+    std::vector<GLfloat> getBoxVerticesAndAddColorData();
+    void ConfigureBoxVertexAttributes();
 
 };
 

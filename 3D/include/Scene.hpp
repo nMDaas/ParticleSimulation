@@ -33,11 +33,14 @@ public:
     void setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::vector<GLuint> i_gVertexBufferObjects);
     void InitializeParticleGLuints();
     void InitializeLightGLuints();
+    void InitializeBoxGLuints();
 
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     std::vector<Particle*> getLights();
     GLuint* getLightVertexArrayObject();
     GLuint* getLightVertexBufferObject();
+    GLuint* getBoxVertexArrayObject();
+    GLuint* getBoxVertexBufferObject();
     Solver* getSolver();
     Camera* getCamera();
     std::vector<GLuint> getGVertexArrayObjects();
@@ -50,6 +53,8 @@ private:
     GLuint* lightVertexBufferObject;
     std::vector<GLuint> gVertexArrayObjects;
     std::vector<GLuint> gVertexBufferObjects;
+    GLuint* boxVertexArrayObject;
+    GLuint* boxVertexBufferObject;
 
     Solver* gSolver;
     Camera* gCamera;
