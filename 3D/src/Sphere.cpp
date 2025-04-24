@@ -69,7 +69,8 @@ void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
     //printGModelIndices();
 
     std::vector<int> gModelIndices = gModelIndices_map[objName];
-    gTotalIndices = gModelIndices.size();
+    int gTotalIndices = gModelIndices.size();
+    gTotalIndices_map[objName] = gTotalIndices;
 
     // Send rendering data to buffers for each particle
     for (int i = 0; i < gSolverGetParticlesSize; i++) {
@@ -659,7 +660,7 @@ void Sphere::CleanUp(int gSolverGetParticlesSize){
 }
 
 int Sphere::getTotalIndices(){
-    return gTotalIndices;
+    return gTotalIndices_map["Particle"];
 }
 
 int Sphere::getBoxTotalIndices(){

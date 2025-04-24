@@ -59,7 +59,6 @@ private:
     size_t gTotalBoxIndices = 0;
 
     std::vector<std::vector<GLfloat>> gVertexData;
-    size_t gTotalIndices = 0;
 
     // Particle information
     std::vector<GLuint> gVertexArrayObjects;
@@ -105,6 +104,7 @@ private:
     std::unordered_map<std::string, std::vector<int>> gModelIndices_map;
     std::unordered_map<std::string,  std::unordered_map<int, int>> gModelNormalsMap_map;
     std::unordered_map<std::string,  std::vector<Triangle>> gMesh_map;
+    std::unordered_map<std::string,  size_t> gTotalIndices_map;
 };
 
 
