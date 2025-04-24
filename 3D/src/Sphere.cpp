@@ -5,15 +5,15 @@ Sphere::Sphere() : outFile("output.txt"){}
 void Sphere::VertexSpecification(int gSolverGetParticlesSize){
     GenerateGLuintObjects(gSolverGetParticlesSize);
 
-    GenerateGLuintLight();
+    //GenerateGLuintLight();
 
     GenerateGluintBoxObjects();
 
     GenerateModelBufferData(gSolverGetParticlesSize);
 
-    GenerateLightBufferData();
+    //GenerateLightBufferData();
 
-    GenerateBoxBufferData();
+    //GenerateBoxBufferData();
 }
 
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle

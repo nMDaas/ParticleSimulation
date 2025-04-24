@@ -120,9 +120,9 @@ void Renderer::RenderScene(int gTotalIndices, int gBoxTotalIndices) {
     mainScene->InitializeLightGLuints();
     mainScene->InitializeBoxGLuints();
     PreDraw();
-    //DrawParticles(gTotalIndices);
+    DrawParticles(gTotalIndices);
     //DrawLights(gTotalIndices);
-    DrawBox(gBoxTotalIndices);
+    //(gBoxTotalIndices);
     std::cout << "-- Exiting Render Scene -- " << std::endl;
     std::cout << std::endl;
 }
