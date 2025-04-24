@@ -64,10 +64,11 @@ void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
     }
 
     // Fix indices information from 0 - n to 1 - n
-    offsetGModelIndices();
+    //offsetGModelIndicesOld();
+    offsetGModelIndices(objName);
     //printGModelIndices();
 
-    std::vector<int> gModelIndices = gModelIndices_map["Particle"];
+    std::vector<int> gModelIndices = gModelIndices_map[objName];
     gTotalIndices = gModelIndices.size();
 
     // Send rendering data to buffers for each particle
@@ -259,6 +260,8 @@ void Sphere::getModelMesh(std::string objName) {
     std::unordered_map<int, int> gModelNormalsMap = gModelNormalsMap_map[objName];
     std::vector<int> gModelIndices = gModelIndices_map[objName];
 
+    std::vector<Triangle> gMesh;
+
     for (int i = 0; i < gModelIndices.size(); i++) {
         
         outFile << "Triangle" << std::endl;
@@ -287,6 +290,8 @@ void Sphere::getModelMesh(std::string objName) {
         gMesh.push_back(t);
     }
 
+    gMesh_map[objName] = gMesh;
+
     outFile << "-------" << std::endl;
     outFile<< "End Collecting Indices into Triangles" << std::endl;
     outFile << "-------" << std::endl;
@@ -294,6 +299,7 @@ void Sphere::getModelMesh(std::string objName) {
    outFile << "--- Exiting getModelMesh() ---" << std::endl;
 }
 
+/*
 void Sphere::getModelMeshOld() {
     outFile << "--- In getModelMesh() ---" << std::endl;
 
@@ -340,6 +346,7 @@ void Sphere::getModelMeshOld() {
 
    outFile << "--- Exiting getModelMesh() ---" << std::endl;
 }
+*/
 
 std::vector<GLfloat> Sphere::getVerticesAndAddColorData() {
     std::vector<GLfloat> vertexPositionsAndColor;
@@ -372,13 +379,19 @@ std::vector<GLfloat> Sphere::getVerticesAndAddColorData() {
     return vertexPositionsAndColor;
 }
 
-void Sphere::offsetGModelIndices() {
-    /*
-    for (int i = 0; i < gModelIndices.size(); i++) {
-        gModelIndices[i] = gModelIndices[i] - 1; 
-    } */
+/*
+void Sphere::offsetGModelIndicesOld() {
+    //for (int i = 0; i < gModelIndices.size(); i++) {
+    //    gModelIndices[i] = gModelIndices[i] - 1; 
+    //} 
    for (int i = 0; i < gModelIndices_map["Particle"].size(); i++) {
         gModelIndices_map["Particle"][i] = gModelIndices_map["Particle"][i] - 1; 
+    } 
+}*/
+
+void Sphere::offsetGModelIndices(std::string objName) {
+   for (int i = 0; i < gModelIndices_map[objName].size(); i++) {
+        gModelIndices_map[objName][i] = gModelIndices_map[objName][i] - 1; 
     } 
 }
 

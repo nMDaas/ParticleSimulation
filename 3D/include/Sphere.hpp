@@ -59,7 +59,6 @@ private:
     size_t gTotalBoxIndices = 0;
 
     std::vector<std::vector<GLfloat>> gVertexData;
-    std::vector<Triangle> gMesh;
     size_t gTotalIndices = 0;
 
     // Particle information
@@ -84,11 +83,12 @@ private:
     void GenerateModelData(std::string modelObjFilepath, std::string objName);
     void GenerateParticleModelData();
     void ParseModelData(std::string filepath, std::string objName);
-    void ParseModelDataOld(std::string filepath);
+    //void ParseModelDataOld(std::string filepath);
     void getModelMesh(std::string objName);
-    void getModelMeshOld();
+    //void getModelMeshOld();
     std::vector<GLfloat> getVerticesAndAddColorData();
-    void offsetGModelIndices();
+    //void offsetGModelIndicesOld();
+    void offsetGModelIndices(std::string objName);
     void ConfigureVertexAttributes();
     void GenerateLightBufferData();
     void ConfigureLightVertexAttributes();
@@ -104,7 +104,7 @@ private:
     std::unordered_map<std::string, std::vector<Vertex>> gModelNormals_map;
     std::unordered_map<std::string, std::vector<int>> gModelIndices_map;
     std::unordered_map<std::string,  std::unordered_map<int, int>> gModelNormalsMap_map;
-
+    std::unordered_map<std::string,  std::vector<Triangle>> gMesh_map;
 };
 
 
