@@ -81,6 +81,7 @@ private:
     void GenerateGLuintLight();
     void GenerateGluintBoxObjects();
     void GenerateModelBufferData(int gSolverGetParticlesSize);
+    void GenerateModelData(std::string modelObjFilepath, std::string objName);
     void GenerateParticleModelData();
     void ParseModelData(std::string filepath, std::string objName);
     void ParseModelDataOld(std::string filepath);

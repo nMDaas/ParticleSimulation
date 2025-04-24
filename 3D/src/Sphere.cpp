@@ -52,7 +52,10 @@ void Sphere::GenerateGluintBoxObjects(){
 }
 
 void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
-    GenerateParticleModelData(); // This creates a particle "blueprint"
+    //GenerateParticleModelData(); // This creates a particle "blueprint"
+    std::string particleObjFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
+    std::string objName = "Particle";
+    GenerateModelData(particleObjFilepath, objName); // This creates a particle "blueprint"
 
     // Create vertex data lists for each particle
     for (int i = 0; i < gSolverGetParticlesSize; i++) {
@@ -86,6 +89,11 @@ void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
 
         ConfigureVertexAttributes();
     }
+}
+
+void Sphere::GenerateModelData(std::string modelObjFilepath, std::string objName){
+    ParseModelData(modelObjFilepath, objName);
+    getModelMesh(objName);
 }
 
 void Sphere::GenerateParticleModelData(){
