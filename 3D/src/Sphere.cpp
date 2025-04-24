@@ -9,7 +9,7 @@ void Sphere::VertexSpecification(int gSolverGetParticlesSize){
 
     GenerateGluintBoxObjects();
 
-    GenerateModelBufferData(gSolverGetParticlesSize);
+    GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Particle");
 
     //GenerateLightBufferData();
 
@@ -51,6 +51,58 @@ void Sphere::GenerateGluintBoxObjects(){
     glBindBuffer(GL_ARRAY_BUFFER, boxVertexBufferObject);
 }
 
+void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize, std::string particleObjFilepath, std::string objName){
+    GenerateModelBlueprint(particleObjFilepath, objName);
+    
+    // Create vertex data lists for each particle
+    for (int i = 0; i < gSolverGetParticlesSize; i++) {
+        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
+        gVertexData.push_back(vertexData_i);
+    }
+
+    std::vector<int> gModelIndices = gModelIndices_map[objName];
+    int gTotalIndices = gModelIndices.size();
+    gTotalIndices_map[objName] = gTotalIndices;
+
+    // Send rendering data to buffers for each particle
+    for (int i = 0; i < gSolverGetParticlesSize; i++) {
+
+        glGenVertexArrays(1, &gVertexArrayObjects[i]);
+        glBindVertexArray(gVertexArrayObjects[i]);
+
+        glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                    // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                    gVertexData[i].data(), 						// Raw array of data
+                    GL_STATIC_DRAW);								// How we intend to use the data
+
+        // Generate EBO
+        glGenBuffers(1, &gIndexBufferObjects[i]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+        ConfigureVertexAttributes();
+    }
+}
+
+void Sphere::GenerateModelBlueprint(std::string particleObjFilepath, std::string objName){
+    if (modelObjFilepath_map.find(objName) != modelObjFilepath_map.end() || modelObjFilepath_map.size() == 0) {
+        GenerateModelData(particleObjFilepath, objName); // This creates a particle "blueprint"
+
+        // Fix indices information from 0 - n to 1 - n
+        offsetGModelIndices(objName);
+
+        modelObjFilepath_map[objName] = particleObjFilepath;
+
+        std::cout << "Blueprint for " << objName << " created." << std::endl;
+    }
+    else{
+        std::cout << "Blueprint for " << objName << " already created. Skipping." << std::endl;
+    }
+
+}
+
+/*
 void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
     //GenerateParticleModelData(); // This creates a particle "blueprint"
     std::string particleObjFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
@@ -91,7 +143,7 @@ void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
 
         ConfigureVertexAttributes();
     }
-}
+}*/
 
 void Sphere::GenerateModelData(std::string modelObjFilepath, std::string objName){
     ParseModelData(modelObjFilepath, objName);

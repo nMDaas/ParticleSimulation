@@ -78,7 +78,9 @@ private:
     void GenerateGLuintObjects(int gSolverGetParticlesSize);
     void GenerateGLuintLight();
     void GenerateGluintBoxObjects();
-    void GenerateModelBufferData(int gSolverGetParticlesSize);
+    //void GenerateModelBufferData(int gSolverGetParticlesSize);
+    void GenerateModelBufferData(int gSolverGetParticlesSize, std::string particleObjFilepath, std::string objName);
+    void GenerateModelBlueprint(std::string particleObjFilepath, std::string objName);
     void GenerateModelData(std::string modelObjFilepath, std::string objName);
     void GenerateParticleModelData();
     void ParseModelData(std::string filepath, std::string objName);
@@ -105,6 +107,7 @@ private:
     std::unordered_map<std::string,  std::unordered_map<int, int>> gModelNormalsMap_map;
     std::unordered_map<std::string,  std::vector<Triangle>> gMesh_map;
     std::unordered_map<std::string,  size_t> gTotalIndices_map;
+    std::unordered_map<std::string,  std::string> modelObjFilepath_map;
 };
 
 
