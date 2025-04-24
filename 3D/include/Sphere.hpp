@@ -45,10 +45,10 @@ private:
     std::ofstream outFile;
 
     // Model information for particle ("sphere")
-    std::vector<Vertex> gModelVertices;
+    /*std::vector<Vertex> gModelVertices;
     std::vector<Vertex> gModelNormals;
     std::unordered_map<int, int> gModelNormalsMap;
-    std::vector<int> gModelIndices;
+    std::vector<int> gModelIndices;*/
 
     // Model information for box
     std::vector<Vertex> gModelBoxVertices;
@@ -82,7 +82,8 @@ private:
     void GenerateGluintBoxObjects();
     void GenerateModelBufferData(int gSolverGetParticlesSize);
     void GenerateParticleModelData();
-    void ParseModelData(std::string filepath);
+    void ParseModelData(std::string filepath, std::string objName);
+    void ParseModelDataOld(std::string filepath);
     void getModelMesh();
     std::vector<GLfloat> getVerticesAndAddColorData();
     void offsetGModelIndices();
@@ -96,6 +97,11 @@ private:
     void getBoxModelMesh();
     std::vector<GLfloat> getBoxVerticesAndAddColorData();
     void ConfigureBoxVertexAttributes();
+
+    std::unordered_map<std::string, std::vector<Vertex>> gModelVertices_map;
+    std::unordered_map<std::string, std::vector<Vertex>> gModelNormals_map;
+    std::unordered_map<std::string, std::vector<int>> gModelIndices_map;
+    std::unordered_map<std::string,  std::unordered_map<int, int>> gModelNormalsMap_map;
 
 };
 
