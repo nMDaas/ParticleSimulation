@@ -93,7 +93,8 @@ void Sphere::GenerateParticleModelData(){
     ParseModelData(gModelFilepath, "Particle");
     //ParseModelDataOld(gModelFilepath); 
 
-    getModelMesh();
+    //getModelMeshOld();
+    getModelMesh("Particle");
 }
 
 void Sphere::ParseModelData(std::string filepath, std::string objName){
@@ -238,7 +239,54 @@ void Sphere::ParseModelDataOld(std::string filepath){
     outFile << "--- Exiting parseModelData() ---" << std::endl;
 }
 */
-void Sphere::getModelMesh() {
+void Sphere::getModelMesh(std::string objName) {
+    outFile << "--- In getModelMesh() ---" << std::endl;
+
+    outFile << "-------" << std::endl;
+    outFile << "Collecting Indices into Triangles" << std::endl;
+    outFile << "-------" << std::endl;
+
+    std::vector<Vertex> gModelVertices = gModelVertices_map[objName];
+    std::vector<Vertex> gModelNormals = gModelNormals_map[objName];
+    std::unordered_map<int, int> gModelNormalsMap = gModelNormalsMap_map[objName];
+    std::vector<int> gModelIndices = gModelIndices_map[objName];
+
+    for (int i = 0; i < gModelIndices.size(); i++) {
+        
+        outFile << "Triangle" << std::endl;
+
+        outFile << "  Index 1: " << gModelIndices[i] << std::endl;
+        outFile << "  Index 2: " << gModelIndices[i+1] << std::endl;
+        outFile << "  Index 3: " << gModelIndices[i+2] << std::endl;
+        outFile << "  Normal 1: " << gModelNormalsMap[gModelIndices[i] - 1] + 1<< std::endl;
+        outFile << "  Normal 2: " << gModelNormalsMap[gModelIndices[i+1] - 1] + 1<< std::endl;
+        outFile << "  Normal 3: " << gModelNormalsMap[gModelIndices[i+2] - 1] + 1<< std::endl;
+
+        // print Vertices of Triangle
+        outFile << "  Vertices: " << std::endl;
+        gModelVertices[gModelIndices[i] - 1].printVertex("Vertex");
+        gModelVertices[gModelIndices[i + 1] - 1].printVertex("Vertex");
+        gModelVertices[gModelIndices[i + 2] - 1].printVertex("Vertex");
+
+        // print Normals of Triangle
+        outFile << "  Normals: " << std::endl;
+        gModelVertices[gModelIndices[i + 3] - 1].printVertex("Normal");
+        gModelVertices[gModelIndices[i + 4] - 1].printVertex("Normal");
+        gModelVertices[gModelIndices[i + 5] - 1].printVertex("Normal");
+
+        Triangle t(gModelVertices[gModelIndices[i] - 1], gModelVertices[gModelIndices[i + 1] - 1], gModelVertices[gModelIndices[i + 2] - 1], gModelVertices[gModelIndices[i + 3] - 1], gModelVertices[gModelIndices[i + 4] - 1], gModelVertices[gModelIndices[i + 5] - 1]);
+        i = i + 5;
+        gMesh.push_back(t);
+    }
+
+    outFile << "-------" << std::endl;
+    outFile<< "End Collecting Indices into Triangles" << std::endl;
+    outFile << "-------" << std::endl;
+
+   outFile << "--- Exiting getModelMesh() ---" << std::endl;
+}
+
+void Sphere::getModelMeshOld() {
     outFile << "--- In getModelMesh() ---" << std::endl;
 
     outFile << "-------" << std::endl;

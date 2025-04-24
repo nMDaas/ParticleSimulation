@@ -84,7 +84,8 @@ private:
     void GenerateParticleModelData();
     void ParseModelData(std::string filepath, std::string objName);
     void ParseModelDataOld(std::string filepath);
-    void getModelMesh();
+    void getModelMesh(std::string objName);
+    void getModelMeshOld();
     std::vector<GLfloat> getVerticesAndAddColorData();
     void offsetGModelIndices();
     void ConfigureVertexAttributes();
