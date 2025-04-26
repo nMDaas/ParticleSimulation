@@ -79,18 +79,20 @@ private:
     void GenerateGLuintLight();
     void GenerateGluintBoxObjects();
     //void GenerateModelBufferData(int gSolverGetParticlesSize);
-    void GenerateModelBufferData(int gSolverGetParticlesSize, std::string particleObjFilepath, std::string objName);
-    void GenerateModelBlueprint(std::string particleObjFilepath, std::string objName);
-    void GenerateModelData(std::string modelObjFilepath, std::string objName);
+    void GenerateModelBufferData(int numObjects, std::string particleObjFilepath, std::string objName); // (1)
+    void GenerateModelBlueprint(std::string particleObjFilepath, std::string objName); // (2)
+    void PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName); // (3)
+    void GenerateModelData(std::string modelObjFilepath, std::string objName); // (2) (a)
     void GenerateParticleModelData();
     void ParseModelData(std::string filepath, std::string objName);
     //void ParseModelDataOld(std::string filepath);
     void getModelMesh(std::string objName);
     //void getModelMeshOld();
     std::vector<GLfloat> getVerticesAndAddColorData();
+    std::vector<GLfloat> getVerticesAndAddColorData(std::string objName);
     //void offsetGModelIndicesOld();
-    void offsetGModelIndices(std::string objName);
-    void ConfigureVertexAttributes();
+    void offsetGModelIndices(std::string objName); // (2) (b)
+    void ConfigureVertexAttributes(); // (3) (a)
     void GenerateLightBufferData();
     void ConfigureLightVertexAttributes();
     void GenerateBoxBufferData();
@@ -99,7 +101,7 @@ private:
     void ParseBoxModelData(std::string filepath);
     void getBoxModelMesh();
     std::vector<GLfloat> getBoxVerticesAndAddColorData();
-    void ConfigureBoxVertexAttributes();
+    void ConfigureBoxVertexAttributes(); 
 
     std::unordered_map<std::string, std::vector<Vertex>> gModelVertices_map;
     std::unordered_map<std::string, std::vector<Vertex>> gModelNormals_map;

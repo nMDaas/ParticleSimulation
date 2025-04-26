@@ -51,38 +51,11 @@ void Sphere::GenerateGluintBoxObjects(){
     glBindBuffer(GL_ARRAY_BUFFER, boxVertexBufferObject);
 }
 
-void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize, std::string particleObjFilepath, std::string objName){
+// numObjects refers to how many of this specific object
+void Sphere::GenerateModelBufferData(int numObjects, std::string particleObjFilepath, std::string objName){
     GenerateModelBlueprint(particleObjFilepath, objName);
-    
-    // Create vertex data lists for each particle
-    for (int i = 0; i < gSolverGetParticlesSize; i++) {
-        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
-        gVertexData.push_back(vertexData_i);
-    }
 
-    std::vector<int> gModelIndices = gModelIndices_map[objName];
-    int gTotalIndices = gModelIndices.size();
-    gTotalIndices_map[objName] = gTotalIndices;
-
-    // Send rendering data to buffers for each particle
-    for (int i = 0; i < gSolverGetParticlesSize; i++) {
-
-        glGenVertexArrays(1, &gVertexArrayObjects[i]);
-        glBindVertexArray(gVertexArrayObjects[i]);
-
-        glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
-                                                                    // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                    gVertexData[i].data(), 						// Raw array of data
-                    GL_STATIC_DRAW);								// How we intend to use the data
-
-        // Generate EBO
-        glGenBuffers(1, &gIndexBufferObjects[i]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
-
-        ConfigureVertexAttributes();
-    }
+    PrepareAndSendRenderDataToBuffers(numObjects, objName);
 }
 
 void Sphere::GenerateModelBlueprint(std::string particleObjFilepath, std::string objName){
@@ -100,6 +73,39 @@ void Sphere::GenerateModelBlueprint(std::string particleObjFilepath, std::string
         std::cout << "Blueprint for " << objName << " already created. Skipping." << std::endl;
     }
 
+}
+
+void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName){
+    // Create vertex data lists for each particle
+    for (int i = 0; i < numObjects; i++) {
+        //std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
+        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData(objName);
+        gVertexData.push_back(vertexData_i);
+    }
+
+    std::vector<int> gModelIndices = gModelIndices_map[objName];
+    int gTotalIndices = gModelIndices.size();
+    gTotalIndices_map[objName] = gTotalIndices;
+
+    // Send rendering data to buffers for each particle
+    for (int i = 0; i < numObjects; i++) {
+
+        glGenVertexArrays(1, &gVertexArrayObjects[i]);
+        glBindVertexArray(gVertexArrayObjects[i]);
+
+        glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
+                                                                    // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                    gVertexData[i].data(), 						// Raw array of data
+                    GL_STATIC_DRAW);								// How we intend to use the data
+
+        // Generate EBO
+        glGenBuffers(1, &gIndexBufferObjects[i]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
+
+        ConfigureVertexAttributes();
+    }
 }
 
 /*
@@ -400,6 +406,33 @@ void Sphere::getModelMeshOld() {
    outFile << "--- Exiting getModelMesh() ---" << std::endl;
 }
 */
+
+std::vector<GLfloat> Sphere::getVerticesAndAddColorData(std::string objName) {
+    std::vector<GLfloat> vertexPositionsAndColor;
+
+    std::vector<Vertex> gModelVertices = gModelVertices_map[objName];
+    std::vector<Vertex> gModelNormals = gModelNormals_map[objName];
+    std::unordered_map<int, int> gModelNormalsMap = gModelNormalsMap_map[objName];
+
+    for (int i = 0; i < gModelVertices.size(); i++) {
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.x);
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.y);
+        vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.z);
+        outFile << "Index: " << i << std::endl;
+        outFile << "Vertex: (" << gModelVertices[i].coordinates.x << "," << gModelVertices[i].coordinates.y << "," << gModelVertices[i].coordinates.z << ")" << std::endl;
+        vertexPositionsAndColor.push_back(0.0f);
+        vertexPositionsAndColor.push_back(0.3f);
+        vertexPositionsAndColor.push_back(0.7f);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.x);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.y);
+        vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.z);
+        outFile << "gModelNormalsMap[i]: " << gModelNormalsMap[i] << std::endl;
+        outFile << "Normal: (" << gModelNormals[gModelNormalsMap[i]].coordinates.x << "," << gModelNormals[gModelNormalsMap[i]].coordinates.y << "," << gModelNormals[gModelNormalsMap[i]].coordinates.z << ")" << std::endl;
+        
+    }
+
+    return vertexPositionsAndColor;
+}
 
 std::vector<GLfloat> Sphere::getVerticesAndAddColorData() {
     std::vector<GLfloat> vertexPositionsAndColor;
