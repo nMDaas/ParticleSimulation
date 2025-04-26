@@ -60,10 +60,10 @@ private:
 
     std::vector<std::vector<GLfloat>> gVertexData;
 
-    // Particle information
-    std::vector<GLuint> gVertexArrayObjects;
-    std::vector<GLuint> gVertexBufferObjects;
-    std::vector<GLuint> gIndexBufferObjects;
+    // Map that stores bufers for each object in the scene
+    std::unordered_map<std::string, std::vector<GLuint>> gVertexArrayObjects_map; 
+    std::unordered_map<std::string, std::vector<GLuint>> gVertexBufferObjects_map;
+    std::unordered_map<std::string, std::vector<GLuint>> gIndexBufferObjects_map;
 
     // Light information
     GLuint lightVertexArrayObject = 0;
@@ -75,7 +75,7 @@ private:
     GLuint boxVertexBufferObject = 0;
     GLuint boxIndexBufferObject = 0;
 
-    void GenerateGLuintObjects(int gSolverGetParticlesSize);
+    void GenerateGLuintObjects(int gSolverGetParticlesSize, std::string objName);
     void GenerateGLuintLight();
     void GenerateGluintBoxObjects();
     //void GenerateModelBufferData(int gSolverGetParticlesSize);

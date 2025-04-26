@@ -141,8 +141,6 @@ void Renderer::PreDraw() {
 } 
 
 void Renderer::DrawParticles(int gTotalIndices){
-    std::cout << "-- In Draw Particles -- " << std::endl;
-    std::cout << "mainScene->getGVertexArrayObjects().size(): " << mainScene->getGVertexArrayObjects().size() << std::endl;
     for (int i = 0; i < mainScene->getGVertexArrayObjects().size(); i++) {
         PreDrawParticle(i);
 
@@ -158,12 +156,10 @@ void Renderer::DrawParticles(int gTotalIndices){
 
         DrawParticle(i, gTotalIndices);
     }
-    std::cout << "-- Exiting Draw Particles -- " << std::endl;
     std::cout << std::endl;
 }
 
 void Renderer::PreDrawParticle(int i){
-    std::cout << "-- In PreDrawParticle -- " << std::endl;
     // Use our shader
 	glUseProgram(gGraphicsPipelineShaderProgram);
 
@@ -221,17 +217,14 @@ void Renderer::PreDrawParticle(int i){
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
-    std::cout << "-- Exiting PreDrawParticle -- " << std::endl;
     std::cout << std::endl;
 }
 
 void Renderer::DrawParticle(int i, int gTotalIndices){
-    std::cout << "-- In DrawParticle -- " << std::endl;
     glBindVertexArray(mainScene->getGVertexArrayObjects()[i]);
     glBindBuffer(GL_ARRAY_BUFFER, mainScene->getGVertexBufferObjects()[i]);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
-    std::cout << "-- Exiting DrawParticle -- " << std::endl;
     std::cout << std::endl;
 }
 

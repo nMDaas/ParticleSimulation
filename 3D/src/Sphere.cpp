@@ -1,13 +1,17 @@
 #include "Sphere.hpp"
 
-Sphere::Sphere() : outFile("output.txt"){}
+Sphere::Sphere() : outFile("output.txt"){
+    gVertexArrayObjects_map["Particle"] = {};
+    gVertexBufferObjects_map["Particle"] = {};
+    gIndexBufferObjects_map["Particle"] = {};
+}
 
 void Sphere::VertexSpecification(int gSolverGetParticlesSize){
-    GenerateGLuintObjects(gSolverGetParticlesSize);
+    GenerateGLuintObjects(gSolverGetParticlesSize, "Particle");
 
     //GenerateGLuintLight();
 
-    GenerateGluintBoxObjects();
+    //GenerateGluintBoxObjects();
 
     GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Particle");
 
@@ -17,15 +21,16 @@ void Sphere::VertexSpecification(int gSolverGetParticlesSize){
 }
 
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
-void Sphere::GenerateGLuintObjects(int gSolverGetParticlesSize){
+void Sphere::GenerateGLuintObjects(int gSolverGetParticlesSize, std::string objName){
     // For Particles
     for (int i = 0; i < gSolverGetParticlesSize; i++) {
         GLuint newGVertexArrayObject = 0;
-        gVertexArrayObjects.push_back(newGVertexArrayObject);
         GLuint newGVertexBufferObject = 0;
-        gVertexBufferObjects.push_back(newGVertexBufferObject);
         GLuint newGIndexBufferObject = 0;
-        gIndexBufferObjects.push_back(newGIndexBufferObject);
+
+        gVertexArrayObjects_map[objName].push_back(newGVertexArrayObject);
+        gVertexBufferObjects_map[objName].push_back(newGVertexBufferObject);
+        gIndexBufferObjects_map[objName].push_back(newGIndexBufferObject);
 
         // Push GLuint objects to their respective vectors
         glGenVertexArrays(1, &newGVertexBufferObject);
@@ -90,8 +95,8 @@ void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objNa
     // Send rendering data to buffers for each particle
     for (int i = 0; i < numObjects; i++) {
 
-        glGenVertexArrays(1, &gVertexArrayObjects[i]);
-        glBindVertexArray(gVertexArrayObjects[i]);
+        glGenVertexArrays(1, &gVertexArrayObjects_map[objName][i]);
+        glBindVertexArray(gVertexArrayObjects_map[objName][i]);
 
         glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
                                                                     // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
@@ -100,8 +105,8 @@ void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objNa
                     GL_STATIC_DRAW);								// How we intend to use the data
 
         // Generate EBO
-        glGenBuffers(1, &gIndexBufferObjects[i]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
+        glGenBuffers(1, &gIndexBufferObjects_map[objName][i]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects_map[objName][i]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
 
         ConfigureVertexAttributes();
@@ -735,8 +740,8 @@ std::vector<Vertex> Sphere::getModelNormals(){
 
 void Sphere::CleanUp(int gSolverGetParticlesSize){
     for (int i = 0; i < gSolverGetParticlesSize; i++){
-        glDeleteBuffers(1, &gVertexBufferObjects[i]);
-        glDeleteVertexArrays(1, &gVertexArrayObjects[i]);
+        glDeleteBuffers(1, &gVertexBufferObjects_map["Particle"][i]);
+        glDeleteVertexArrays(1, &gVertexArrayObjects_map["Particle"][i]);
     }
 
     glDeleteBuffers(1, &lightVertexArrayObject);
@@ -753,11 +758,11 @@ int Sphere::getBoxTotalIndices(){
 }
 
 std::vector<GLuint> Sphere::getGVertexArrayObjects(){
-    return gVertexArrayObjects;
+    return gVertexArrayObjects_map["Particle"];
 }
 
 std::vector<GLuint> Sphere::getGVertexBufferObjects(){
-    return gVertexBufferObjects;
+    return gVertexBufferObjects_map["Particle"];
 }
 
 GLuint* Sphere::getLightVertexArrayObject(){
