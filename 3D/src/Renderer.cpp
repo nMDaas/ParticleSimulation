@@ -116,9 +116,10 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
 
 void Renderer::RenderScene(int gTotalIndices, int gLightTotalIndices, int gBoxTotalIndices) {
     std::cout << "-- In Render Scene -- " << std::endl;
-    mainScene->InitializeParticleGLuints();
-    mainScene->InitializeLightGLuints();
-    mainScene->InitializeBoxGLuints();
+    mainScene->InitializeGLuints();
+    //mainScene->InitializeParticleGLuints();
+    //mainScene->InitializeLightGLuints();
+    //mainScene->InitializeBoxGLuints();
     PreDraw();
     DrawParticles(gLightTotalIndices);
     //DrawLights(gLightTotalIndices);
@@ -141,7 +142,7 @@ void Renderer::PreDraw() {
 } 
 
 void Renderer::DrawParticles(int gTotalIndices){
-    for (int i = 0; i < mainScene->getGVertexArrayObjects().size(); i++) {
+    for (int i = 0; i < mainScene->getGVertexArrayObjects_map()["Light"].size(); i++) {
         PreDrawParticle(i);
 
         // Update the View Matrix
@@ -222,8 +223,8 @@ void Renderer::PreDrawParticle(int i){
 }
 
 void Renderer::DrawParticle(int i, int gTotalIndices){
-    glBindVertexArray(mainScene->getGVertexArrayObjects()[i]);
-    glBindBuffer(GL_ARRAY_BUFFER, mainScene->getGVertexBufferObjects()[i]);
+    glBindVertexArray(mainScene->getGVertexArrayObjects_map()["Light"][i]);
+    glBindBuffer(GL_ARRAY_BUFFER, mainScene->getGVertexBufferObjects_map()["Light"][i]);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
     std::cout << std::endl;

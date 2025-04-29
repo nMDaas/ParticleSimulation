@@ -31,6 +31,7 @@ public:
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Set Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     void setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject);
     void setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::vector<GLuint> i_gVertexBufferObjects);
+    void InitializeGLuints();
     void InitializeParticleGLuints();
     void InitializeLightGLuints();
     void InitializeBoxGLuints();
@@ -45,6 +46,8 @@ public:
     Camera* getCamera();
     std::vector<GLuint> getGVertexArrayObjects();
     std::vector<GLuint> getGVertexBufferObjects();
+    std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
+    std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
 
 private:
     std::vector<Particle*> lights; 
@@ -53,6 +56,8 @@ private:
     GLuint* lightVertexBufferObject;
     std::vector<GLuint> gVertexArrayObjects;
     std::vector<GLuint> gVertexBufferObjects;
+    std::unordered_map<std::string, std::vector<GLuint>> gVertexArrayObjects_map; 
+    std::unordered_map<std::string, std::vector<GLuint>> gVertexBufferObjects_map;
     GLuint* boxVertexArrayObject;
     GLuint* boxVertexBufferObject;
 

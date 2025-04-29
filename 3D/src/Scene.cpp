@@ -48,6 +48,11 @@ void Scene::setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::v
     std::cout << std::endl;
 }
 
+void Scene::InitializeGLuints(){
+    gVertexArrayObjects_map = gSphere->getGVertexArrayObjects_map();
+    gVertexBufferObjects_map = gSphere->getGVertexBufferObjects_map();
+}
+
 void Scene::InitializeParticleGLuints(){
     std::cout << "-- In InitializeParticleGLuints --" << std::endl;
     gVertexArrayObjects = gSphere->getGVertexArrayObjects();
@@ -99,6 +104,14 @@ std::vector<GLuint> Scene::getGVertexArrayObjects(){
 
 std::vector<GLuint> Scene::getGVertexBufferObjects(){
     return gVertexArrayObjects;
+}
+
+std::unordered_map<std::string, std::vector<GLuint>> Scene::getGVertexArrayObjects_map(){
+    return gVertexArrayObjects_map;
+}
+
+std::unordered_map<std::string, std::vector<GLuint>> Scene::getGVertexBufferObjects_map(){
+    return gVertexBufferObjects_map;
 }
 
 GLuint* Scene::getBoxVertexArrayObject(){

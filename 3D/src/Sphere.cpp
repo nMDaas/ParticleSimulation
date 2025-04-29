@@ -779,6 +779,14 @@ std::vector<GLuint> Sphere::getGVertexBufferObjects(){
     return gVertexBufferObjects_map["Light"];
 }
 
+std::unordered_map<std::string, std::vector<GLuint>> Sphere::getGVertexArrayObjects_map(){
+    return gVertexArrayObjects_map;
+}
+
+std::unordered_map<std::string, std::vector<GLuint>> Sphere::getGVertexBufferObjects_map(){
+    return gVertexBufferObjects_map;
+}
+
 GLuint* Sphere::getLightVertexArrayObject(){
     return &lightVertexArrayObject;
 }
