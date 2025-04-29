@@ -114,14 +114,14 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(int gTotalIndices, int gBoxTotalIndices) {
+void Renderer::RenderScene(int gTotalIndices, int gLightTotalIndices, int gBoxTotalIndices) {
     std::cout << "-- In Render Scene -- " << std::endl;
     mainScene->InitializeParticleGLuints();
     mainScene->InitializeLightGLuints();
     mainScene->InitializeBoxGLuints();
     PreDraw();
-    DrawParticles(gTotalIndices);
-    //DrawLights(gTotalIndices);
+    DrawParticles(gLightTotalIndices);
+    //DrawLights(gLightTotalIndices);
     //(gBoxTotalIndices);
     std::cout << "-- Exiting Render Scene -- " << std::endl;
     std::cout << std::endl;
@@ -145,7 +145,7 @@ void Renderer::DrawParticles(int gTotalIndices){
         PreDrawParticle(i);
 
         // Update the View Matrix
-        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsPipelineShaderProgram,"u_ViewMatrix");
+        GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
         if(u_ViewMatrixLocation>=0){
             glm::mat4 viewMatrix = mainScene->getCamera()->GetViewMatrix();
             glUniformMatrix4fv(u_ViewMatrixLocation,1,GL_FALSE,&viewMatrix[0][0]);
@@ -161,7 +161,7 @@ void Renderer::DrawParticles(int gTotalIndices){
 
 void Renderer::PreDrawParticle(int i){
     // Use our shader
-	glUseProgram(gGraphicsPipelineShaderProgram);
+	glUseProgram(gGraphicsLighterPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
     float r = mainScene->getSolver()->getParticles()[i]->getRadius();
@@ -170,7 +170,7 @@ void Renderer::PreDrawParticle(int i){
     model = glm::scale(model, glm::vec3(r, r, r));
 
 	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
-	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_ModelMatrix");
+	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"u_ModelMatrix");
     if(u_ModelMatrixLocation >=0){
         glUniformMatrix4fv(u_ModelMatrixLocation,1,GL_FALSE,&model[0][0]);
     }else{
@@ -178,7 +178,7 @@ void Renderer::PreDrawParticle(int i){
         exit(EXIT_FAILURE);
     }
 
-    GLint i_lightColor = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_lightColor");
+    /*GLint i_lightColor = glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"i_lightColor");
     if(i_lightColor >=0){
         glUniform3fv(i_lightColor, 1, &glm::vec3(1.0f, 1.0f, 1.0f)[0]);
     }else{
@@ -187,7 +187,7 @@ void Renderer::PreDrawParticle(int i){
     }
 
     Particle* gLightParticle = mainScene->getLights()[0];
-    GLint i_lightPosition = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_lightPosition");
+    GLint i_lightPosition = glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"i_lightPosition");
     if(i_lightPosition >=0){
         glUniform3fv(i_lightPosition, 1, &gLightParticle->getPosition()[0]);
     }else{
@@ -195,13 +195,14 @@ void Renderer::PreDrawParticle(int i){
         exit(EXIT_FAILURE);
     }
 
-    GLint i_viewPos = glGetUniformLocation( gGraphicsPipelineShaderProgram,"i_viewPos");
+    GLint i_viewPos = glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"i_viewPos");
     if(i_viewPos >=0){
         glUniform3fv(i_viewPos, 1, &mainScene->getCamera()->GetCameraEyePosition()[0]);
     }else{
         std::cout << "Could not find i_viewPos, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
-    }
+    }*/
+
 
     // Projection matrix (in perspective) 
     glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
@@ -210,7 +211,7 @@ void Renderer::PreDrawParticle(int i){
                                              10000.0f);
 	// TA_README: Send data to GPU
 	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
-	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
+	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"u_Projection");
     if(u_ProjectionLocation>=0){
         glUniformMatrix4fv(u_ProjectionLocation,1,GL_FALSE,&perspective[0][0]);
     }else{
