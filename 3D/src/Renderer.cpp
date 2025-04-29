@@ -115,16 +115,10 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
 }
 
 void Renderer::RenderScene(int gTotalIndices, int gLightTotalIndices, int gBoxTotalIndices) {
-    std::cout << "-- In Render Scene -- " << std::endl;
     mainScene->InitializeGLuints();
-    //mainScene->InitializeParticleGLuints();
-    //mainScene->InitializeLightGLuints();
-    //mainScene->InitializeBoxGLuints();
     PreDraw();
     DrawParticles(gTotalIndices);
     DrawLights(gLightTotalIndices);
-    //(gBoxTotalIndices);
-    std::cout << "-- Exiting Render Scene -- " << std::endl;
     std::cout << std::endl;
 }
 
@@ -210,7 +204,6 @@ void Renderer::PreDrawParticle(int i){
                                              (float)screenWidth/(float)screenHeight,
                                              0.1f,
                                              10000.0f);
-	// TA_README: Send data to GPU
 	// Note: the error keeps showing up until you actually USE u_Projection in vert.glsl
 	GLint u_ProjectionLocation= glGetUniformLocation( gGraphicsPipelineShaderProgram,"u_Projection");
     if(u_ProjectionLocation>=0){

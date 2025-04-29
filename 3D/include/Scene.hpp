@@ -33,7 +33,6 @@ public:
     void setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::vector<GLuint> i_gVertexBufferObjects);
     void InitializeGLuints();
     void InitializeParticleGLuints();
-    void InitializeLightGLuints();
     void InitializeBoxGLuints();
 
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv

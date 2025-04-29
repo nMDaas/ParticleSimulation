@@ -30,28 +30,13 @@ public:
     int getObjTotalIndices(std::string objName);
     int getBoxTotalIndices();
 
-    /*std::vector<int> getModelIndices();
-    std::vector<Vertex> getModelVertices();
-    std::vector<Vertex> getModelNormals();
-    std::unordered_map<int, int> getModelNormalsMap();*/
-
-    //std::vector<GLuint> getGVertexArrayObjects();
-    //std::vector<GLuint> getGVertexBufferObjects();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
-    GLuint* getLightVertexArrayObject();
-    GLuint* getLightVertexBufferObject();
     GLuint* getBoxVertexArrayObject();
     GLuint* getBoxVertexBufferObject();
 
 private:
     std::ofstream outFile;
-
-    // Model information for particle ("sphere")
-    /*std::vector<Vertex> gModelVertices;
-    std::vector<Vertex> gModelNormals;
-    std::unordered_map<int, int> gModelNormalsMap;
-    std::vector<int> gModelIndices;*/
 
     // Model information for box
     std::vector<Vertex> gModelBoxVertices;
@@ -68,35 +53,23 @@ private:
     std::unordered_map<std::string, std::vector<GLuint>> gVertexBufferObjects_map;
     std::unordered_map<std::string, std::vector<GLuint>> gIndexBufferObjects_map;
 
-    // Light information
-    GLuint lightVertexArrayObject = 0;
-    GLuint lightVertexBufferObject = 0;
-    GLuint lightIndexBufferObject = 0;
-
     // Box information
     GLuint boxVertexArrayObject = 0;
     GLuint boxVertexBufferObject = 0;
     GLuint boxIndexBufferObject = 0;
 
     void GenerateGLuintObjects(int gSolverGetParticlesSize, std::string objName);
-    void GenerateGLuintLight();
     void GenerateGluintBoxObjects();
-    //void GenerateModelBufferData(int gSolverGetParticlesSize);
     void GenerateModelBufferData(int numObjects, std::string particleObjFilepath, std::string objName); // (1)
     void GenerateModelBlueprint(std::string particleObjFilepath, std::string objName); // (2)
     void PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName); // (3)
     void GenerateModelData(std::string modelObjFilepath, std::string objName); // (2) (a)
-    //void GenerateParticleModelData();
     void ParseModelData(std::string filepath, std::string objName);
-    //void ParseModelDataOld(std::string filepath);
     void getModelMesh(std::string objName);
-    //void getModelMeshOld();
     std::vector<GLfloat> getVerticesAndAddColorData();
     std::vector<GLfloat> getVerticesAndAddColorData(std::string objName);
-    //void offsetGModelIndicesOld();
     void offsetGModelIndices(std::string objName); // (2) (b)
     void ConfigureVertexAttributes(std::string objName); // (3) (a)
-    void GenerateLightBufferData();
     void ConfigureLightVertexAttributes();
     void GenerateBoxBufferData();
     void GenerateBoxModelData();

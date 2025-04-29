@@ -44,14 +44,6 @@ void Sphere::GenerateGLuintObjects(int gSolverGetParticlesSize, std::string objN
     }
 }
 
-void Sphere::GenerateGLuintLight(){
-    // For Light
-    glGenVertexArrays(1, &lightVertexBufferObject);
-    glBindVertexArray(lightVertexBufferObject);
-    glGenBuffers(1, &lightVertexBufferObject);
-    glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
-}
-
 // For the box that will contain particles
 void Sphere::GenerateGluintBoxObjects(){
     glGenVertexArrays(1, &boxVertexBufferObject);
@@ -120,63 +112,10 @@ void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objNa
     }
 }
 
-/*
-void Sphere::GenerateModelBufferData(int gSolverGetParticlesSize){
-    //GenerateParticleModelData(); // This creates a particle "blueprint"
-    std::string particleObjFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
-    std::string objName = "Particle";
-    GenerateModelData(particleObjFilepath, objName); // This creates a particle "blueprint"
-
-    // Create vertex data lists for each particle
-    for (int i = 0; i < gSolverGetParticlesSize; i++) {
-        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
-        gVertexData.push_back(vertexData_i);
-    }
-
-    // Fix indices information from 0 - n to 1 - n
-    //offsetGModelIndicesOld();
-    offsetGModelIndices(objName);
-    //printGModelIndices();
-
-    std::vector<int> gModelIndices = gModelIndices_map[objName];
-    int gTotalIndices = gModelIndices.size();
-    gTotalIndices_map[objName] = gTotalIndices;
-
-    // Send rendering data to buffers for each particle
-    for (int i = 0; i < gSolverGetParticlesSize; i++) {
-
-        glGenVertexArrays(1, &gVertexArrayObjects[i]);
-        glBindVertexArray(gVertexArrayObjects[i]);
-
-        glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
-                                                                    // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                    gVertexData[i].data(), 						// Raw array of data
-                    GL_STATIC_DRAW);								// How we intend to use the data
-
-        // Generate EBO
-        glGenBuffers(1, &gIndexBufferObjects[i]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects[i]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
-
-        ConfigureVertexAttributes();
-    }
-}*/
-
 void Sphere::GenerateModelData(std::string modelObjFilepath, std::string objName){
     ParseModelData(modelObjFilepath, objName);
     getModelMesh(objName);
 }
-
-/*
-void Sphere::GenerateParticleModelData(){
-    std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
-    ParseModelData(gModelFilepath, "Particle");
-    //ParseModelDataOld(gModelFilepath); 
-
-    //getModelMeshOld();
-    getModelMesh("Particle");
-}*/
 
 void Sphere::ParseModelData(std::string filepath, std::string objName){
     outFile << "--- In parseModelData() ---" << std::endl;
@@ -254,72 +193,6 @@ void Sphere::ParseModelData(std::string filepath, std::string objName){
     outFile << "--- Exiting parseModelData() ---" << std::endl;
 }
 
-/*
-void Sphere::ParseModelDataOld(std::string filepath){
-    outFile << "--- In parseModelData() ---" << std::endl;
-    std::ifstream inputFile(filepath);
-
-    // Check if the file opened successfully
-    if (!inputFile) {
-        std::cerr << "Error opening file: " << filepath << std::endl;
-    }
-
-    std::string line;
-    // Read each line from the file
-    while (std::getline(inputFile, line)) {
-        std::istringstream stream(line);
-        std::string word;
-        std::vector<std::string> words;
-
-        while (stream >> word) {
-            words.push_back(word); // Add each word to the vector
-        }
-
-        if (words[0] == "v") {
-            Vertex v(glm::vec3(std::stof(words[1]), std::stof(words[2]), std::stof(words[3])));
-            v.printVertex("Vertex");
-            gModelVertices.push_back(v);
-        }
-        if (words[0] == "vn") {
-            Vertex v(glm::vec3(std::stof(words[1]), std::stof(words[2]), std::stof(words[3])));
-            v.printVertex("Normal");
-            gModelNormals.push_back(v);
-        }
-        if (words[0] == "f") {
-            std::string vertexNormalIndex;
-            std::vector<int> indices; // for vertices
-            std::vector<int> normals; // for normals
-
-            for (int i = 1; i <=3; i++) {
-                std::stringstream ss(words[i]);
-                ss >> vertexNormalIndex; // vertexNormalIndex refers to vertexIndex//normalIndex
-                size_t pos = vertexNormalIndex.find("//");
-                std::string vertexIndexPart = vertexNormalIndex.substr(0, pos);
-                std::string normalIndexPart = vertexNormalIndex.substr(pos + 2);
-                indices.push_back(std::stoi(vertexIndexPart));
-                normals.push_back(std::stoi(normalIndexPart));
-            }
-
-            outFile << "Indices: " << indices[0] << "," << indices[1] << "," << indices[2] << std::endl;
-            outFile << "Normals: " << normals[0] << "," << normals[1] << "," << normals[2] << std::endl;
-            outFile << "------" << std::endl;
-            gModelIndices.push_back(indices[0]);
-            gModelIndices.push_back(indices[1]);
-            gModelIndices.push_back(indices[2]);
-            gModelIndices.push_back(normals[0]);
-            gModelIndices.push_back(normals[1]);
-            gModelIndices.push_back(normals[2]);
-            gModelNormalsMap[indices[0] - 1] = normals[0] - 1;
-            gModelNormalsMap[indices[1] - 1] = normals[1] - 1;
-            gModelNormalsMap[indices[2] - 1] = normals[2] - 1;
-        }
-    }
-
-    // Close the file
-    inputFile.close();
-    outFile << "--- Exiting parseModelData() ---" << std::endl;
-}
-*/
 void Sphere::getModelMesh(std::string objName) {
     outFile << "--- In getModelMesh() ---" << std::endl;
 
@@ -370,55 +243,6 @@ void Sphere::getModelMesh(std::string objName) {
 
    outFile << "--- Exiting getModelMesh() ---" << std::endl;
 }
-
-/*
-void Sphere::getModelMeshOld() {
-    outFile << "--- In getModelMesh() ---" << std::endl;
-
-    outFile << "-------" << std::endl;
-    outFile << "Collecting Indices into Triangles" << std::endl;
-    outFile << "-------" << std::endl;
-
-    std::vector<Vertex> gModelVertices = gModelVertices_map["Particle"];
-    std::vector<Vertex> gModelNormals = gModelNormals_map["Particle"];
-    std::unordered_map<int, int> gModelNormalsMap = gModelNormalsMap_map["Particle"];
-    std::vector<int> gModelIndices = gModelIndices_map["Particle"];
-
-    for (int i = 0; i < gModelIndices.size(); i++) {
-        
-        outFile << "Triangle" << std::endl;
-
-        outFile << "  Index 1: " << gModelIndices[i] << std::endl;
-        outFile << "  Index 2: " << gModelIndices[i+1] << std::endl;
-        outFile << "  Index 3: " << gModelIndices[i+2] << std::endl;
-        outFile << "  Normal 1: " << gModelNormalsMap[gModelIndices[i] - 1] + 1<< std::endl;
-        outFile << "  Normal 2: " << gModelNormalsMap[gModelIndices[i+1] - 1] + 1<< std::endl;
-        outFile << "  Normal 3: " << gModelNormalsMap[gModelIndices[i+2] - 1] + 1<< std::endl;
-
-        // print Vertices of Triangle
-        outFile << "  Vertices: " << std::endl;
-        gModelVertices[gModelIndices[i] - 1].printVertex("Vertex");
-        gModelVertices[gModelIndices[i + 1] - 1].printVertex("Vertex");
-        gModelVertices[gModelIndices[i + 2] - 1].printVertex("Vertex");
-
-        // print Normals of Triangle
-        outFile << "  Normals: " << std::endl;
-        gModelVertices[gModelIndices[i + 3] - 1].printVertex("Normal");
-        gModelVertices[gModelIndices[i + 4] - 1].printVertex("Normal");
-        gModelVertices[gModelIndices[i + 5] - 1].printVertex("Normal");
-
-        Triangle t(gModelVertices[gModelIndices[i] - 1], gModelVertices[gModelIndices[i + 1] - 1], gModelVertices[gModelIndices[i + 2] - 1], gModelVertices[gModelIndices[i + 3] - 1], gModelVertices[gModelIndices[i + 4] - 1], gModelVertices[gModelIndices[i + 5] - 1]);
-        i = i + 5;
-        gMesh.push_back(t);
-    }
-
-    outFile << "-------" << std::endl;
-    outFile<< "End Collecting Indices into Triangles" << std::endl;
-    outFile << "-------" << std::endl;
-
-   outFile << "--- Exiting getModelMesh() ---" << std::endl;
-}
-*/
 
 std::vector<GLfloat> Sphere::getVerticesAndAddColorData(std::string objName) {
     std::vector<GLfloat> vertexPositionsAndColor;
@@ -478,16 +302,6 @@ std::vector<GLfloat> Sphere::getVerticesAndAddColorData() {
     return vertexPositionsAndColor;
 }
 
-/*
-void Sphere::offsetGModelIndicesOld() {
-    //for (int i = 0; i < gModelIndices.size(); i++) {
-    //    gModelIndices[i] = gModelIndices[i] - 1; 
-    //} 
-   for (int i = 0; i < gModelIndices_map["Particle"].size(); i++) {
-        gModelIndices_map["Particle"][i] = gModelIndices_map["Particle"][i] - 1; 
-    } 
-}*/
-
 void Sphere::offsetGModelIndices(std::string objName) {
    for (int i = 0; i < gModelIndices_map[objName].size(); i++) {
         gModelIndices_map[objName][i] = gModelIndices_map[objName][i] - 1; 
@@ -516,29 +330,6 @@ void Sphere::ConfigureVertexAttributes(std::string objName) {
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
     }
-}
-
-void Sphere::GenerateLightBufferData(){
-    // Create vertex data lists for light particle
-    std::vector<GLfloat> vertexData_light = getVerticesAndAddColorData();
-
-    std::vector<int> gModelIndices = gModelIndices_map["Particle"];
-
-    glGenVertexArrays(1, &lightVertexArrayObject);
-    glBindVertexArray(lightVertexArrayObject);
-    glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
-                                                                // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                vertexData_light.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                vertexData_light.data(), 						// Raw array of data
-                GL_STATIC_DRAW);								// How we intend to use the data
-
-
-    // Generate EBO
-    glGenBuffers(1, &lightIndexBufferObject);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightIndexBufferObject);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
-
-    ConfigureLightVertexAttributes();
 }
 
 void Sphere::ConfigureLightVertexAttributes() {
@@ -731,35 +522,12 @@ void Sphere::ConfigureBoxVertexAttributes(){
 	glDisableVertexAttribArray(0);
 }
 
-/*
-std::vector<int> Sphere::getModelIndices(){
-    //return gModelIndices;
-    return gModelIndices_map["Particle"];
-}
-
-std::vector<Vertex> Sphere::getModelVertices(){
-    //return gModelVertices;
-    return gModelVertices_map["Particle"];
-}
-
-std::unordered_map<int, int> Sphere::getModelNormalsMap(){
-    //return gModelNormalsMap;
-    return gModelNormalsMap_map["Particle"];
-}
-
-std::vector<Vertex> Sphere::getModelNormals(){
-    //return gModelNormals;
-    return gModelNormals_map["Particle"];
-}*/
-
 void Sphere::CleanUp(int gSolverGetParticlesSize){
     for (int i = 0; i < gSolverGetParticlesSize; i++){
         glDeleteBuffers(1, &gVertexBufferObjects_map["Light"][i]);
         glDeleteVertexArrays(1, &gVertexArrayObjects_map["Light"][i]);
     }
 
-    glDeleteBuffers(1, &lightVertexArrayObject);
-    glDeleteBuffers(1, &lightVertexBufferObject);
     glDeleteBuffers(1, &boxVertexBufferObject);
 }
 
@@ -775,15 +543,6 @@ int Sphere::getBoxTotalIndices(){
     return gTotalBoxIndices;
 }
 
-/*
-std::vector<GLuint> Sphere::getGVertexArrayObjects(){
-    return gVertexArrayObjects_map["Light"];
-}
-
-std::vector<GLuint> Sphere::getGVertexBufferObjects(){
-    return gVertexBufferObjects_map["Light"];
-}*/
-
 std::unordered_map<std::string, std::vector<GLuint>> Sphere::getGVertexArrayObjects_map(){
     return gVertexArrayObjects_map;
 }
@@ -792,13 +551,14 @@ std::unordered_map<std::string, std::vector<GLuint>> Sphere::getGVertexBufferObj
     return gVertexBufferObjects_map;
 }
 
+/*
 GLuint* Sphere::getLightVertexArrayObject(){
     return &lightVertexArrayObject;
 }
 
 GLuint* Sphere::getLightVertexBufferObject(){
     return &lightVertexBufferObject;
-}
+}*/
 
 GLuint* Sphere::getBoxVertexArrayObject(){
 return &boxVertexArrayObject;

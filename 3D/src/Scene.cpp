@@ -63,14 +63,6 @@ void Scene::InitializeParticleGLuints(){
     std::cout << std::endl;
 }
 
-void Scene::InitializeLightGLuints(){
-    std::cout << "-- In InitializeLightGLuints --" << std::endl;
-    lightVertexArrayObject = gSphere->getLightVertexArrayObject();
-    lightVertexBufferObject = gSphere->getLightVertexBufferObject();
-    std::cout << "-- Exiting InitializeLightGLuints --" << std::endl;
-    std::cout << std::endl;
-}
-
 void Scene::InitializeBoxGLuints(){
     boxVertexArrayObject = gSphere->getBoxVertexArrayObject();
     boxVertexBufferObject = gSphere->getBoxVertexBufferObject();
