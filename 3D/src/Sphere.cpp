@@ -4,16 +4,19 @@ Sphere::Sphere() : outFile("output.txt"){
     gVertexArrayObjects_map["Particle"] = {};
     gVertexBufferObjects_map["Particle"] = {};
     gIndexBufferObjects_map["Particle"] = {};
+    gVertexArrayObjects_map["Light"] = {};
+    gVertexBufferObjects_map["Light"] = {};
+    gIndexBufferObjects_map["Light"] = {};
 }
 
 void Sphere::VertexSpecification(int gSolverGetParticlesSize){
-    GenerateGLuintObjects(gSolverGetParticlesSize, "Particle");
+    GenerateGLuintObjects(gSolverGetParticlesSize, "Light");
 
     //GenerateGLuintLight();
 
     //GenerateGluintBoxObjects();
 
-    GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Particle");
+    GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Light");
 
     //GenerateLightBufferData();
 
@@ -109,7 +112,7 @@ void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objNa
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gIndexBufferObjects_map[objName][i]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, gModelIndices.size() * sizeof(GLuint), gModelIndices.data(), GL_STATIC_DRAW);
 
-        ConfigureVertexAttributes();
+        ConfigureVertexAttributes(objName);
     }
 }
 
@@ -161,6 +164,7 @@ void Sphere::GenerateModelData(std::string modelObjFilepath, std::string objName
     getModelMesh(objName);
 }
 
+/*
 void Sphere::GenerateParticleModelData(){
     std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj";
     ParseModelData(gModelFilepath, "Particle");
@@ -168,7 +172,7 @@ void Sphere::GenerateParticleModelData(){
 
     //getModelMeshOld();
     getModelMesh("Particle");
-}
+}*/
 
 void Sphere::ParseModelData(std::string filepath, std::string objName){
     outFile << "--- In parseModelData() ---" << std::endl;
@@ -486,23 +490,28 @@ void Sphere::offsetGModelIndices(std::string objName) {
     } 
 }
 
-void Sphere::ConfigureVertexAttributes() {
+void Sphere::ConfigureVertexAttributes(std::string objName) {
    // Enable the vertex attribute for position
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
 
-    // Enable the vertex attribute for color
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 3));
+    if (objName != "Light") {
+        // Enable the vertex attribute for color
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 3));
 
-    // Enable the vertex attribute for normal
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 6));
+        // Enable the vertex attribute for normal
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 6));
+    }
 
 	glBindVertexArray(0);
 	glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+
+    if (objName != "Light") {
+        glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
+    }
 }
 
 void Sphere::GenerateLightBufferData(){
@@ -718,6 +727,7 @@ void Sphere::ConfigureBoxVertexAttributes(){
 	glDisableVertexAttribArray(0);
 }
 
+/*
 std::vector<int> Sphere::getModelIndices(){
     //return gModelIndices;
     return gModelIndices_map["Particle"];
@@ -736,12 +746,12 @@ std::unordered_map<int, int> Sphere::getModelNormalsMap(){
 std::vector<Vertex> Sphere::getModelNormals(){
     //return gModelNormals;
     return gModelNormals_map["Particle"];
-}
+}*/
 
 void Sphere::CleanUp(int gSolverGetParticlesSize){
     for (int i = 0; i < gSolverGetParticlesSize; i++){
-        glDeleteBuffers(1, &gVertexBufferObjects_map["Particle"][i]);
-        glDeleteVertexArrays(1, &gVertexArrayObjects_map["Particle"][i]);
+        glDeleteBuffers(1, &gVertexBufferObjects_map["Light"][i]);
+        glDeleteVertexArrays(1, &gVertexArrayObjects_map["Light"][i]);
     }
 
     glDeleteBuffers(1, &lightVertexArrayObject);
@@ -750,7 +760,11 @@ void Sphere::CleanUp(int gSolverGetParticlesSize){
 }
 
 int Sphere::getTotalIndices(){
-    return gTotalIndices_map["Particle"];
+    return gTotalIndices_map["Test"];
+}
+
+int Sphere::getObjTotalIndices(std::string objName){
+    return gTotalIndices_map[objName];
 }
 
 int Sphere::getBoxTotalIndices(){
@@ -758,11 +772,11 @@ int Sphere::getBoxTotalIndices(){
 }
 
 std::vector<GLuint> Sphere::getGVertexArrayObjects(){
-    return gVertexArrayObjects_map["Particle"];
+    return gVertexArrayObjects_map["Light"];
 }
 
 std::vector<GLuint> Sphere::getGVertexBufferObjects(){
-    return gVertexBufferObjects_map["Particle"];
+    return gVertexBufferObjects_map["Light"];
 }
 
 GLuint* Sphere::getLightVertexArrayObject(){
