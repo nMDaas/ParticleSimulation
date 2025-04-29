@@ -29,10 +29,10 @@ public:
     int getTotalIndices();
     int getBoxTotalIndices();
 
-    std::vector<int> getModelIndices();
+    /*std::vector<int> getModelIndices();
     std::vector<Vertex> getModelVertices();
     std::vector<Vertex> getModelNormals();
-    std::unordered_map<int, int> getModelNormalsMap();
+    std::unordered_map<int, int> getModelNormalsMap();*/
 
     std::vector<GLuint> getGVertexArrayObjects();
     std::vector<GLuint> getGVertexBufferObjects();
@@ -83,7 +83,7 @@ private:
     void GenerateModelBlueprint(std::string particleObjFilepath, std::string objName); // (2)
     void PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName); // (3)
     void GenerateModelData(std::string modelObjFilepath, std::string objName); // (2) (a)
-    void GenerateParticleModelData();
+    //void GenerateParticleModelData();
     void ParseModelData(std::string filepath, std::string objName);
     //void ParseModelDataOld(std::string filepath);
     void getModelMesh(std::string objName);
