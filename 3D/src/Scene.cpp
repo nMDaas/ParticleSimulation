@@ -55,9 +55,9 @@ void Scene::InitializeGLuints(){
 
 void Scene::InitializeParticleGLuints(){
     std::cout << "-- In InitializeParticleGLuints --" << std::endl;
-    gVertexArrayObjects = gSphere->getGVertexArrayObjects();
+    //gVertexArrayObjects = gSphere->getGVertexArrayObjects();
     std::cout << "gVertexArrayObjects.size(): " << gVertexArrayObjects.size() << std::endl;
-    gVertexBufferObjects = gSphere->getGVertexBufferObjects();
+    //gVertexBufferObjects = gSphere->getGVertexBufferObjects();
     std::cout << "gVertexBufferObjects.size(): " << gVertexBufferObjects.size() << std::endl;
     std::cout << "-- In InitializeParticleGLuints --" << std::endl;
     std::cout << std::endl;

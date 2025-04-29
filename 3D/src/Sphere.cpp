@@ -10,14 +10,15 @@ Sphere::Sphere() : outFile("output.txt"){
 }
 
 void Sphere::VertexSpecification(int gSolverGetParticlesSize){
-    GenerateGLuintObjects(gSolverGetParticlesSize, "Light");
+    GenerateGLuintObjects(gSolverGetParticlesSize, "Particle");
 
-    //GenerateGLuintLight();
+    GenerateGLuintObjects(1, "Light");
 
     //GenerateGluintBoxObjects();
 
-    GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Light");
+    GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Particle");
 
+    GenerateModelBufferData(1, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Light");
     //GenerateLightBufferData();
 
     //GenerateBoxBufferData();
@@ -67,7 +68,10 @@ void Sphere::GenerateModelBufferData(int numObjects, std::string particleObjFile
 }
 
 void Sphere::GenerateModelBlueprint(std::string particleObjFilepath, std::string objName){
-    if (modelObjFilepath_map.find(objName) != modelObjFilepath_map.end() || modelObjFilepath_map.size() == 0) {
+    for (const auto& pair : modelObjFilepath_map) {
+        std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
+    }
+    if (modelObjFilepath_map.find(objName) == modelObjFilepath_map.end() || modelObjFilepath_map.size() == 0) {
         GenerateModelData(particleObjFilepath, objName); // This creates a particle "blueprint"
 
         // Fix indices information from 0 - n to 1 - n
@@ -771,13 +775,14 @@ int Sphere::getBoxTotalIndices(){
     return gTotalBoxIndices;
 }
 
+/*
 std::vector<GLuint> Sphere::getGVertexArrayObjects(){
     return gVertexArrayObjects_map["Light"];
 }
 
 std::vector<GLuint> Sphere::getGVertexBufferObjects(){
     return gVertexBufferObjects_map["Light"];
-}
+}*/
 
 std::unordered_map<std::string, std::vector<GLuint>> Sphere::getGVertexArrayObjects_map(){
     return gVertexArrayObjects_map;

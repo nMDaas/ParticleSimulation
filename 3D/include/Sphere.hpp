@@ -27,6 +27,7 @@ public:
     void VertexSpecification(int gSolverGetParticlesSize);
     void CleanUp(int gSolverGetParticlesSize);
     int getTotalIndices();
+    int getObjTotalIndices(std::string objName);
     int getBoxTotalIndices();
 
     /*std::vector<int> getModelIndices();
@@ -34,8 +35,10 @@ public:
     std::vector<Vertex> getModelNormals();
     std::unordered_map<int, int> getModelNormalsMap();*/
 
-    std::vector<GLuint> getGVertexArrayObjects();
-    std::vector<GLuint> getGVertexBufferObjects();
+    //std::vector<GLuint> getGVertexArrayObjects();
+    //std::vector<GLuint> getGVertexBufferObjects();
+    std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
+    std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
     GLuint* getLightVertexArrayObject();
     GLuint* getLightVertexBufferObject();
     GLuint* getBoxVertexArrayObject();
@@ -92,7 +95,7 @@ private:
     std::vector<GLfloat> getVerticesAndAddColorData(std::string objName);
     //void offsetGModelIndicesOld();
     void offsetGModelIndices(std::string objName); // (2) (b)
-    void ConfigureVertexAttributes(); // (3) (a)
+    void ConfigureVertexAttributes(std::string objName); // (3) (a)
     void GenerateLightBufferData();
     void ConfigureLightVertexAttributes();
     void GenerateBoxBufferData();
