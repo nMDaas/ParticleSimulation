@@ -12,16 +12,11 @@ Sphere::Sphere() : outFile("output.txt"){
 void Sphere::VertexSpecification(int gSolverGetParticlesSize){
     GenerateGLuintObjects(gSolverGetParticlesSize, "Particle");
 
-    GenerateGLuintObjects(1, "Light");
-
-    //GenerateGluintBoxObjects();
-
     GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Particle");
 
-    GenerateModelBufferData(1, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Light");
-    //GenerateLightBufferData();
+    GenerateGLuintObjects(1, "Light");
 
-    //GenerateBoxBufferData();
+    GenerateModelBufferData(1, "/Users/natashadaas/ParticleSimulation/3D/src/models/cube.obj", "Light");
 }
 
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
@@ -80,6 +75,8 @@ void Sphere::GenerateModelBlueprint(std::string particleObjFilepath, std::string
 }
 
 void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName){
+    std::vector<std::vector<GLfloat>> gVertexData;
+
     // Create vertex data lists for each particle
     for (int i = 0; i < numObjects; i++) {
         //std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();

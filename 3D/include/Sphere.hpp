@@ -46,8 +46,6 @@ private:
     std::vector<Triangle> gBoxMesh;
     size_t gTotalBoxIndices = 0;
 
-    std::vector<std::vector<GLfloat>> gVertexData;
-
     // Map that stores bufers for each object in the scene
     std::unordered_map<std::string, std::vector<GLuint>> gVertexArrayObjects_map; 
     std::unordered_map<std::string, std::vector<GLuint>> gVertexBufferObjects_map;
