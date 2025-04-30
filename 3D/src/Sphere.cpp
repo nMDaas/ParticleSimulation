@@ -7,6 +7,9 @@ Sphere::Sphere() : outFile("output.txt"){
     gVertexArrayObjects_map["Light"] = {};
     gVertexBufferObjects_map["Light"] = {};
     gIndexBufferObjects_map["Light"] = {};
+    gVertexArrayObjects_map["Box"] = {};
+    gVertexBufferObjects_map["Box"] = {};
+    gIndexBufferObjects_map["Box"] = {};
 }
 
 void Sphere::VertexSpecification(int gSolverGetParticlesSize){
@@ -16,7 +19,11 @@ void Sphere::VertexSpecification(int gSolverGetParticlesSize){
 
     GenerateGLuintObjects(1, "Light");
 
-    GenerateModelBufferData(1, "/Users/natashadaas/ParticleSimulation/3D/src/models/cube.obj", "Light");
+    GenerateModelBufferData(1, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Light");
+
+    GenerateGLuintObjects(1, "Box");
+
+    GenerateModelBufferData(1, "/Users/natashadaas/ParticleSimulation/3D/src/models/cube.obj", "Box");
 }
 
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
@@ -310,7 +317,7 @@ void Sphere::ConfigureVertexAttributes(std::string objName) {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
 
-    if (objName != "Light") {
+    if (objName != "Light" && objName != "Box") {
         // Enable the vertex attribute for color
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)(sizeof(GL_FLOAT) * 3));
@@ -323,7 +330,7 @@ void Sphere::ConfigureVertexAttributes(std::string objName) {
 	glBindVertexArray(0);
 	glDisableVertexAttribArray(0);
 
-    if (objName != "Light") {
+    if (objName != "Light" && objName != "Box") {
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
     }
@@ -519,6 +526,7 @@ void Sphere::ConfigureBoxVertexAttributes(){
 	glDisableVertexAttribArray(0);
 }
 
+// TODO CLEANUP
 void Sphere::CleanUp(int gSolverGetParticlesSize){
     for (int i = 0; i < gSolverGetParticlesSize; i++){
         glDeleteBuffers(1, &gVertexBufferObjects_map["Light"][i]);

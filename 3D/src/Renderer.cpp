@@ -119,6 +119,7 @@ void Renderer::RenderScene(int gTotalIndices, int gLightTotalIndices, int gBoxTo
     PreDraw();
     DrawParticles(gTotalIndices);
     DrawLights(gLightTotalIndices);
+    DrawBox(gBoxTotalIndices);
     std::cout << std::endl;
 }
 
@@ -316,7 +317,7 @@ void Renderer::PreDrawBox(){
 	glUseProgram(gGraphicsLighterPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
-    float r = 5.0f;
+    float r = 0.2f;
     glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
     //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(r, r, r));
@@ -347,8 +348,8 @@ void Renderer::PreDrawBox(){
 }
 
 void Renderer::DrawBoxActually(int gBoxTotalIndices){
-    GLuint boxVertexArrayObject = *(mainScene->getBoxVertexArrayObject());
-    GLuint boxVertexBufferObject = *(mainScene->getBoxVertexBufferObject());
+    GLuint boxVertexArrayObject = mainScene->getGVertexArrayObjects_map()["Box"][0];
+    GLuint boxVertexBufferObject = mainScene->getGVertexArrayObjects_map()["Box"][0];
 
     glBindVertexArray(boxVertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, boxVertexArrayObject);
