@@ -41,19 +41,11 @@ bool gQuit = false;
 
 std::vector<Particle> gParticles;
 
-// Solver information
+// Core Classes
 Solver gSolver;
-
-// Camera information
 Camera gCamera;
-
-// Sphere information 
 ModelProcessor gModelProcessor;
-
-// Scene information 
 Scene gScene(&gSolver, &gCamera, &gModelProcessor);
-
-// Renderer information
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
 bool  g_rotatePositive=true;
@@ -234,6 +226,8 @@ int main( int argc, char* args[] ){
 	// While application is running
 	while(!gQuit){
 		Input(); // Handle Input
+
+		gSolver.update();
 
         gRenderer.RenderScene(gTotalIndices, gLightTotalIndices, gBoxTotalIndices);
 

@@ -1,8 +1,8 @@
 #include "Solver.hpp"
 
 Solver::Solver() {
-    gravity = glm::vec3(0.0f, 1000.0f, 0.0f);
-    step_dt = 1.0/60;
+    gravity = glm::vec3(0.0f, -100.0f, 0.0f);
+    step_dt = 1.0f/60.0f;
 }
 
 Solver::~Solver(){
@@ -19,14 +19,19 @@ std::vector<Particle*> Solver::getParticles(){
     return particles;
 }
 
-void Solver::applyGravity(){
-
+void Solver::update(){
+    applyGravity();
+    updateObjects(step_dt);
 }
 
-void Solver::update(){
-    
+void Solver::applyGravity(){
+    for (int i = 0; i < particles.size(); i++) {
+        particles[i]->accelerate(gravity);
+    }
 }
 
 void Solver::updateObjects(float dt){
-
+    for (int i = 0; i < particles.size(); i++) {
+        particles[i]->update(dt);
+    }
 }
