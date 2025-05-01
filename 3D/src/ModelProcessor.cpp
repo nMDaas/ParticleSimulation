@@ -526,14 +526,17 @@ void ModelProcessor::ConfigureBoxVertexAttributes(){
 	glDisableVertexAttribArray(0);
 }
 
-// TODO CLEANUP
 void ModelProcessor::CleanUp(int gSolverGetParticlesSize){
     for (int i = 0; i < gSolverGetParticlesSize; i++){
-        glDeleteBuffers(1, &gVertexBufferObjects_map["Light"][i]);
-        glDeleteVertexArrays(1, &gVertexArrayObjects_map["Light"][i]);
+        glDeleteBuffers(1, &gVertexBufferObjects_map["Particle"][i]);
+        glDeleteVertexArrays(1, &gVertexArrayObjects_map["Particle"][i]);
     }
 
-    glDeleteBuffers(1, &boxVertexBufferObject);
+    glDeleteBuffers(1, &gVertexBufferObjects_map["Light"][0]);
+    glDeleteVertexArrays(1, &gVertexArrayObjects_map["Light"][0]);
+
+    glDeleteBuffers(1, &gVertexBufferObjects_map["Box"][0]);
+    glDeleteVertexArrays(1, &gVertexArrayObjects_map["Box"][0]);
 }
 
 int ModelProcessor::getTotalIndices(){
