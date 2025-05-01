@@ -14,6 +14,12 @@ Scene::~Scene(){
     }
 }
 
+void Scene::SetupScene(){
+    SetupSolverAndLights();
+    gModelProcessor->VertexSpecification(gSolver->getParticles().size());
+}
+
+// Setup geometry for particles and lights
 void Scene::SetupSolverAndLights(){
     SetUpSolver();
     SetUpLights();

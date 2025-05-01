@@ -25,7 +25,7 @@ public:
     Scene(Solver* i_gSolver, Camera* i_gCamera, ModelProcessor* i_gModelProcessor);
     ~Scene();
     
-    void SetupSolverAndLights(); // Calls SetUpSolver() and SetUpLights()
+    void SetupScene(); // Calls SetupSolverAndLights()
     void addLight(glm::vec3 position, float radius);
     
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Set Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -64,6 +64,7 @@ private:
     Camera* gCamera;
     ModelProcessor *gModelProcessor;
 
+    void SetupSolverAndLights(); // Calls SetUpSolver() and SetUpLights()
     void SetUpSolver();
     void SetUpLights();
 };

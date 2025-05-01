@@ -211,10 +211,7 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-    gScene.SetupSolverAndLights();
-	
-	// Setup geometry (for particles and lights)
-    gModelProcessor.VertexSpecification(gSolver.getParticles().size()); // TODO should this be passed in?
+    gScene.SetupScene();
 
     gRenderer.CreateGraphicsPipelines();
 
