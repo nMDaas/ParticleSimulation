@@ -29,22 +29,12 @@ public:
     void addLight(glm::vec3 position, float radius);
     
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Set Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
-    void setLightGLuints(GLuint* i_lightVertexArrayObject, GLuint* i_lightVertexBufferObject);
-    void setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::vector<GLuint> i_gVertexBufferObjects);
     void InitializeGLuints();
-    void InitializeParticleGLuints();
-    void InitializeBoxGLuints();
 
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     std::vector<Particle*> getLights();
-    GLuint* getLightVertexArrayObject();
-    GLuint* getLightVertexBufferObject();
-    GLuint* getBoxVertexArrayObject();
-    GLuint* getBoxVertexBufferObject();
     Solver* getSolver();
     Camera* getCamera();
-    std::vector<GLuint> getGVertexArrayObjects();
-    std::vector<GLuint> getGVertexBufferObjects();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
     int getObjTotalIndices(std::string objName);

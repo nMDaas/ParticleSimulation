@@ -558,20 +558,3 @@ std::unordered_map<std::string, std::vector<GLuint>> ModelProcessor::getGVertexA
 std::unordered_map<std::string, std::vector<GLuint>> ModelProcessor::getGVertexBufferObjects_map(){
     return gVertexBufferObjects_map;
 }
-
-/*
-GLuint* ModelProcessor::getLightVertexArrayObject(){
-    return &lightVertexArrayObject;
-}
-
-GLuint* ModelProcessor::getLightVertexBufferObject(){
-    return &lightVertexBufferObject;
-}*/
-
-GLuint* ModelProcessor::getBoxVertexArrayObject(){
-return &boxVertexArrayObject;
-}
-
-GLuint* ModelProcessor::getBoxVertexBufferObject(){
-    return &boxVertexBufferObject;
-}

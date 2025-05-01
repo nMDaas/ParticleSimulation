@@ -32,8 +32,6 @@ public:
 
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
-    GLuint* getBoxVertexArrayObject();
-    GLuint* getBoxVertexBufferObject();
 
 private:
     std::ofstream outFile;
