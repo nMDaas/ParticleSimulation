@@ -47,6 +47,7 @@ public:
     std::vector<GLuint> getGVertexBufferObjects();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
+    int getObjTotalIndices(std::string objName);
 
 private:
     std::vector<Particle*> lights; 

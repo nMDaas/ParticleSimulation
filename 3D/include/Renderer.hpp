@@ -32,7 +32,7 @@ public:
     Renderer(int i_screenWidth, int i_screenHeight, Scene* scene);
 
     void CreateGraphicsPipelines();
-    void RenderScene(int gTotalIndices, int gLightTotalIndices, int gBoxTotalIndices);
+    void RenderScene();
     void CleanUp();
 
 private:

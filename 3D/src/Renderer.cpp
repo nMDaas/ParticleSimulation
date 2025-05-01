@@ -114,12 +114,12 @@ GLuint Renderer::CompileShader(GLuint type, const std::string& source){
   return shaderObject;
 }
 
-void Renderer::RenderScene(int gTotalIndices, int gLightTotalIndices, int gBoxTotalIndices) {
+void Renderer::RenderScene() {
     mainScene->InitializeGLuints();
     PreDraw();
-    DrawParticles(gTotalIndices);
-    DrawLights(gLightTotalIndices);
-    DrawBox(gBoxTotalIndices);
+    DrawParticles(mainScene->getObjTotalIndices("Particle"));
+    DrawLights(mainScene->getObjTotalIndices("Light"));
+    DrawBox(mainScene->getObjTotalIndices("Box"));
     std::cout << std::endl;
 }
 

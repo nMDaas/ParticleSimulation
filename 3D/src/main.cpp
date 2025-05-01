@@ -214,11 +214,6 @@ int main( int argc, char* args[] ){
     gScene.SetupScene();
 
     gRenderer.CreateGraphicsPipelines();
-
-	// TODO: ngl this shouldn't be here
-    int gTotalIndices = gModelProcessor.getObjTotalIndices("Particle");
-	int gLightTotalIndices = gModelProcessor.getObjTotalIndices("Light");
-	int gBoxTotalIndices = gModelProcessor.getObjTotalIndices("Box");
 	
 	// While application is running
 	while(!gQuit){
@@ -226,10 +221,11 @@ int main( int argc, char* args[] ){
 
 		gSolver.update();
 
-        gRenderer.RenderScene(gTotalIndices, gLightTotalIndices, gBoxTotalIndices);
+        gRenderer.RenderScene();
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
+		
 		SDL_Delay(16); 
 	}
 

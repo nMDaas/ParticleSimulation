@@ -119,3 +119,7 @@ GLuint* Scene::getBoxVertexArrayObject(){
 GLuint* Scene::getBoxVertexBufferObject(){
     return boxVertexBufferObject;
 }
+
+int Scene::getObjTotalIndices(std::string objName){
+    return gModelProcessor->getObjTotalIndices(objName);
+}
