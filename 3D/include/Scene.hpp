@@ -42,14 +42,8 @@ public:
 private:
     std::vector<Particle*> lights; 
 
-    GLuint* lightVertexArrayObject;
-    GLuint* lightVertexBufferObject;
-    std::vector<GLuint> gVertexArrayObjects;
-    std::vector<GLuint> gVertexBufferObjects;
     std::unordered_map<std::string, std::vector<GLuint>> gVertexArrayObjects_map; 
     std::unordered_map<std::string, std::vector<GLuint>> gVertexBufferObjects_map;
-    GLuint* boxVertexArrayObject;
-    GLuint* boxVertexBufferObject;
 
     Solver* gSolver;
     Camera* gCamera;
