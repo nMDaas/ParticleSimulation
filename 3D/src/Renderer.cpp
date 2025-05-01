@@ -219,6 +219,8 @@ void Renderer::PreDrawParticle(int i){
 void Renderer::DrawParticle(int i, int gTotalIndices){
     glBindVertexArray(mainScene->getGVertexArrayObjects_map()["Particle"][i]);
     glBindBuffer(GL_ARRAY_BUFFER, mainScene->getGVertexBufferObjects_map()["Particle"][i]);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); 
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
     std::cout << std::endl;
@@ -287,7 +289,7 @@ void Renderer::DrawLight(int gTotalIndices){
     std::cout << "-- In DrawLight -- " << std::endl;
     GLuint lightVertexArrayObject = mainScene->getGVertexArrayObjects_map()["Light"][0];
     GLuint lightVertexBufferObject = mainScene->getGVertexBufferObjects_map()["Light"][0];
-
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); 
     glBindVertexArray(lightVertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
@@ -351,6 +353,7 @@ void Renderer::DrawBoxActually(int gBoxTotalIndices){
     GLuint boxVertexArrayObject = mainScene->getGVertexArrayObjects_map()["Box"][0];
     GLuint boxVertexBufferObject = mainScene->getGVertexArrayObjects_map()["Box"][0];
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
     glBindVertexArray(boxVertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, boxVertexArrayObject);
     glDrawElements(GL_TRIANGLES,gBoxTotalIndices,GL_UNSIGNED_INT,0);
