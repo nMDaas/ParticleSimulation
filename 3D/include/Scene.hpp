@@ -17,12 +17,12 @@
 #include "Particle.hpp"
 #include "Camera.hpp"
 #include "Solver.hpp"
-#include "Sphere.hpp"
+#include "ModelProcessor.hpp"
 
 class Scene{
 public:
     Scene();
-    Scene(Solver* i_gSolver, Camera* i_gCamera, Sphere* i_gSphere);
+    Scene(Solver* i_gSolver, Camera* i_gCamera, ModelProcessor* i_gModelProcessor);
     ~Scene();
     
     void SetupSolverAndLights(); // Calls SetUpSolver() and SetUpLights()
@@ -62,7 +62,7 @@ private:
 
     Solver* gSolver;
     Camera* gCamera;
-    Sphere *gSphere;
+    ModelProcessor *gModelProcessor;
 
     void SetUpSolver();
     void SetUpLights();

@@ -1,6 +1,6 @@
-#include "Sphere.hpp"
+#include "ModelProcessor.hpp"
 
-Sphere::Sphere() : outFile("output.txt"){
+ModelProcessor::ModelProcessor() : outFile("output.txt"){
     gVertexArrayObjects_map["Particle"] = {};
     gVertexBufferObjects_map["Particle"] = {};
     gIndexBufferObjects_map["Particle"] = {};
@@ -12,7 +12,7 @@ Sphere::Sphere() : outFile("output.txt"){
     gIndexBufferObjects_map["Box"] = {};
 }
 
-void Sphere::VertexSpecification(int gSolverGetParticlesSize){
+void ModelProcessor::VertexSpecification(int gSolverGetParticlesSize){
     GenerateGLuintObjects(gSolverGetParticlesSize, "Particle");
 
     GenerateModelBufferData(gSolverGetParticlesSize, "/Users/natashadaas/ParticleSimulation/3D/src/models/sphereCorrect.obj", "Particle");
@@ -27,7 +27,7 @@ void Sphere::VertexSpecification(int gSolverGetParticlesSize){
 }
 
 // Generate newGVertexArrayObject, newGVertexBufferObject and newGIndexBufferObject for each particle
-void Sphere::GenerateGLuintObjects(int gSolverGetParticlesSize, std::string objName){
+void ModelProcessor::GenerateGLuintObjects(int gSolverGetParticlesSize, std::string objName){
     // For Particles
     for (int i = 0; i < gSolverGetParticlesSize; i++) {
         GLuint newGVertexArrayObject = 0;
@@ -47,7 +47,7 @@ void Sphere::GenerateGLuintObjects(int gSolverGetParticlesSize, std::string objN
 }
 
 // For the box that will contain particles
-void Sphere::GenerateGluintBoxObjects(){
+void ModelProcessor::GenerateGluintBoxObjects(){
     glGenVertexArrays(1, &boxVertexBufferObject);
     glBindVertexArray(boxVertexBufferObject);
     glGenBuffers(1, &boxVertexBufferObject);
@@ -55,13 +55,13 @@ void Sphere::GenerateGluintBoxObjects(){
 }
 
 // numObjects refers to how many of this specific object
-void Sphere::GenerateModelBufferData(int numObjects, std::string particleObjFilepath, std::string objName){
+void ModelProcessor::GenerateModelBufferData(int numObjects, std::string particleObjFilepath, std::string objName){
     GenerateModelBlueprint(particleObjFilepath, objName);
 
     PrepareAndSendRenderDataToBuffers(numObjects, objName);
 }
 
-void Sphere::GenerateModelBlueprint(std::string particleObjFilepath, std::string objName){
+void ModelProcessor::GenerateModelBlueprint(std::string particleObjFilepath, std::string objName){
     for (const auto& pair : modelObjFilepath_map) {
         std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
     }
@@ -81,7 +81,7 @@ void Sphere::GenerateModelBlueprint(std::string particleObjFilepath, std::string
 
 }
 
-void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName){
+void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName){
     std::vector<std::vector<GLfloat>> gVertexData;
 
     // Create vertex data lists for each particle
@@ -116,12 +116,12 @@ void Sphere::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objNa
     }
 }
 
-void Sphere::GenerateModelData(std::string modelObjFilepath, std::string objName){
+void ModelProcessor::GenerateModelData(std::string modelObjFilepath, std::string objName){
     ParseModelData(modelObjFilepath, objName);
     getModelMesh(objName);
 }
 
-void Sphere::ParseModelData(std::string filepath, std::string objName){
+void ModelProcessor::ParseModelData(std::string filepath, std::string objName){
     outFile << "--- In parseModelData() ---" << std::endl;
     std::ifstream inputFile(filepath);
 
@@ -197,7 +197,7 @@ void Sphere::ParseModelData(std::string filepath, std::string objName){
     outFile << "--- Exiting parseModelData() ---" << std::endl;
 }
 
-void Sphere::getModelMesh(std::string objName) {
+void ModelProcessor::getModelMesh(std::string objName) {
     outFile << "--- In getModelMesh() ---" << std::endl;
 
     outFile << "-------" << std::endl;
@@ -248,7 +248,7 @@ void Sphere::getModelMesh(std::string objName) {
    outFile << "--- Exiting getModelMesh() ---" << std::endl;
 }
 
-std::vector<GLfloat> Sphere::getVerticesAndAddColorData(std::string objName) {
+std::vector<GLfloat> ModelProcessor::getVerticesAndAddColorData(std::string objName) {
     std::vector<GLfloat> vertexPositionsAndColor;
 
     std::vector<Vertex> gModelVertices = gModelVertices_map[objName];
@@ -275,7 +275,7 @@ std::vector<GLfloat> Sphere::getVerticesAndAddColorData(std::string objName) {
     return vertexPositionsAndColor;
 }
 
-std::vector<GLfloat> Sphere::getVerticesAndAddColorData() {
+std::vector<GLfloat> ModelProcessor::getVerticesAndAddColorData() {
     std::vector<GLfloat> vertexPositionsAndColor;
 
     outFile << "--- In getVerticesAndAddColorData() ---" << std::endl;
@@ -306,13 +306,13 @@ std::vector<GLfloat> Sphere::getVerticesAndAddColorData() {
     return vertexPositionsAndColor;
 }
 
-void Sphere::offsetGModelIndices(std::string objName) {
+void ModelProcessor::offsetGModelIndices(std::string objName) {
    for (int i = 0; i < gModelIndices_map[objName].size(); i++) {
         gModelIndices_map[objName][i] = gModelIndices_map[objName][i] - 1; 
     } 
 }
 
-void Sphere::ConfigureVertexAttributes(std::string objName) {
+void ModelProcessor::ConfigureVertexAttributes(std::string objName) {
    // Enable the vertex attribute for position
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
@@ -336,7 +336,7 @@ void Sphere::ConfigureVertexAttributes(std::string objName) {
     }
 }
 
-void Sphere::ConfigureLightVertexAttributes() {
+void ModelProcessor::ConfigureLightVertexAttributes() {
    // Enable the vertex attribute for position
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
@@ -345,7 +345,7 @@ void Sphere::ConfigureLightVertexAttributes() {
 	glDisableVertexAttribArray(0);
 }
 
-void Sphere::GenerateBoxBufferData(){
+void ModelProcessor::GenerateBoxBufferData(){
     GenerateBoxModelData(); // Creates a "box" blueprint
 
     std::vector<GLfloat> boxVertexData = getBoxVerticesAndAddColorData();
@@ -371,19 +371,19 @@ void Sphere::GenerateBoxBufferData(){
     ConfigureBoxVertexAttributes();
 }
 
-void Sphere::offsetGBoxIndices(){
+void ModelProcessor::offsetGBoxIndices(){
     for (int i = 0; i < gModelBoxIndices.size(); i++) {
         gModelBoxIndices[i] = gModelBoxIndices[i] - 1; 
     } 
 }
 
-void Sphere::GenerateBoxModelData(){
+void ModelProcessor::GenerateBoxModelData(){
     std::string gModelFilepath = "/Users/natashadaas/ParticleSimulation/3D/src/models/cube.obj";
     ParseBoxModelData(gModelFilepath); 
     getBoxModelMesh();
 }
 
-void Sphere::ParseBoxModelData(std::string filepath){
+void ModelProcessor::ParseBoxModelData(std::string filepath){
     outFile << "--- In ParseBoxModelData() ---" << std::endl;
     std::ifstream inputFile(filepath);
 
@@ -448,7 +448,7 @@ void Sphere::ParseBoxModelData(std::string filepath){
     outFile << "--- Exiting parseModelData() ---" << std::endl;
 }
 
-void Sphere::getBoxModelMesh(){
+void ModelProcessor::getBoxModelMesh(){
     outFile << "--- In getBoxModelMesh() ---" << std::endl;
 
     outFile << "-------" << std::endl;
@@ -490,7 +490,7 @@ void Sphere::getBoxModelMesh(){
    outFile << "--- Exiting getBoxModelMesh() ---" << std::endl;
 }
 
-std::vector<GLfloat> Sphere::getBoxVerticesAndAddColorData(){
+std::vector<GLfloat> ModelProcessor::getBoxVerticesAndAddColorData(){
     std::vector<GLfloat> vertexPositionsAndColor;
 
     outFile << "--- In getBoxVerticesAndAddColorData() ---" << std::endl;
@@ -517,7 +517,7 @@ std::vector<GLfloat> Sphere::getBoxVerticesAndAddColorData(){
     return vertexPositionsAndColor;
 }
 
-void Sphere::ConfigureBoxVertexAttributes(){
+void ModelProcessor::ConfigureBoxVertexAttributes(){
     // Enable the vertex attribute for position
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 9, (GLvoid*)0);
@@ -527,7 +527,7 @@ void Sphere::ConfigureBoxVertexAttributes(){
 }
 
 // TODO CLEANUP
-void Sphere::CleanUp(int gSolverGetParticlesSize){
+void ModelProcessor::CleanUp(int gSolverGetParticlesSize){
     for (int i = 0; i < gSolverGetParticlesSize; i++){
         glDeleteBuffers(1, &gVertexBufferObjects_map["Light"][i]);
         glDeleteVertexArrays(1, &gVertexArrayObjects_map["Light"][i]);
@@ -536,39 +536,39 @@ void Sphere::CleanUp(int gSolverGetParticlesSize){
     glDeleteBuffers(1, &boxVertexBufferObject);
 }
 
-int Sphere::getTotalIndices(){
+int ModelProcessor::getTotalIndices(){
     return gTotalIndices_map["Test"];
 }
 
-int Sphere::getObjTotalIndices(std::string objName){
+int ModelProcessor::getObjTotalIndices(std::string objName){
     return gTotalIndices_map[objName];
 }
 
-int Sphere::getBoxTotalIndices(){
+int ModelProcessor::getBoxTotalIndices(){
     return gTotalBoxIndices;
 }
 
-std::unordered_map<std::string, std::vector<GLuint>> Sphere::getGVertexArrayObjects_map(){
+std::unordered_map<std::string, std::vector<GLuint>> ModelProcessor::getGVertexArrayObjects_map(){
     return gVertexArrayObjects_map;
 }
 
-std::unordered_map<std::string, std::vector<GLuint>> Sphere::getGVertexBufferObjects_map(){
+std::unordered_map<std::string, std::vector<GLuint>> ModelProcessor::getGVertexBufferObjects_map(){
     return gVertexBufferObjects_map;
 }
 
 /*
-GLuint* Sphere::getLightVertexArrayObject(){
+GLuint* ModelProcessor::getLightVertexArrayObject(){
     return &lightVertexArrayObject;
 }
 
-GLuint* Sphere::getLightVertexBufferObject(){
+GLuint* ModelProcessor::getLightVertexBufferObject(){
     return &lightVertexBufferObject;
 }*/
 
-GLuint* Sphere::getBoxVertexArrayObject(){
+GLuint* ModelProcessor::getBoxVertexArrayObject(){
 return &boxVertexArrayObject;
 }
 
-GLuint* Sphere::getBoxVertexBufferObject(){
+GLuint* ModelProcessor::getBoxVertexBufferObject(){
     return &boxVertexBufferObject;
 }

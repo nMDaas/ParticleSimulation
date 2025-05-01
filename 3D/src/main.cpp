@@ -26,7 +26,7 @@
 #include "Solver.hpp"
 #include "Renderer.hpp"
 #include "Scene.hpp"
-#include "Sphere.hpp"
+#include "ModelProcessor.hpp"
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Globals vvvvvvvvvvvvvvvvvvvvvvvvvv
 // Globals generally are prefixed with 'g' in this application.
@@ -48,10 +48,10 @@ Solver gSolver;
 Camera gCamera;
 
 // Sphere information 
-Sphere gSphere;
+ModelProcessor gModelProcessor;
 
 // Scene information 
-Scene gScene(&gSolver, &gCamera, &gSphere);
+Scene gScene(&gSolver, &gCamera, &gModelProcessor);
 
 // Renderer information
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
@@ -198,7 +198,7 @@ void CleanUp(){
 	gGraphicsApplicationWindow = nullptr;
 
     // Delete our OpenGL Objects
-    gSphere.CleanUp(gSolver.getParticles().size());
+    gModelProcessor.CleanUp(gSolver.getParticles().size());
 
 	// Delete our Graphics pipeline
     gRenderer.CleanUp();
@@ -222,14 +222,14 @@ int main( int argc, char* args[] ){
     gScene.SetupSolverAndLights();
 	
 	// Setup geometry (for particles and lights)
-    gSphere.VertexSpecification(gSolver.getParticles().size());
+    gModelProcessor.VertexSpecification(gSolver.getParticles().size()); // TODO should this be passed in?
 
     gRenderer.CreateGraphicsPipelines();
 
 	// TODO: ngl this shouldn't be here
-    int gTotalIndices = gSphere.getObjTotalIndices("Particle");
-	int gLightTotalIndices = gSphere.getObjTotalIndices("Light");
-	int gBoxTotalIndices = gSphere.getObjTotalIndices("Box");
+    int gTotalIndices = gModelProcessor.getObjTotalIndices("Particle");
+	int gLightTotalIndices = gModelProcessor.getObjTotalIndices("Light");
+	int gBoxTotalIndices = gModelProcessor.getObjTotalIndices("Box");
 	
 	// While application is running
 	while(!gQuit){

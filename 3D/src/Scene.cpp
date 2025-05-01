@@ -2,10 +2,10 @@
 
 Scene::Scene(){}
 
-Scene::Scene(Solver* i_gSolver, Camera* i_gCamera, Sphere* i_gSphere){
+Scene::Scene(Solver* i_gSolver, Camera* i_gCamera, ModelProcessor* i_gModelProcessor){
     gSolver = i_gSolver;
     gCamera = i_gCamera;
-    gSphere = i_gSphere;
+    gModelProcessor = i_gModelProcessor;
 }
 
 Scene::~Scene(){
@@ -49,8 +49,8 @@ void Scene::setParticleGLuints(std::vector<GLuint> i_gVertexArrayObjects, std::v
 }
 
 void Scene::InitializeGLuints(){
-    gVertexArrayObjects_map = gSphere->getGVertexArrayObjects_map();
-    gVertexBufferObjects_map = gSphere->getGVertexBufferObjects_map();
+    gVertexArrayObjects_map = gModelProcessor->getGVertexArrayObjects_map();
+    gVertexBufferObjects_map = gModelProcessor->getGVertexBufferObjects_map();
 }
 
 void Scene::InitializeParticleGLuints(){
@@ -64,8 +64,8 @@ void Scene::InitializeParticleGLuints(){
 }
 
 void Scene::InitializeBoxGLuints(){
-    boxVertexArrayObject = gSphere->getBoxVertexArrayObject();
-    boxVertexBufferObject = gSphere->getBoxVertexBufferObject();
+    boxVertexArrayObject = gModelProcessor->getBoxVertexArrayObject();
+    boxVertexBufferObject = gModelProcessor->getBoxVertexBufferObject();
 }
 
 // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv

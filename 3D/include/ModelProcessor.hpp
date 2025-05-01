@@ -5,8 +5,8 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp> 
 
-#ifndef SPHERE_HPP
-#define SPHERE_HPP
+#ifndef MODEL_PROCESSOR_HPP
+#define MODEL_PROCESSOR_HPP
 
 // C++ Standard Template Library (STL)
 #include <iostream>
@@ -20,9 +20,9 @@
 #include "Vertex.hpp"
 #include "Triangle.hpp"
 
-class Sphere{
+class ModelProcessor{
 public:
-    Sphere();
+    ModelProcessor();
 
     void VertexSpecification(int gSolverGetParticlesSize);
     void CleanUp(int gSolverGetParticlesSize);
