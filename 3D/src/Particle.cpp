@@ -27,3 +27,15 @@ void Particle::update (float dt){
     position = position + displacement + acceleration * (dt * dt);
     acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 }
+
+void Particle::setPosition(glm::vec3 pos){
+    position = pos;
+}
+
+glm::vec3 Particle::getVelocity(){
+    return position - position_last;
+}
+
+void Particle::setVelocity(glm::vec3 v, float dt){
+    position_last = position - (v * dt);
+}

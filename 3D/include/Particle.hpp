@@ -16,10 +16,16 @@ class Particle{
 public:
     Particle();
     Particle(glm::vec3 pos, float r);
+
     float getRadius();
     glm::vec3 getPosition();
+    glm::vec3 getVelocity();
+
     void accelerate (glm::vec3  a);
     void update (float dt);
+
+    void setPosition(glm::vec3 pos);
+    void setVelocity(glm::vec3 v, float dt);
 
 private:
     glm::vec3 position;

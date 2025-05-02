@@ -18,6 +18,8 @@ public:
     Container(glm::vec3 pos, glm::vec3 i_proportions); 
     glm::vec3 getProportions();
     glm::vec3 getPosition();
+    glm::vec3 getUpperBoundaries();
+    glm::vec3 getLowerBoundaries();
 
 private:
     glm::vec3 position;

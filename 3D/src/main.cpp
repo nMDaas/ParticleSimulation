@@ -219,7 +219,7 @@ int main( int argc, char* args[] ){
 	while(!gQuit){
 		Input(); // Handle Input
 
-		gSolver.update();
+		gSolver.update(gScene.getBox()); // TODO should be getGBox
 
         gRenderer.RenderScene();
 

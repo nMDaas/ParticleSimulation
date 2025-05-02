@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "Particle.hpp"
+#include "Container.hpp"
 
 #ifndef SOLVER_HPP
 #define SOLVER_HPP
@@ -15,8 +16,7 @@ public:
     Solver();
     ~Solver();
     void addParticle(glm::vec3 position, float radius);
-    void applyGravity();
-    void update();
+    void update(Container* gBox);
     std::vector<Particle*> getParticles();
     
 
@@ -25,6 +25,8 @@ private:
     glm::vec3 gravity;
     float step_dt;
 
+    void applyGravity();
+    void applyContainer(Container* gBox);
     void updateObjects(float dt);
 
 };

@@ -227,7 +227,6 @@ void Renderer::DrawParticle(int i, int gTotalIndices){
 }
 
 void Renderer::DrawLights(int gTotalIndices){
-    std::cout << "-- In DrawLights -- " << std::endl;
     PreDrawLight();
 
     GLint u_ViewMatrixLocation = glGetUniformLocation(gGraphicsLighterPipelineShaderProgram,"u_ViewMatrix");
@@ -240,12 +239,10 @@ void Renderer::DrawLights(int gTotalIndices){
     }
 
     DrawLight(gTotalIndices);
-    std::cout << "-- Exiting DrawLights -- " << std::endl;
     std::cout << std::endl;
 }
 
 void Renderer::PreDrawLight() {
-    std::cout << "-- In PreDrawLight -- " << std::endl;
     Particle* gLightParticle = mainScene->getLights()[0];
 
     // Use our shader
@@ -281,12 +278,10 @@ void Renderer::PreDrawLight() {
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
-    std::cout << "-- Exiting PreDrawLight -- " << std::endl;
     std::cout << std::endl;
 }
 
 void Renderer::DrawLight(int gTotalIndices){
-    std::cout << "-- In DrawLight -- " << std::endl;
     GLuint lightVertexArrayObject = mainScene->getGVertexArrayObjects_map()["Light"][0];
     GLuint lightVertexBufferObject = mainScene->getGVertexBufferObjects_map()["Light"][0];
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); 
@@ -294,7 +289,6 @@ void Renderer::DrawLight(int gTotalIndices){
     glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
-    std::cout << "-- Exiting DrawLight -- " << std::endl;
     std::cout << std::endl;
 }
 

@@ -14,3 +14,11 @@ glm::vec3 Container::getProportions(){
 glm::vec3 Container::getPosition(){
     return position;
 }
+
+glm::vec3 Container::getLowerBoundaries(){
+    return glm::vec3(position.x - proportions.x, position.y - proportions.y, position.z - proportions.z);
+}
+
+glm::vec3 Container::getUpperBoundaries(){
+    return glm::vec3(position.x + proportions.x, position.y + proportions.y, position.z + proportions.z);
+}
