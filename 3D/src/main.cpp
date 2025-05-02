@@ -41,7 +41,7 @@ bool gQuit = false;
 
 std::vector<Particle> gParticles;
 
-// Core Classes
+// Core Classes/Objects in Scene
 Solver gSolver;
 Camera gCamera;
 ModelProcessor gModelProcessor;

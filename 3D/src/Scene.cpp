@@ -15,14 +15,15 @@ Scene::~Scene(){
 }
 
 void Scene::SetupScene(){
-    SetupSolverAndLights();
+    SetupSolverLightsAndContainer();
     gModelProcessor->VertexSpecification(gSolver->getParticles().size());
 }
 
 // Setup geometry for particles and lights
-void Scene::SetupSolverAndLights(){
+void Scene::SetupSolverLightsAndContainer(){
     SetUpSolver();
     SetUpLights();
+    gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f));
 }
 
 void Scene::SetUpSolver(){
@@ -69,4 +70,8 @@ std::unordered_map<std::string, std::vector<GLuint>> Scene::getGVertexBufferObje
 
 int Scene::getObjTotalIndices(std::string objName){
     return gModelProcessor->getObjTotalIndices(objName);
+}
+
+Container* Scene::getBox(){
+    return &gBox;
 }

@@ -22,6 +22,7 @@
 #include "Vertex.hpp"
 #include "Triangle.hpp"
 #include "Scene.hpp"
+#include "Container.hpp"
 
 #ifndef RENDERER_HPP
 #define RENDERER_HPP

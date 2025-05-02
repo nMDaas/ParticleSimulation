@@ -18,6 +18,7 @@
 #include "Camera.hpp"
 #include "Solver.hpp"
 #include "ModelProcessor.hpp"
+#include "Container.hpp"
 
 class Scene{
 public:
@@ -35,6 +36,7 @@ public:
     std::vector<Particle*> getLights();
     Solver* getSolver();
     Camera* getCamera();
+    Container* getBox();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
     int getObjTotalIndices(std::string objName);
@@ -47,9 +49,10 @@ private:
 
     Solver* gSolver;
     Camera* gCamera;
+    Container gBox;
     ModelProcessor *gModelProcessor;
 
-    void SetupSolverAndLights(); // Calls SetUpSolver() and SetUpLights()
+    void SetupSolverLightsAndContainer(); // Calls SetUpSolver() and SetUpLights()
     void SetUpSolver();
     void SetUpLights();
 };
