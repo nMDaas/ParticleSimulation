@@ -1,7 +1,7 @@
 #include "Solver.hpp"
 
 Solver::Solver() {
-    gravity = glm::vec3(0.0f, -100.0f, 0.0f);
+    gravity = glm::vec3(0.0f, -100.0f, 0.0f); // TODO - should eventually be glm::vec3(0.0f, -9.8f, 0.0f);
     step_dt = 1.0f/60.0f;
 
     // Seed the random number generator
@@ -22,10 +22,23 @@ void Solver::addParticle(glm::vec3 position, float radius){
     float max = 180.0f;
 
     float speed = 7.0f;
-    float angle = min + (static_cast<float>(rand()) / RAND_MAX) * (max - min); // generate random angle
 
-    glm::vec3 initialVelocity = glm::vec3(std::cos(glm::radians(angle)), std::sin(glm::radians(angle)), 0.0f) * speed;
+    // Random angles for spherical coordinates
+    float theta = ((float)rand() / RAND_MAX) * 2.0f * M_PI; // azimuthal angle (around Y axis)
+    float phi = ((float)rand() / RAND_MAX) * (M_PI / 4.0f); 
+
+    // Convert spherical to Cartesian velocity
+    float vx = speed * sin(phi) * cos(theta);
+    float vy = -speed * cos(phi);    // downward
+    float vz = speed * sin(phi) * sin(theta);
+
+    glm::vec3 initialVelocity = glm::vec3(vx, vy, vz);
     particles[particles.size() - 1]->setVelocity(initialVelocity, step_dt);
+
+    //float angle = min + (static_cast<float>(rand()) / RAND_MAX) * (max - min); // generate random angle
+
+   // glm::vec3 initialVelocity = glm::vec3(std::cos(glm::radians(angle)), std::sin(glm::radians(angle)), 0.0f) * speed;
+    //particles[particles.size() - 1]->setVelocity(initialVelocity, step_dt);
 }
 
 std::vector<Particle*> Solver::getParticles(){

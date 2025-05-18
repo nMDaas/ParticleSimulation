@@ -51,7 +51,7 @@ Scene gScene(&gSolver, &gCamera, &gModelProcessor);
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
 // Core Variables for Scene
-int gNumParticles = 2;
+int gNumParticles = 20;
 int gParticleIndexToActivate = 0; // index of next particle to activate
 
 bool  g_rotatePositive=true;
