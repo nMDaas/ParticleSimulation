@@ -7,6 +7,7 @@ Particle::Particle(glm::vec3 pos, float r) {
     position_last = pos;
     radius = r;
     acceleration = glm::vec3(10.0f,10.0f, 0.0f);
+    activated = false;
 }
 
 float Particle::getRadius() {
@@ -15,6 +16,14 @@ float Particle::getRadius() {
 
 glm::vec3 Particle::getPosition() {
     return position;
+}
+
+void Particle::activateParticle() {
+    activated = true;
+}
+
+bool Particle::getActivated(){
+    return activated;
 }
 
 void Particle::accelerate(glm::vec3  a){

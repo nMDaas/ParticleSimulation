@@ -17,6 +17,8 @@
 #include <sstream>
 #include <fstream>
 #include <unordered_map>
+#include <chrono>
+#include <thread>
 
 // Our libraries
 #include "Camera.hpp"
@@ -50,6 +52,7 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
 // Core Variables for Scene
 int gNumParticles = 2;
+int gParticleIndexToActivate = 0; // index of next particle to activate
 
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
@@ -211,6 +214,11 @@ void CleanUp(){
 int main( int argc, char* args[] ){
     std::cout << "Press ESC to quit\n";
 
+	// Clock setup so particles can be steadily released
+	using clock = std::chrono::steady_clock;
+	auto lastActionTime = clock::now();
+    const std::chrono::milliseconds interval(1000); // 1 second
+
 	// Setup the graphics program
 	InitializeProgram();
 
@@ -220,6 +228,23 @@ int main( int argc, char* args[] ){
 	
 	// While application is running
 	while(!gQuit){
+		auto now = clock::now();
+
+		// Activate a new particle
+		if (gParticleIndexToActivate < gNumParticles) {
+			if (now - lastActionTime >= interval) {
+				std::cout << "Activating one particle at: "
+						<< std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count()
+						<< " ms\n";
+				
+				gSolver.activateNewParticle(gParticleIndexToActivate);
+
+				lastActionTime = now;
+
+				gParticleIndexToActivate++;
+			}
+		}
+
 		Input(); // Handle Input
 
 		gSolver.update(gScene.getBox()); // TODO should be getGBox
@@ -230,6 +255,9 @@ int main( int argc, char* args[] ){
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
 		
 		SDL_Delay(16); 
+
+		// Sleep to reduce CPU usage
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 
 	// Call the cleanup function when our program terminates

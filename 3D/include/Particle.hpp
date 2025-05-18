@@ -17,9 +17,12 @@ public:
     Particle();
     Particle(glm::vec3 pos, float r);
 
+    void activateParticle();
+
     float getRadius();
     glm::vec3 getPosition();
     glm::vec3 getVelocity();
+    bool getActivated(); // get value of activated variable
 
     void accelerate (glm::vec3  a);
     void update (float dt);
@@ -33,6 +36,7 @@ private:
     float radius;
     float speed;
     glm::vec3 acceleration;
+    bool activated;
 
 };
 

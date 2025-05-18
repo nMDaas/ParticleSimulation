@@ -20,6 +20,7 @@ public:
     void addParticle(glm::vec3 position, float radius);
     void update(Container* gBox);
     std::vector<Particle*> getParticles();
+    void activateNewParticle(int index); // activate particles[index]
     
 
 private:
