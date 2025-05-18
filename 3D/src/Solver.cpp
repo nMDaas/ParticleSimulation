@@ -56,11 +56,11 @@ void Solver::applyContainer(Container* gBox){
             glm::vec3 v = particles[i]->getVelocity();
             particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f, v.z), 1.0f);
         }
-        if (current_position.y + particles[i]->getRadius() > boxUpperBoundaries.y) { // y upper boundary
+        /*if (current_position.y + particles[i]->getRadius() > boxUpperBoundaries.y) { // y upper boundary
             particles[i]->setPosition(glm::vec3(current_position.x, boxUpperBoundaries.y - particles[i]->getRadius(), current_position.z )); // reposition to be inside boundary
             glm::vec3 v = particles[i]->getVelocity();
             particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f, v.z), 1.0f);
-        }
+        }*/
         if (current_position.x - particles[i]->getRadius() < boxLowerBoundaries.x) { // x lower boundary
             particles[i]->setPosition(glm::vec3(boxLowerBoundaries.x + particles[i]->getRadius(), current_position.y, current_position.z )); // reposition to be inside boundary
             glm::vec3 v = particles[i]->getVelocity();
