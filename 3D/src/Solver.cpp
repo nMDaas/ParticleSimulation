@@ -13,6 +13,11 @@ Solver::~Solver(){
 
 void Solver::addParticle(glm::vec3 position, float radius){
     particles.push_back(new Particle(position, radius));
+
+    float speed = 7.0f;
+    float angle = 45.0f;
+    glm::vec3 initialVelocity = glm::vec3(std::cos(glm::radians(angle)), std::sin(glm::radians(angle)), 0.0f) * speed;
+    particles[particles.size() - 1]->setVelocity(initialVelocity, step_dt);
 }
 
 std::vector<Particle*> Solver::getParticles(){
@@ -35,16 +40,37 @@ void Solver::applyContainer(Container* gBox){
     glm::vec3 boxLowerBoundaries = gBox->getLowerBoundaries();
     glm::vec3 boxUpperBoundaries = gBox->getUpperBoundaries();
 
-    std::cout << "boxLowerBoundaries: " << glm::to_string(boxLowerBoundaries) << std::endl;
-
     for (int i = 0; i < particles.size(); i++) {
         glm::vec3 current_position = particles[i]->getPosition(); // current particle position
-        std::cout << "current_position: " <<  glm::to_string(current_position) << std::endl;
-        if (current_position.y - particles[i]->getRadius() <= boxLowerBoundaries.y) { // y lower boundary
-            std::cout << "hit" << std::endl;
+        if (current_position.y - particles[i]->getRadius() < boxLowerBoundaries.y) { // y lower boundary
             particles[i]->setPosition(glm::vec3(current_position.x, boxLowerBoundaries.y + particles[i]->getRadius(), current_position.z )); // reposition to be inside boundary
             glm::vec3 v = particles[i]->getVelocity();
             particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f, v.z), 1.0f);
+        }
+        if (current_position.y + particles[i]->getRadius() > boxUpperBoundaries.y) { // y upper boundary
+            particles[i]->setPosition(glm::vec3(current_position.x, boxUpperBoundaries.y - particles[i]->getRadius(), current_position.z )); // reposition to be inside boundary
+            glm::vec3 v = particles[i]->getVelocity();
+            particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f, v.z), 1.0f);
+        }
+        if (current_position.x - particles[i]->getRadius() < boxLowerBoundaries.x) { // x lower boundary
+            particles[i]->setPosition(glm::vec3(boxLowerBoundaries.x + particles[i]->getRadius(), current_position.y, current_position.z )); // reposition to be inside boundary
+            glm::vec3 v = particles[i]->getVelocity();
+            particles[i]->setVelocity(glm::vec3(v.x * -1.0f, v.y, v.z), 1.0f);
+        }
+        if (current_position.x + particles[i]->getRadius() > boxUpperBoundaries.x) { // x upper boundary
+            particles[i]->setPosition(glm::vec3(boxUpperBoundaries.x - particles[i]->getRadius(), current_position.y, current_position.z )); // reposition to be inside boundary
+            glm::vec3 v = particles[i]->getVelocity();
+            particles[i]->setVelocity(glm::vec3(v.x * -1.0f, v.y, v.z), 1.0f);
+        }
+        if (current_position.z - particles[i]->getRadius() < boxLowerBoundaries.z) { // z lower boundary
+            particles[i]->setPosition(glm::vec3(current_position.x, current_position.y, boxLowerBoundaries.z + particles[i]->getRadius())); // reposition to be inside boundary
+            glm::vec3 v = particles[i]->getVelocity();
+            particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f), 1.0f);
+        }
+        if (current_position.z + particles[i]->getRadius() > boxUpperBoundaries.z) { // z upper boundary
+            particles[i]->setPosition(glm::vec3(current_position.x, current_position.y, boxUpperBoundaries.z - particles[i]->getRadius())); // reposition to be inside boundary
+            glm::vec3 v = particles[i]->getVelocity();
+            particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f), 1.0f);
         }
     }
 
