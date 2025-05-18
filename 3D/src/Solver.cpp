@@ -35,6 +35,7 @@ std::vector<Particle*> Solver::getParticles(){
 void Solver::update(Container* gBox){
     applyGravity();
     applyContainer(gBox);
+    checkCollisions();
     updateObjects(step_dt);
 }
 
@@ -79,6 +80,35 @@ void Solver::applyContainer(Container* gBox){
             particles[i]->setPosition(glm::vec3(current_position.x, current_position.y, boxUpperBoundaries.z - particles[i]->getRadius())); // reposition to be inside boundary
             glm::vec3 v = particles[i]->getVelocity();
             particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f), 1.0f);
+        }
+    }
+}
+
+void Solver::checkCollisions(){
+    for (int i = 0; i < particles.size(); i++) {
+        Particle* particle_i = particles[i];
+        for (int j = 0; j < particles.size(); j++) {
+            if (i == j) {
+                continue;
+            }
+            else {
+                Particle* particle_j = particles[j];
+                glm::vec3 v = particle_i->getPosition() - particle_j->getPosition();
+                float dist = glm::distance(particle_i->getPosition(), particle_j->getPosition());
+                float min_dist = particle_i->getRadius() + particle_j->getRadius();
+                if (dist < min_dist) {
+                    glm::vec3 n = v / dist; // normalize
+                    float total_mass = particle_i->getRadius() * particle_i->getRadius() + particle_j->getRadius() * particle_j->getRadius();
+                    float mass_ratio = (particle_i->getRadius() * particle_i->getRadius())/ total_mass;
+                    float delta = 0.5 * (min_dist - dist);
+
+                    // Larger particles move less
+                    glm::vec3 particle_i_new_pos = particle_i->getPosition() + (n * (1 - mass_ratio) * delta);
+                    glm::vec3 particle_j_new_pos = particle_j->getPosition() - (n * mass_ratio * delta);
+                    particle_i->setPosition(particle_i_new_pos);
+                    particle_j->setPosition(particle_j_new_pos);
+                }
+            }
         }
     }
 }

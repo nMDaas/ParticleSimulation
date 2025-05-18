@@ -29,6 +29,7 @@ private:
 
     void applyGravity();
     void applyContainer(Container* gBox);
+    void checkCollisions();
     void updateObjects(float dt);
 
 };
