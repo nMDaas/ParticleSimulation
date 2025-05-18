@@ -120,7 +120,6 @@ void Renderer::RenderScene() {
     DrawParticles(mainScene->getObjTotalIndices("Particle"));
     DrawLights(mainScene->getObjTotalIndices("Light"));
     DrawBox(mainScene->getObjTotalIndices("Box"));
-    std::cout << std::endl;
 }
 
 void Renderer::PreDraw() {
@@ -152,7 +151,6 @@ void Renderer::DrawParticles(int gTotalIndices){
 
         DrawParticle(i, gTotalIndices);
     }
-    std::cout << std::endl;
 }
 
 void Renderer::PreDrawParticle(int i){
@@ -213,7 +211,6 @@ void Renderer::PreDrawParticle(int i){
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
-    std::cout << std::endl;
 }
 
 void Renderer::DrawParticle(int i, int gTotalIndices){
@@ -223,7 +220,6 @@ void Renderer::DrawParticle(int i, int gTotalIndices){
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); 
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
-    std::cout << std::endl;
 }
 
 void Renderer::DrawLights(int gTotalIndices){
@@ -239,7 +235,6 @@ void Renderer::DrawLights(int gTotalIndices){
     }
 
     DrawLight(gTotalIndices);
-    std::cout << std::endl;
 }
 
 void Renderer::PreDrawLight() {
@@ -278,7 +273,6 @@ void Renderer::PreDrawLight() {
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
-    std::cout << std::endl;
 }
 
 void Renderer::DrawLight(int gTotalIndices){
@@ -289,7 +283,6 @@ void Renderer::DrawLight(int gTotalIndices){
     glBindBuffer(GL_ARRAY_BUFFER, lightVertexBufferObject);
     glDrawElements(GL_TRIANGLES,gTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
-    std::cout << std::endl;
 }
 
 void Renderer::DrawBox(int gBoxTotalIndices){
@@ -305,7 +298,6 @@ void Renderer::DrawBox(int gBoxTotalIndices){
     }
 
     DrawBoxActually(gBoxTotalIndices);
-    std::cout << std::endl;
 }
 
 void Renderer::PreDrawBox(){
@@ -340,7 +332,6 @@ void Renderer::PreDrawBox(){
         std::cout << "Could not find u_Perspective, maybe a mispelling?\n";
         exit(EXIT_FAILURE);
     }
-    std::cout << std::endl;
 }
 
 void Renderer::DrawBoxActually(int gBoxTotalIndices){
@@ -352,7 +343,6 @@ void Renderer::DrawBoxActually(int gBoxTotalIndices){
     glBindBuffer(GL_ARRAY_BUFFER, boxVertexArrayObject);
     glDrawElements(GL_TRIANGLES,gBoxTotalIndices,GL_UNSIGNED_INT,0);
     glUseProgram(0);
-    std::cout << std::endl;
 }
 
 void Renderer::CleanUp(){

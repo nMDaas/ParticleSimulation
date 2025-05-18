@@ -3,6 +3,9 @@
 Solver::Solver() {
     gravity = glm::vec3(0.0f, -100.0f, 0.0f);
     step_dt = 1.0f/60.0f;
+
+    // Seed the random number generator
+    srand(static_cast<unsigned int>(time(0)));
 }
 
 Solver::~Solver(){
@@ -14,8 +17,13 @@ Solver::~Solver(){
 void Solver::addParticle(glm::vec3 position, float radius){
     particles.push_back(new Particle(position, radius));
 
+    // Generate a float between a range
+    float min = 45.0f;
+    float max = 180.0f;
+
     float speed = 7.0f;
-    float angle = 45.0f;
+    float angle = min + (static_cast<float>(rand()) / RAND_MAX) * (max - min); // generate random angle
+
     glm::vec3 initialVelocity = glm::vec3(std::cos(glm::radians(angle)), std::sin(glm::radians(angle)), 0.0f) * speed;
     particles[particles.size() - 1]->setVelocity(initialVelocity, step_dt);
 }
@@ -73,8 +81,6 @@ void Solver::applyContainer(Container* gBox){
             particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f), 1.0f);
         }
     }
-
-    std::cout << std::endl;
 }
 
 void Solver::updateObjects(float dt){

@@ -48,6 +48,9 @@ ModelProcessor gModelProcessor;
 Scene gScene(&gSolver, &gCamera, &gModelProcessor);
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
+// Core Variables for Scene
+int gNumParticles = 2;
+
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
 
@@ -211,7 +214,7 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-    gScene.SetupScene();
+    gScene.SetupScene(gNumParticles);
 
     gRenderer.CreateGraphicsPipelines();
 	
