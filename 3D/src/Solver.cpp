@@ -1,8 +1,10 @@
 #include "Solver.hpp"
 
 Solver::Solver() {
-    gravity = glm::vec3(0.0f, -100.0f, 0.0f); // TODO - should eventually be glm::vec3(0.0f, -9.8f, 0.0f);
+    gravity = glm::vec3(0.0f, -9.8f, 0.0f); // TODO - should eventually be glm::vec3(0.0f, -9.8f, 0.0f);
     step_dt = 1.0f/60.0f;
+    substeps = 8;
+    substep_dt = step_dt / substeps;
 
     // Seed the random number generator
     srand(static_cast<unsigned int>(time(0)));
@@ -23,6 +25,7 @@ void Solver::addParticle(glm::vec3 position, float radius){
 
     float speed = 7.0f;
 
+    // TODO Make sure you understand this!! Write it down
     // Random angles for spherical coordinates
     float theta = ((float)rand() / RAND_MAX) * 2.0f * M_PI; // azimuthal angle (around Y axis)
     float phi = ((float)rand() / RAND_MAX) * (M_PI / 4.0f); 
@@ -33,7 +36,7 @@ void Solver::addParticle(glm::vec3 position, float radius){
     float vz = speed * sin(phi) * sin(theta);
 
     glm::vec3 initialVelocity = glm::vec3(vx, vy, vz);
-    particles[particles.size() - 1]->setVelocity(initialVelocity, step_dt);
+    particles[particles.size() - 1]->setVelocity(initialVelocity, substep_dt);
 
     //float angle = min + (static_cast<float>(rand()) / RAND_MAX) * (max - min); // generate random angle
 
@@ -50,10 +53,13 @@ void Solver::activateNewParticle(int index){
 }
 
 void Solver::update(Container* gBox){
-    applyGravity();
-    applyContainer(gBox);
-    checkCollisions();
-    updateObjects(step_dt);
+    for (int i = 0; i < substeps; i++) {
+        applyGravity();
+        updateObjects(substep_dt);
+        applyContainer(gBox);
+        checkCollisions();
+        applyContainer(gBox);
+    }
 }
 
 void Solver::applyGravity(){
@@ -126,8 +132,8 @@ void Solver::checkCollisions(){
                             float delta = 0.5 * (min_dist - dist);
 
                             // Larger particles move less
-                            glm::vec3 particle_i_new_pos = particle_i->getPosition() + (n * (1 - mass_ratio) * delta);
-                            glm::vec3 particle_j_new_pos = particle_j->getPosition() - (n * mass_ratio * delta);
+                            glm::vec3 particle_i_new_pos = particle_i->getPosition() + ((n * (1 - mass_ratio) * delta)/ static_cast<float>(substeps));
+                            glm::vec3 particle_j_new_pos = particle_j->getPosition() - ((n * mass_ratio * delta)/ static_cast<float>(substeps));
                             particle_i->setPosition(particle_i_new_pos);
                             particle_j->setPosition(particle_j_new_pos);
                         }

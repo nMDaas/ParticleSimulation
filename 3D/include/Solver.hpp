@@ -27,6 +27,8 @@ private:
     std::vector<Particle*> particles;
     glm::vec3 gravity;
     float step_dt;
+    float substep_dt;
+    int substeps;
 
     void applyGravity();
     void applyContainer(Container* gBox);
