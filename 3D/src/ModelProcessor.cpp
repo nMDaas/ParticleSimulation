@@ -10,6 +10,7 @@ ModelProcessor::ModelProcessor() : outFile("output.txt"){
     gVertexArrayObjects_map["Box"] = {};
     gVertexBufferObjects_map["Box"] = {};
     gIndexBufferObjects_map["Box"] = {};
+    srand(static_cast<unsigned>(time(0)));
 }
 
 void ModelProcessor::VertexSpecification(int gSolverGetParticlesSize){
@@ -34,14 +35,17 @@ void ModelProcessor::GenerateGLuintObjects(int gSolverGetParticlesSize, std::str
         GLuint newGVertexBufferObject = 0;
         GLuint newGIndexBufferObject = 0;
 
+        glGenVertexArrays(1, &newGVertexArrayObject);
+        glGenBuffers(1, &newGVertexBufferObject);
+        glGenBuffers(1, &newGIndexBufferObject);
+
+        // Save after creation
         gVertexArrayObjects_map[objName].push_back(newGVertexArrayObject);
         gVertexBufferObjects_map[objName].push_back(newGVertexBufferObject);
         gIndexBufferObjects_map[objName].push_back(newGIndexBufferObject);
 
-        // Push GLuint objects to their respective vectors
-        glGenVertexArrays(1, &newGVertexBufferObject);
-        glBindVertexArray(newGVertexBufferObject);
-        glGenBuffers(1, &newGVertexBufferObject);
+        // Now bind them correctly
+        glBindVertexArray(newGVertexArrayObject);
         glBindBuffer(GL_ARRAY_BUFFER, newGVertexBufferObject);
     }
 }
@@ -79,24 +83,30 @@ void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::stri
     // Create vertex data lists for each particle
     for (int i = 0; i < numObjects; i++) {
         //std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
-        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData(objName);
-        gVertexData.push_back(vertexData_i);
-    }
+        float x = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        float y = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        float z = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
-    std::vector<int> gModelIndices = gModelIndices_map[objName];
-    int gTotalIndices = gModelIndices.size();
-    gTotalIndices_map[objName] = gTotalIndices;
+        glm::vec3 randColor = glm::vec3(x,y,z);
+        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData(objName, randColor);
+        std::cout << objName << std::endl;
+        std::cout << glm::to_string(randColor) << std::endl;
+        std::cout << glm::to_string(randColor * 255.0f) << std::endl;
+        //gVertexData.push_back(vertexData_i);
 
-    // Send rendering data to buffers for each particle
-    for (int i = 0; i < numObjects; i++) {
+        std::vector<int> gModelIndices = gModelIndices_map[objName];
+        int gTotalIndices = gModelIndices.size();
+        gTotalIndices_map[objName] = gTotalIndices;
 
         glGenVertexArrays(1, &gVertexArrayObjects_map[objName][i]);
         glBindVertexArray(gVertexArrayObjects_map[objName][i]);
 
+        glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObjects_map[objName][i]);
+
         glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
                                                                     // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                    gVertexData[i].data(), 						// Raw array of data
+                    vertexData_i.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                    vertexData_i.data(), 						// Raw array of data
                     GL_STATIC_DRAW);								// How we intend to use the data
 
         // Generate EBO
@@ -240,7 +250,7 @@ void ModelProcessor::getModelMesh(std::string objName) {
    outFile << "--- Exiting getModelMesh() ---" << std::endl;
 }
 
-std::vector<GLfloat> ModelProcessor::getVerticesAndAddColorData(std::string objName) {
+std::vector<GLfloat> ModelProcessor::getVerticesAndAddColorData(std::string objName, glm::vec3 color) {
     std::vector<GLfloat> vertexPositionsAndColor;
 
     std::vector<Vertex> gModelVertices = gModelVertices_map[objName];
@@ -253,9 +263,9 @@ std::vector<GLfloat> ModelProcessor::getVerticesAndAddColorData(std::string objN
         vertexPositionsAndColor.push_back(gModelVertices[i].coordinates.z);
         outFile << "Index: " << i << std::endl;
         outFile << "Vertex: (" << gModelVertices[i].coordinates.x << "," << gModelVertices[i].coordinates.y << "," << gModelVertices[i].coordinates.z << ")" << std::endl;
-        vertexPositionsAndColor.push_back(0.0f);
-        vertexPositionsAndColor.push_back(0.3f);
-        vertexPositionsAndColor.push_back(0.7f);
+        vertexPositionsAndColor.push_back(color.x);
+        vertexPositionsAndColor.push_back(color.y);
+        vertexPositionsAndColor.push_back(color.z);
         vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.x);
         vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.y);
         vertexPositionsAndColor.push_back(gModelNormals[gModelNormalsMap[i]].coordinates.z);

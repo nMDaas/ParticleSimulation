@@ -33,6 +33,6 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
     vec3 specular = specular_strength * spec * u_lightColor;  
 
-    vec3 lightColor_x_objectColor = (ambient + diffuse + specular) * vec3(normals.r, normals.g, normals.b);
+    vec3 lightColor_x_objectColor = (ambient + diffuse + specular) * v_vertexColors;
 	color = vec4(lightColor_x_objectColor, 1.0f);
 }

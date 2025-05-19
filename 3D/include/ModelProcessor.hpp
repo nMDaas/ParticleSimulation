@@ -5,6 +5,9 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp> 
 
+#include <cstdlib>  // for rand, srand
+#include <ctime>    // for time
+
 #ifndef MODEL_PROCESSOR_HPP
 #define MODEL_PROCESSOR_HPP
 
@@ -46,7 +49,7 @@ private:
     void GenerateModelData(std::string modelObjFilepath, std::string objName); // (2) (a)
     void ParseModelData(std::string filepath, std::string objName);
     void getModelMesh(std::string objName);
-    std::vector<GLfloat> getVerticesAndAddColorData(std::string objName);
+    std::vector<GLfloat> getVerticesAndAddColorData(std::string objName, glm::vec3 color);
     void offsetGModelIndices(std::string objName); // (2) (b)
     void ConfigureVertexAttributes(std::string objName); // (3) (a)
 
