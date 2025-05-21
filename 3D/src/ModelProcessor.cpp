@@ -86,17 +86,18 @@ void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::stri
         float x = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         float y = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         float z = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-
         glm::vec3 randColor = glm::vec3(x,y,z);
-        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData(objName, randColor);
-        std::cout << objName << std::endl;
-        std::cout << glm::to_string(randColor) << std::endl;
-        std::cout << glm::to_string(randColor * 255.0f) << std::endl;
-        //gVertexData.push_back(vertexData_i);
 
-        std::vector<int> gModelIndices = gModelIndices_map[objName];
-        int gTotalIndices = gModelIndices.size();
-        gTotalIndices_map[objName] = gTotalIndices;
+        std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData(objName, randColor);
+        gVertexData.push_back(vertexData_i);
+    }
+
+    std::vector<int> gModelIndices = gModelIndices_map[objName];
+    int gTotalIndices = gModelIndices.size();
+    gTotalIndices_map[objName] = gTotalIndices;
+
+    // Send rendering data to buffers for each particle
+    for (int i = 0; i < numObjects; i++) {
 
         glGenVertexArrays(1, &gVertexArrayObjects_map[objName][i]);
         glBindVertexArray(gVertexArrayObjects_map[objName][i]);
@@ -105,8 +106,8 @@ void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::stri
 
         glBufferData(GL_ARRAY_BUFFER, 								// Kind of buffer we are working with 
                                                                     // (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
-                    vertexData_i.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
-                    vertexData_i.data(), 						// Raw array of data
+                    gVertexData[i].size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+                    gVertexData[i].data(), 						// Raw array of data
                     GL_STATIC_DRAW);								// How we intend to use the data
 
         // Generate EBO
