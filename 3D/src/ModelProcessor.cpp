@@ -80,12 +80,29 @@ void ModelProcessor::GenerateModelBlueprint(std::string particleObjFilepath, std
 void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::string objName){
     std::vector<std::vector<GLfloat>> gVertexData;
 
-    // Create vertex data lists for each particle
+    // Hardcoding colors for particles
+    std::vector<glm::vec3> colors = {
+        glm::vec3(1.0f, 0.0f, 0.0f), // red
+        glm::vec3(0.0f, 1.0f, 0.0f), // green
+        glm::vec3(0.0f, 0.0f, 1.0f), // blue
+        glm::vec3(1.0f, 0.0f, 1.0f), // magenta
+        glm::vec3(1.0f, 1.0f, 0.0f) // yellow?
+    };
+
+    // Create vertex data lists for each object instance
     for (int i = 0; i < numObjects; i++) {
         //std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
-        float x = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        float y = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        float z = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        float x, y, z;
+        if (objName == "Particle") {
+            x = colors[i].x;
+            y = colors[i].y;
+            z = colors[i].z;
+        }
+        else {
+            x = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+            y = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+            z = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        }
         glm::vec3 randColor = glm::vec3(x,y,z);
 
         std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData(objName, randColor);
@@ -96,7 +113,7 @@ void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::stri
     int gTotalIndices = gModelIndices.size();
     gTotalIndices_map[objName] = gTotalIndices;
 
-    // Send rendering data to buffers for each particle
+    // Send rendering data to buffers for each object instance
     for (int i = 0; i < numObjects; i++) {
 
         glGenVertexArrays(1, &gVertexArrayObjects_map[objName][i]);
