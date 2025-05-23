@@ -28,6 +28,7 @@ public:
     
     void SetupScene(int numParticles, float size); // Calls SetupSolverAndLights()
     void addLight(glm::vec3 position, float radius);
+    void updateBoxRotationZ(float val);
     
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Set Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
     void InitializeGLuints();
@@ -40,6 +41,7 @@ public:
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexArrayObjects_map();
     std::unordered_map<std::string, std::vector<GLuint>> getGVertexBufferObjects_map();
     int getObjTotalIndices(std::string objName);
+    
 
 private:
     std::vector<Particle*> lights; 

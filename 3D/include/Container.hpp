@@ -8,6 +8,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
+#include <iostream>
 
 #ifndef CONTAINER_HPP
 #define CONTAINER_HPP
@@ -20,10 +21,12 @@ public:
     glm::vec3 getPosition();
     glm::vec3 getUpperBoundaries();
     glm::vec3 getLowerBoundaries();
+    void updateRotationZ(float val);    
 
 private:
     glm::vec3 position;
     glm::vec3 proportions; // proportions will be used as a glm::vec3 for width, breadth, height
+    float rotationZ;
 };
 
 #endif

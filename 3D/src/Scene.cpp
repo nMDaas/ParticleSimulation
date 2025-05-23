@@ -14,6 +14,10 @@ Scene::~Scene(){
     }
 }
 
+void Scene::updateBoxRotationZ(float val) {
+    gBox.updateRotationZ(val);
+}  
+
 void Scene::SetupScene(int numParticles, float size){
     SetupSolverLightsAndContainer(numParticles, size);
     gModelProcessor->VertexSpecification(gSolver->getParticles().size());

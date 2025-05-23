@@ -94,6 +94,7 @@ void Solver::applyGravity(){
 
 void Solver::applyContainer(Container* gBox){
     glm::vec3 boxLowerBoundaries = gBox->getLowerBoundaries();
+    std::cout << glm::to_string(boxLowerBoundaries) << std::endl;
     glm::vec3 boxUpperBoundaries = gBox->getUpperBoundaries();
 
     for (int i = 0; i < particles.size(); i++) {

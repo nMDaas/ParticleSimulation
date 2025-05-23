@@ -181,13 +181,13 @@ void Input(){
                 gQuit = true;
                 break;
             case SDLK_LEFT:
-                std::cout << "Left arrow pressed" << std::endl;
                 gRenderer.updateZ(1.0f);
+				gScene.updateBoxRotationZ(1.0f);
                 break;
             case SDLK_RIGHT:
-                std::cout << "Right arrow pressed" << std::endl;
                 // Handle right arrow
 				gRenderer.updateZ(-1.0f);
+				gScene.updateBoxRotationZ(-1.0f);
                 break;
             case SDLK_UP:
                 std::cout << "Up arrow pressed" << std::endl;
