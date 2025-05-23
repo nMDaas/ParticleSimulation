@@ -51,7 +51,7 @@ Scene gScene(&gSolver, &gCamera, &gModelProcessor);
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
 // Core Variables for Scene
-int gNumParticles = 5;
+int gNumParticles = 15;
 int gParticleIndexToActivate = 0; // index of next particle to activate
 
 bool  g_rotatePositive=true;
@@ -229,6 +229,8 @@ int main( int argc, char* args[] ){
 	// While application is running
 	while(!gQuit){
 		auto now = clock::now();
+
+		//gSolver.printSolverInfo();
 
 		// Activate a new particle
 		if (gParticleIndexToActivate < gNumParticles) {

@@ -8,6 +8,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
+#include <iostream>
 
 #ifndef PARTICLE_HPP
 #define PARTICLE_HPP
@@ -29,6 +30,7 @@ public:
 
     void setPosition(glm::vec3 pos);
     void setVelocity(glm::vec3 v, float dt);
+    void printParticleInfo();
 
 private:
     glm::vec3 position;

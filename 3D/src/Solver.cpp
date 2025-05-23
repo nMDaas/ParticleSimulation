@@ -8,12 +8,33 @@ Solver::Solver() {
 
     // Seed the random number generator
     srand(static_cast<unsigned int>(time(0)));
+
+    restitution = 0.7f;
+    threshold = 0.01; 
 }
 
 Solver::~Solver(){
     for (int i = 0; i < particles.size(); i++) {
         delete particles[i];
     }
+}
+
+void Solver::printSolverInfo(){
+     // Hardcoding colors for particles
+    std::vector<std::string> colors = {
+        "red", // red
+        "green", // green
+        "blue", // blue
+        "magenta", // magenta
+        "yellow" // yellow?
+    };
+
+    std::cout << "-------- solver info ---------" << std::endl;
+    for (int i = 0; i < particles.size(); i++) {
+        std::cout << "Particle " << colors[i] << std::endl;
+        particles[i]->printParticleInfo();
+    }
+    std::cout << "------------------------------" << std::endl;
 }
 
 void Solver::addParticle(glm::vec3 position, float radius){
@@ -80,7 +101,7 @@ void Solver::applyContainer(Container* gBox){
             if (current_position.y - particles[i]->getRadius() < boxLowerBoundaries.y) { // y lower boundary
                 particles[i]->setPosition(glm::vec3(current_position.x, boxLowerBoundaries.y + particles[i]->getRadius(), current_position.z )); // reposition to be inside boundary
                 glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f, v.z), 1.0f);
+                particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f * restitution, v.z), 1.0f);
             }
             /*if (current_position.y + particles[i]->getRadius() > boxUpperBoundaries.y) { // y upper boundary
                 particles[i]->setPosition(glm::vec3(current_position.x, boxUpperBoundaries.y - particles[i]->getRadius(), current_position.z )); // reposition to be inside boundary
@@ -90,22 +111,22 @@ void Solver::applyContainer(Container* gBox){
             if (current_position.x - particles[i]->getRadius() < boxLowerBoundaries.x) { // x lower boundary
                 particles[i]->setPosition(glm::vec3(boxLowerBoundaries.x + particles[i]->getRadius(), current_position.y, current_position.z )); // reposition to be inside boundary
                 glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x * -1.0f, v.y, v.z), 1.0f);
+                particles[i]->setVelocity(glm::vec3(v.x * -1.0f * restitution, v.y, v.z), 1.0f);
             }
             if (current_position.x + particles[i]->getRadius() > boxUpperBoundaries.x) { // x upper boundary
                 particles[i]->setPosition(glm::vec3(boxUpperBoundaries.x - particles[i]->getRadius(), current_position.y, current_position.z )); // reposition to be inside boundary
                 glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x * -1.0f, v.y, v.z), 1.0f);
+                particles[i]->setVelocity(glm::vec3(v.x * -1.0f * restitution, v.y, v.z), 1.0f);
             }
             if (current_position.z - particles[i]->getRadius() < boxLowerBoundaries.z) { // z lower boundary
                 particles[i]->setPosition(glm::vec3(current_position.x, current_position.y, boxLowerBoundaries.z + particles[i]->getRadius())); // reposition to be inside boundary
                 glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f), 1.0f);
+                particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f * restitution), 1.0f);
             }
             if (current_position.z + particles[i]->getRadius() > boxUpperBoundaries.z) { // z upper boundary
                 particles[i]->setPosition(glm::vec3(current_position.x, current_position.y, boxUpperBoundaries.z - particles[i]->getRadius())); // reposition to be inside boundary
                 glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f), 1.0f);
+                particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f * restitution), 1.0f);
             }
         }
     }
@@ -125,7 +146,9 @@ void Solver::checkCollisions(){
                         glm::vec3 v = particle_i->getPosition() - particle_j->getPosition();
                         float dist = glm::distance(particle_i->getPosition(), particle_j->getPosition());
                         float min_dist = particle_i->getRadius() + particle_j->getRadius();
-                        if (dist < min_dist) {
+
+                        float dist_diff = min_dist - dist;
+                        if (dist < min_dist && dist_diff > threshold) {
                             glm::vec3 n = v / dist; // normalize
                             float total_mass = particle_i->getRadius() * particle_i->getRadius() + particle_j->getRadius() * particle_j->getRadius();
                             float mass_ratio = (particle_i->getRadius() * particle_i->getRadius())/ total_mass;
@@ -136,6 +159,23 @@ void Solver::checkCollisions(){
                             glm::vec3 particle_j_new_pos = particle_j->getPosition() - ((n * mass_ratio * delta)/ static_cast<float>(substeps));
                             particle_i->setPosition(particle_i_new_pos);
                             particle_j->setPosition(particle_j_new_pos);
+
+                            // TODO work out math for this
+                            glm::vec3 v_i = particle_i->getVelocity();
+                            glm::vec3 v_j = particle_j->getVelocity();
+
+                            glm::vec3 relativeVelocity = v_i - v_j;
+                            glm::vec3 diff = particle_i->getPosition() - particle_j->getPosition();
+                            glm::vec3 normal = diff / dist;
+                            float velocityAlongNormal = glm::dot(relativeVelocity, normal);
+
+                            if (velocityAlongNormal < 0.0f) { // only resolve if moving toward each other
+                                float impulseMag = -(1.0f + restitution) * velocityAlongNormal / total_mass;
+                                glm::vec3 impulse = impulseMag * normal;
+
+                                particle_i->setVelocity(v_i + impulse * (1.0f - mass_ratio), 1.0f);
+                                particle_j->setVelocity(v_j - impulse * mass_ratio, 1.0f);
+                            }
                         }
                     }
                 }

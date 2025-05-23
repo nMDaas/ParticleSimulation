@@ -21,7 +21,7 @@ public:
     void update(Container* gBox);
     std::vector<Particle*> getParticles();
     void activateNewParticle(int index); // activate particles[index]
-    
+    void printSolverInfo();
 
 private:
     std::vector<Particle*> particles;
@@ -29,6 +29,8 @@ private:
     float step_dt;
     float substep_dt;
     int substeps;
+    float restitution;
+    float threshold;
 
     void applyGravity();
     void applyContainer(Container* gBox);

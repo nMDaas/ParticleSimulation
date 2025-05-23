@@ -92,7 +92,7 @@ void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::stri
     // Create vertex data lists for each object instance
     for (int i = 0; i < numObjects; i++) {
         //std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData();
-        float x, y, z;
+        /*float x, y, z;
         if (objName == "Particle") {
             x = colors[i].x;
             y = colors[i].y;
@@ -102,8 +102,8 @@ void ModelProcessor::PrepareAndSendRenderDataToBuffers(int numObjects, std::stri
             x = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
             y = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
             z = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        }
-        glm::vec3 randColor = glm::vec3(x,y,z);
+        }*/
+        glm::vec3 randColor = glm::vec3(0.0f,0.0f,1.0f);
 
         std::vector<GLfloat> vertexData_i = getVerticesAndAddColorData(objName, randColor);
         gVertexData.push_back(vertexData_i);

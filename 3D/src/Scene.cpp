@@ -28,7 +28,7 @@ void Scene::SetupSolverLightsAndContainer(int numParticles){
 
 void Scene::SetUpSolver(int numParticles){
     for (int i = 0; i < numParticles; i++) {
-        gSolver->addParticle(glm::vec3(0.0f,3.5f,0.0f), 0.9f);
+        gSolver->addParticle(glm::vec3(0.0f,6.0f,0.0f), 0.6f);
     }
 }
 

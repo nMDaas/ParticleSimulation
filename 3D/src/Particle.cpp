@@ -26,6 +26,10 @@ bool Particle::getActivated(){
     return activated;
 }
 
+void Particle::printParticleInfo(){
+    std::cout << "Displacement: " << glm::to_string(position - position_last) << std::endl;
+}
+
 void Particle::accelerate(glm::vec3  a){
     acceleration += a;
 }
@@ -46,5 +50,6 @@ glm::vec3 Particle::getVelocity(){
 }
 
 void Particle::setVelocity(glm::vec3 v, float dt){
+    v = 0.98f * v;
     position_last = position - (v * dt);
 }
