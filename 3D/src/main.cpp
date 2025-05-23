@@ -53,6 +53,7 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 // Core Variables for Scene
 int gNumParticles = 15;
 int gParticleIndexToActivate = 0; // index of next particle to activate
+float gParticleSize = 0.6f;
 
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
@@ -222,7 +223,7 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-    gScene.SetupScene(gNumParticles);
+    gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
 	

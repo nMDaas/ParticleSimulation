@@ -14,21 +14,21 @@ Scene::~Scene(){
     }
 }
 
-void Scene::SetupScene(int numParticles){
-    SetupSolverLightsAndContainer(numParticles);
+void Scene::SetupScene(int numParticles, float size){
+    SetupSolverLightsAndContainer(numParticles, size);
     gModelProcessor->VertexSpecification(gSolver->getParticles().size());
 }
 
 // Setup geometry for particles and lights
-void Scene::SetupSolverLightsAndContainer(int numParticles){
-    SetUpSolver(numParticles);
+void Scene::SetupSolverLightsAndContainer(int numParticles, float size){
+    SetUpSolver(numParticles, size);
     SetUpLights();
     gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f));
 }
 
-void Scene::SetUpSolver(int numParticles){
+void Scene::SetUpSolver(int numParticles, float size){
     for (int i = 0; i < numParticles; i++) {
-        gSolver->addParticle(glm::vec3(0.0f,6.0f,0.0f), 0.6f);
+        gSolver->addParticle(glm::vec3(0.0f,6.0f,0.0f), size);
     }
 }
 
