@@ -6,6 +6,12 @@ Renderer::Renderer(int i_screenWidth, int i_screenHeight, Scene* scene){
     screenWidth = i_screenWidth;
     screenHeight = i_screenHeight;
     mainScene = scene;
+
+    rotZ = 0.0f;
+}
+
+void Renderer::updateZ(float val){
+    rotZ = rotZ + val;
 }
 
 void Renderer::CreateGraphicsPipelines(){
@@ -307,7 +313,7 @@ void Renderer::PreDrawBox(){
     // Model transformation by translating our object into world space
     float r = 0.2f;
     glm::mat4 model = glm::translate(glm::mat4(1.0f), mainScene->getBox()->getPosition());
-    //model = glm::rotate(model, glm::radians(g_uRotate), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotZ), glm::vec3(0.0f, 0.0f, 1.0f));
     model = glm::scale(model, mainScene->getBox()->getProportions());
 
 	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl

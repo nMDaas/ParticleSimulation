@@ -173,6 +173,32 @@ void Input(){
 			std::cout << "ESC: Goodbye! (Leaving MainApplicationLoop())" << std::endl;
             gQuit = true;
         }
+
+		if (e.type == SDL_KEYDOWN) {
+        switch (e.key.keysym.sym) {
+            case SDLK_ESCAPE:
+                std::cout << "ESC: Goodbye! (Leaving MainApplicationLoop())" << std::endl;
+                gQuit = true;
+                break;
+            case SDLK_LEFT:
+                std::cout << "Left arrow pressed" << std::endl;
+                gRenderer.updateZ(1.0f);
+                break;
+            case SDLK_RIGHT:
+                std::cout << "Right arrow pressed" << std::endl;
+                // Handle right arrow
+				gRenderer.updateZ(-1.0f);
+                break;
+            case SDLK_UP:
+                std::cout << "Up arrow pressed" << std::endl;
+                // Handle up arrow
+                break;
+            case SDLK_DOWN:
+                std::cout << "Down arrow pressed" << std::endl;
+                // Handle down arrow
+                break;
+        }
+    }
 	}
 
     // Retrieve keyboard state

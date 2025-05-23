@@ -32,6 +32,8 @@ public:
     Renderer();
     Renderer(int i_screenWidth, int i_screenHeight, Scene* scene);
 
+    void updateZ(float val);
+
     void CreateGraphicsPipelines();
     void RenderScene();
     void CleanUp();
@@ -40,6 +42,8 @@ private:
     int screenWidth;
     int screenHeight; 
     Scene* mainScene;
+
+    float rotZ; // for container
 
     GLuint gGraphicsPipelineShaderProgram = 0;
     GLuint gGraphicsLighterPipelineShaderProgram = 0;
