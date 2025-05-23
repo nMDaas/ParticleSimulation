@@ -50,6 +50,6 @@ glm::vec3 Particle::getVelocity(){
 }
 
 void Particle::setVelocity(glm::vec3 v, float dt){
-    v = 0.98f * v;
+    v = 0.7f * v;
     position_last = position - (v * dt);
 }
