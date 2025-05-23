@@ -51,6 +51,8 @@ Scene gScene(&gSolver, &gCamera, &gModelProcessor);
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
 // Core Variables for Scene
+// note: fluid_restitution, wall_restitution, threshold and velocity damping affect how the particles react
+// # = 15, size = 0.6f, fluid_r = 0.5f, wall_r - 0.9f, damping = 0.98f
 int gNumParticles = 15;
 int gParticleIndexToActivate = 0; // index of next particle to activate
 float gParticleSize = 0.6f;

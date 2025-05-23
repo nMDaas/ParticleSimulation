@@ -29,7 +29,8 @@ private:
     float step_dt;
     float substep_dt;
     int substeps;
-    float restitution;
+    float fluid_restitution;
+    float wall_restitution;
     float threshold;
 
     void applyGravity();
