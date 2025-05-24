@@ -66,5 +66,6 @@
         "complex": "cpp",
         "optional": "cpp",
         "unordered_map": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/Users/natashadaas/ParticleSimulation/3D/include/glm"
 }
