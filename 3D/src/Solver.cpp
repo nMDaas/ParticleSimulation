@@ -1,7 +1,7 @@
 #include "Solver.hpp"
 
 Solver::Solver() {
-    gravity = glm::vec3(0.0f, -9.8f, 0.0f); // TODO - should eventually be glm::vec3(0.0f, -9.8f, 0.0f);
+    gravity = glm::vec3(0.0f, -9.8f, 0.0f);
     step_dt = 1.0f/60.0f;
     substeps = 8;
     substep_dt = step_dt / substeps;
@@ -47,7 +47,6 @@ void Solver::addParticle(glm::vec3 position, float radius){
 
     float speed = 7.0f;
 
-    // TODO Make sure you understand this!! Write it down
     // Random angles for spherical coordinates
     float theta = ((float)rand() / RAND_MAX) * 2.0f * M_PI; // azimuthal angle (around Y axis)
     float phi = ((float)rand() / RAND_MAX) * (M_PI / 4.0f); 
@@ -60,10 +59,6 @@ void Solver::addParticle(glm::vec3 position, float radius){
     glm::vec3 initialVelocity = glm::vec3(vx, vy, vz);
     particles[particles.size() - 1]->setVelocity(initialVelocity, substep_dt);
 
-    //float angle = min + (static_cast<float>(rand()) / RAND_MAX) * (max - min); // generate random angle
-
-   // glm::vec3 initialVelocity = glm::vec3(std::cos(glm::radians(angle)), std::sin(glm::radians(angle)), 0.0f) * speed;
-    //particles[particles.size() - 1]->setVelocity(initialVelocity, step_dt);
 }
 
 std::vector<Particle*> Solver::getParticles(){
@@ -161,7 +156,6 @@ void Solver::checkCollisions(){
                             particle_i->setPosition(particle_i_new_pos);
                             particle_j->setPosition(particle_j_new_pos);
 
-                            // TODO work out math for this
                             glm::vec3 v_i = particle_i->getVelocity();
                             glm::vec3 v_j = particle_j->getVelocity();
 
@@ -171,7 +165,7 @@ void Solver::checkCollisions(){
                             float velocityAlongNormal = glm::dot(relativeVelocity, normal);
 
                             if (velocityAlongNormal < 0.0f) { // only resolve if moving toward each other
-                                float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / total_mass;
+                                float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / total_mass; // TODO work out math for this
                                 glm::vec3 impulse = impulseMag * normal;
 
                                 particle_i->setVelocity(v_i + impulse * (1.0f - mass_ratio), 1.0f);
