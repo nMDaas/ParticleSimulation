@@ -20,34 +20,19 @@ glm::vec3 Container::getPosition(){
     return position;
 }
 
+// Gets local boundaries (according to cube obj file)
 glm::vec3 Container::getLowerBoundaries(){
-    glm::quat rotation = glm::angleAxis(glm::radians(rotationZ), glm::vec3(0.0f, 0.0f, 1.0f));
-
-    // Rotate local axes scaled by extents
-    glm::vec3 xAxis = rotation * glm::vec3(proportions.x, 0.0f, 0.0f);
-    glm::vec3 yAxis = rotation * glm::vec3(0.0f, proportions.y, 0.0f);
-    glm::vec3 zAxis = rotation * glm::vec3(0.0f, 0.0f, proportions.z);
-
-    // Absolute contributions to axis-aligned bounding box
-    glm::vec3 absExtents = glm::abs(xAxis) + glm::abs(yAxis) + glm::abs(zAxis);
-
-    glm::vec3 lowerBounds = position - absExtents;
-
-    return lowerBounds;
+    return glm::vec3(-1.0f, -1.0f, -1.0f);
 }
 
+// Gets local boundaries (according to cube obj file)
 glm::vec3 Container::getUpperBoundaries(){
-    glm::quat rotation = glm::angleAxis(glm::radians(rotationZ), glm::vec3(0.0f, 0.0f, 1.0f));
+    return glm::vec3(1.0f, 1.0f, 1.0f);
+}
 
-    // Rotate local axes scaled by extents
-    glm::vec3 xAxis = rotation * glm::vec3(proportions.x, 0.0f, 0.0f);
-    glm::vec3 yAxis = rotation * glm::vec3(0.0f, proportions.y, 0.0f);
-    glm::vec3 zAxis = rotation * glm::vec3(0.0f, 0.0f, proportions.z);
-
-    // Absolute contributions to axis-aligned bounding box
-    glm::vec3 absExtents = glm::abs(xAxis) + glm::abs(yAxis) + glm::abs(zAxis);
-
-    glm::vec3 upperBounds = position + absExtents;
-
-    return upperBounds;
+glm::mat4 Container::getTransform() {
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
+    model = glm::rotate(model, glm::radians(rotationZ), glm::vec3(0, 0, 1));
+    model = glm::scale(model, proportions);
+    return model;
 }

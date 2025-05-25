@@ -21,7 +21,8 @@ public:
     glm::vec3 getPosition();
     glm::vec3 getUpperBoundaries();
     glm::vec3 getLowerBoundaries();
-    void updateRotationZ(float val);    
+    void updateRotationZ(float val);
+    glm::mat4 getTransform();   
 
 private:
     glm::vec3 position;

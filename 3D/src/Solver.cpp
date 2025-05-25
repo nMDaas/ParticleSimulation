@@ -88,41 +88,70 @@ void Solver::applyGravity(){
 }
 
 void Solver::applyContainer(Container* gBox){
-    glm::vec3 boxLowerBoundaries = gBox->getLowerBoundaries();
+    glm::mat4 modelWorld = gBox->getTransform(); 
+    glm::mat4 modelLocal = glm::inverse(modelWorld); // Transform from world space to local box space
+
+    // Local space bounds
+    glm::vec3 boxLowerBoundaries = gBox->getLowerBoundaries(); 
     glm::vec3 boxUpperBoundaries = gBox->getUpperBoundaries();
 
     for (int i = 0; i < particles.size(); i++) {
         if (particles[i]->getActivated()){
-            glm::vec3 current_position = particles[i]->getPosition(); // current particle position
-            if (current_position.y - particles[i]->getRadius() < boxLowerBoundaries.y) { // y lower boundary
-                particles[i]->setPosition(glm::vec3(current_position.x, boxLowerBoundaries.y + particles[i]->getRadius(), current_position.z )); // reposition to be inside boundary
-                glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f * wall_restitution, v.z), 1.0f);
+            glm::vec3 worldPos = particles[i]->getPosition(); // Current world-space position
+            glm::vec3 worldVel = particles[i]->getVelocity(); // Current world-space velocity
+
+            glm::vec3 localPos = glm::vec3(modelLocal * glm::vec4(worldPos, 1.0f)); // local-space position
+            glm::vec3 localVel = glm::vec3(modelLocal * glm::vec4(worldVel, 0.0f)); // local-space position velocity
+
+            // Separated radius variable into 3 to account for gBox having different proportions
+            float r_local_x = particles[i]->getRadius() / gBox->getProportions().x;
+            float r_local_y = particles[i]->getRadius() / gBox->getProportions().y;
+            float r_local_z = particles[i]->getRadius() / gBox->getProportions().z;
+
+            bool collided = false;
+
+            // Y axis
+            if (localPos.y - r_local_y < boxLowerBoundaries.y) {
+                localPos.y = boxLowerBoundaries.y + r_local_y;
+                localVel.y *= -wall_restitution;
+                collided = true;
             }
-            /*if (current_position.y + particles[i]->getRadius() > boxUpperBoundaries.y) { // y upper boundary
-                particles[i]->setPosition(glm::vec3(current_position.x, boxUpperBoundaries.y - particles[i]->getRadius(), current_position.z )); // reposition to be inside boundary
-                glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x, v.y * -1.0f, v.z), 1.0f);
+            /*if (localPos.y + r_local_y > boxUpperBoundaries.y) {
+                localPos.y = boxUpperBoundaries.y - r_local_y;
+                localVel.y *= -wall_restitution;
+                collided = true;
             }*/
-            if (current_position.x - particles[i]->getRadius() < boxLowerBoundaries.x) { // x lower boundary
-                particles[i]->setPosition(glm::vec3(boxLowerBoundaries.x + particles[i]->getRadius(), current_position.y, current_position.z )); // reposition to be inside boundary
-                glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x * -1.0f * wall_restitution, v.y, v.z), 1.0f);
+
+            // X axis
+            if (localPos.x - r_local_x < boxLowerBoundaries.x) {
+                localPos.x = boxLowerBoundaries.x + r_local_x;
+                localVel.x *= -wall_restitution;
+                collided = true;
             }
-            if (current_position.x + particles[i]->getRadius() > boxUpperBoundaries.x) { // x upper boundary
-                particles[i]->setPosition(glm::vec3(boxUpperBoundaries.x - particles[i]->getRadius(), current_position.y, current_position.z )); // reposition to be inside boundary
-                glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x * -1.0f * wall_restitution, v.y, v.z), 1.0f);
+            if (localPos.x + r_local_x > boxUpperBoundaries.x) {
+                localPos.x = boxUpperBoundaries.x - r_local_x;
+                localVel.x *= -wall_restitution;
+                collided = true;
             }
-            if (current_position.z - particles[i]->getRadius() < boxLowerBoundaries.z) { // z lower boundary
-                particles[i]->setPosition(glm::vec3(current_position.x, current_position.y, boxLowerBoundaries.z + particles[i]->getRadius())); // reposition to be inside boundary
-                glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f * wall_restitution), 1.0f);
+
+            // Z axis
+            if (localPos.z - r_local_z < boxLowerBoundaries.z) {
+                localPos.z = boxLowerBoundaries.z + r_local_z;
+                localVel.z *= -wall_restitution;
+                collided = true;
             }
-            if (current_position.z + particles[i]->getRadius() > boxUpperBoundaries.z) { // z upper boundary
-                particles[i]->setPosition(glm::vec3(current_position.x, current_position.y, boxUpperBoundaries.z - particles[i]->getRadius())); // reposition to be inside boundary
-                glm::vec3 v = particles[i]->getVelocity();
-                particles[i]->setVelocity(glm::vec3(v.x, v.y, v.z * -1.0f * wall_restitution), 1.0f);
+            if (localPos.z + r_local_z > boxUpperBoundaries.z) {
+                localPos.z = boxUpperBoundaries.z - r_local_z;
+                localVel.z *= -wall_restitution;
+                collided = true;
+            }
+
+            if (collided) {
+                // get position and velocity back to world coordinates
+                glm::vec3 correctedWorldPos = glm::vec3(modelWorld * glm::vec4(localPos, 1.0f));
+                glm::vec3 correctedWorldVel = glm::vec3(modelWorld * glm::vec4(localVel, 0.0f));
+                particles[i]->setPosition(correctedWorldPos);
+                particles[i]->setVelocity(correctedWorldVel, 1.0f);
             }
         }
     }

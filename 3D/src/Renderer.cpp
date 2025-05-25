@@ -312,9 +312,7 @@ void Renderer::PreDrawBox(){
 
     // Model transformation by translating our object into world space
     float r = 0.2f;
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), mainScene->getBox()->getPosition());
-    model = glm::rotate(model, glm::radians(rotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::scale(model, mainScene->getBox()->getProportions());
+    glm::mat4 model = mainScene->getBox()->getTransform();
 
 	// Note: the error keeps showing up until you actually USE u_ModelMatrix in vert.glsl
 	GLint u_ModelMatrixLocation = glGetUniformLocation( gGraphicsLighterPipelineShaderProgram,"u_ModelMatrix");
