@@ -1,7 +1,7 @@
 #include "Solver.hpp"
 
 Solver::Solver() {
-    gravity = glm::vec3(0.0f, -9.8f, 0.0f);
+    gravity = glm::vec3(0.0f, -70.0f, 0.0f);
     step_dt = 1.0f/60.0f;
     substeps = 8;
     substep_dt = step_dt / substeps;
@@ -124,26 +124,34 @@ void Solver::applyContainer(Container* gBox){
 
             // X axis
             if (localPos.x - r_local_x < boxLowerBoundaries.x) {
-                localPos.x = boxLowerBoundaries.x + r_local_x;
-                localVel.x *= -wall_restitution;
-                collided = true;
+                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
+                    localPos.x = boxLowerBoundaries.x + r_local_x;
+                    localVel.x *= -wall_restitution;
+                    collided = true;
+                }
             }
             if (localPos.x + r_local_x > boxUpperBoundaries.x) {
-                localPos.x = boxUpperBoundaries.x - r_local_x;
-                localVel.x *= -wall_restitution;
-                collided = true;
+                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
+                    localPos.x = boxUpperBoundaries.x - r_local_x;
+                    localVel.x *= -wall_restitution;
+                    collided = true;
+                }
             }
 
             // Z axis
             if (localPos.z - r_local_z < boxLowerBoundaries.z) {
-                localPos.z = boxLowerBoundaries.z + r_local_z;
-                localVel.z *= -wall_restitution;
-                collided = true;
+                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
+                    localPos.z = boxLowerBoundaries.z + r_local_z;
+                    localVel.z *= -wall_restitution;
+                    collided = true;
+                }
             }
             if (localPos.z + r_local_z > boxUpperBoundaries.z) {
-                localPos.z = boxUpperBoundaries.z - r_local_z;
-                localVel.z *= -wall_restitution;
-                collided = true;
+                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
+                    localPos.z = boxUpperBoundaries.z - r_local_z;
+                    localVel.z *= -wall_restitution;
+                    collided = true;
+                }
             }
 
             if (collided) {
