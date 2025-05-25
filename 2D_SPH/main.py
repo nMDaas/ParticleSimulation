@@ -7,6 +7,10 @@ from Boundary import Boundary
 import random
 import math
 
+# TODO
+# Bugs when you increase number of particles! Why is that happening?
+# Mouse pull/push not working anymore
+
 # Initialize Pygame
 pygame.init()
 
@@ -30,7 +34,7 @@ last_spawn_time = 0
 min_radius = 20
 max_radius = 30
 max_angle = 80
-spawn_velocity = 1000
+spawn_velocity = 700
 
 renderer = Renderer(solver, screen, boundary)
 
@@ -57,13 +61,18 @@ while running:
     current_time = pygame.time.get_ticks() / 1000
 
     # Spawn particles
+    max_angle = 80  # degrees
+    max_angle_rad = math.radians(max_angle)  # convert to radians once
+
     if (len(solver.getObjects()) < max_objects and (current_time - last_spawn_time) >= spawn_delay):
         last_spawn_time = current_time  # Restart the spawn timer
         random_radius_size = random.randint(min_radius, max_radius)
         newParticle = solver.addObject(Vector2f(400, 300), random_radius_size)
 
-        random_angle = math.pi * 0.5 * max_angle * math.sin(3 * current_time)
-        solver.setParticleVelocity(newParticle, spawn_velocity * Vector2f(math.cos(random_angle), math.sin(random_angle)))
+        random_angle = max_angle_rad * math.sin(3 * current_time)
+        direction = Vector2f(math.cos(random_angle), math.sin(random_angle))
+        initial_velocity = direction * spawn_velocity
+        solver.setParticleVelocity(newParticle, initial_velocity)
 
     solver.update(current_time)
 

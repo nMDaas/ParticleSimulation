@@ -36,3 +36,9 @@ class Vector2f:
     
     def distance(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
+    
+    def normalize(self):
+        length = self.distance()
+        if length == 0:
+            return Vector2f(0, 0)
+        return self / length
