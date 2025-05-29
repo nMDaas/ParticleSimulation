@@ -6,6 +6,7 @@ out vec4 fragColor;
 uniform vec2 iResolution;
 uniform vec3 cameraPosition;
 uniform mat3 cameraRotation;
+uniform float iTime;
 
 // Signed distance to a sphere
 float sdSphere(vec3 p, float r) {
@@ -24,11 +25,16 @@ float smin(float a, float b, float k) {
     return mix(b, a, h) - k * h * (1.0 - h);
 }
 
-// Scene SDF — blend a sphere and a box
+// Scene SDF — blend a moving sphere and box
 float map(vec3 p) {
-    float d1 = sdSphere(p - vec3(-0.5, 0.0, 0.0), 0.5);
-    float d2 = sdBox(p - vec3(0.5, 0.0, 0.0), vec3(0.3));
-    return smin(d1, d2, 0.3); // Blend factor = 0.3
+    // Animate positions over time using sine waves
+    vec3 spherePos = vec3(-0.5 + sin(iTime) * 0.3, 0.0, 0.0);
+    vec3 boxPos = vec3(0.5 + cos(iTime * 0.8) * 0.3, 0.0, 0.0);
+
+    float d1 = sdSphere(p - spherePos, 0.5);
+    float d2 = sdBox(p - boxPos, vec3(0.3));
+
+    return smin(d1, d2, 0.3); // Blend factor
 }
 
 // Raymarching loop

@@ -287,6 +287,9 @@ void PreDraw(){
     glm::mat3 camRot = glm::mat3(1.0f); // identity matrix, looking down +Z
     glUniformMatrix3fv(locCamRot, 1, GL_FALSE, &camRot[0][0]);
 
+    float time = SDL_GetTicks() / 1000.0f;
+    glUniform1f(glGetUniformLocation(gGraphicsPipelineShaderProgram, "iTime"), time);
+
 	
     // Perform our rotation update
     if(g_rotatePositive){
