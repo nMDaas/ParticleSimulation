@@ -1,0 +1,1 @@
+* This is a useful resource for part 2: https://learnopengl.com/Getting-started/Camera
