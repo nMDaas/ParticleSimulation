@@ -49,9 +49,9 @@ float smoothMinimum(float dSDSphere, float dSDBox, float blendFactor) {
 	// 		--> dSDBox > dSDSphere - point closer to dSDSphere
 	// 		--> (dSDBox - dSDSphere) / blendFactor - normalize by a blending factor (the larger this is, smoother the transition)
 	// 		--> d1 == d2 --> weight = 0.5
-	// 		--> dSDBox < dSDSphere --> approaches 1.0 
-	// 		--> dSDBox > dSDSphere --> approaches 0.0
-	// --> clamp(0.5 + 0.5 * (dSDBox - dSDSphere) / blendFactor, 0.0, 1.0) - clamps between 0 and 1
+	// 		--> dSDBox < dSDSphere --> weight approaches 1.0 
+	// 		--> dSDBox > dSDSphere --> weight approaches 0.0
+	// --> clamp(0.5 + 0.5 * (dSDBox - dSDSphere) / blendFactor, 0.0, 1.0) - clamps weight between 0 and 1
     float weight = clamp(0.5 + 0.5 * (dSDBox - dSDSphere) / blendFactor, 0.0, 1.0);
 
 	// mix(a, b, t) linearly interpolates between two values a and b based on the parameter t
