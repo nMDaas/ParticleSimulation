@@ -50,7 +50,7 @@ float map(vec3 pos) {
     float dist = sdSphere(pos - particlePositions[0], 0.4); // TODO this should be passed in
 
     for (int i = 1; i < particleCount; i++) {
-        float d = sdSphere(pos - particlePositions[i], 0.5);
+        float d = sdSphere(pos - particlePositions[i], 0.4);
         dist = smoothMinimum(dist, d, 0.8); // Blend factor
     }
     return dist;
@@ -78,7 +78,11 @@ void main()
     screenPos.x *= iResolution.x / iResolution.y; // fixes distortion 
 
     vec3 rayOrigin = cameraPosition;
-    vec3 rayDir = normalize(cameraRotation * vec3(screenPos, 1.0)); // applies rotation to the screenPos
+    
+    float fov = radians(45.0);
+    float focalLength = 1.0 / tan(fov * 0.5);
+    vec3 rayDir = normalize(cameraRotation * vec3(screenPos.x, screenPos.y, -focalLength));
+
 
     float t = raymarch(rayOrigin, rayDir);
 
