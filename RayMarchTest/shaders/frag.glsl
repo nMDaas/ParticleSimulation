@@ -8,6 +8,9 @@ uniform vec3 cameraPosition;
 uniform mat3 cameraRotation;
 uniform float iTime;
 
+uniform int particleCount;
+uniform vec3 particlePositions[100];
+
 // Signed distance
 // --> If the distance is positive, the point is outside the sphere.
 // --> If it’s zero, the point is exactly on the sphere’s surface.
@@ -62,19 +65,17 @@ float smoothMinimum(float dSDSphere, float dSDBox, float blendFactor) {
 // Scene SDF — blend a moving sphere and box
 // TODO idk if I like this function name
 float map(vec3 pos) {
-    // Animate positions over time using sine waves
-    vec3 spherePos = vec3(-0.5 + sin(iTime) * 0.3, 0.0, 0.0);
-    vec3 boxPos = vec3(0.5 + cos(iTime * 0.8) * 0.3, 0.0, 0.0);
+    if (particleCount == 0) return 10000.0; // no particles, return large distance
 
-	// pos - spherePos is a vector from spherePos --> pos (spherePos --> currentPosition)
+    // pos - spherePos is a vector from spherePos --> pos (spherePos --> currentPosition)
 	// 0.5 = radius of sphere
-    float dSDSphere = sdSphere(pos - spherePos, 0.5); 
+    float dist = sdSphere(pos - particlePositions[0], 0.5);
 
-	// pos - boxPos is a vector from boxPos --> pos (boxPos --> currentPosition)
-	// vec(0.3) is the dimensions of the box
-    float dSDBox = sdBox(pos - boxPos, vec3(0.3));
-
-    return smoothMinimum(dSDSphere, dSDBox, 0.3); // Blend factor
+    for (int i = 1; i < particleCount; i++) {
+        float d = sdSphere(pos - particlePositions[i], 0.5);
+        dist = smoothMinimum(dist, d, 0.3); // Blend factor
+    }
+    return dist;
 }
 
 // Raymarching loop

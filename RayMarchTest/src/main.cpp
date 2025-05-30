@@ -290,7 +290,16 @@ void PreDraw(){
     float time = SDL_GetTicks() / 1000.0f;
     glUniform1f(glGetUniformLocation(gGraphicsPipelineShaderProgram, "iTime"), time);
 
-	
+    // Send shader particle info
+    int numParticles = 2;
+    std::vector<glm::vec3> positions;
+    positions.push_back(glm::vec3(-1.0f, 0.0f, 0.0f));
+    positions.push_back(glm::vec3(2.0f, 0.0f, 0.0f));
+
+    glUniform1i(glGetUniformLocation(gGraphicsPipelineShaderProgram, "particleCount"), numParticles);
+    glUniform3fv(glGetUniformLocation(gGraphicsPipelineShaderProgram, "particlePositions"), numParticles, &positions[0].x);
+
+
     // Perform our rotation update
     if(g_rotatePositive){
         g_uRotate+=0.5f;
