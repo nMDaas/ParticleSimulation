@@ -176,11 +176,12 @@ void Input(){
 
 		if (e.type == SDL_KEYDOWN) {
         switch (e.key.keysym.sym) {
+			
             case SDLK_ESCAPE:
                 std::cout << "ESC: Goodbye! (Leaving MainApplicationLoop())" << std::endl;
                 gQuit = true;
                 break;
-            case SDLK_LEFT:
+            /*case SDLK_LEFT:
                 gRenderer.updateZ(1.0f);
 				gScene.updateBoxRotationZ(1.0f);
                 break;
@@ -188,7 +189,7 @@ void Input(){
                 // Handle right arrow
 				gRenderer.updateZ(-1.0f);
 				gScene.updateBoxRotationZ(-1.0f);
-                break;
+                break;*/
             case SDLK_UP:
                 std::cout << "Up arrow pressed" << std::endl;
                 // Handle up arrow
@@ -217,6 +218,14 @@ void Input(){
     }
     if (state[SDL_SCANCODE_D]) {
         gCamera.MoveRight(0.1f);
+    }
+	if (state[SDL_SCANCODE_LEFT]) {
+        gRenderer.updateZ(1.0f);
+		gScene.updateBoxRotationZ(1.0f);
+    }
+    if (state[SDL_SCANCODE_RIGHT]) {
+        gRenderer.updateZ(-1.0f);
+		gScene.updateBoxRotationZ(-1.0f);
     }
 }
 
