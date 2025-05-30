@@ -124,34 +124,26 @@ void Solver::applyContainer(Container* gBox){
 
             // X axis
             if (localPos.x - r_local_x < boxLowerBoundaries.x) {
-                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
-                    localPos.x = boxLowerBoundaries.x + r_local_x;
-                    localVel.x *= -wall_restitution;
-                    collided = true;
-                }
+                localPos.x = boxLowerBoundaries.x + r_local_x;
+                localVel.x *= -wall_restitution;
+                collided = true;
             }
             if (localPos.x + r_local_x > boxUpperBoundaries.x) {
-                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
-                    localPos.x = boxUpperBoundaries.x - r_local_x;
-                    localVel.x *= -wall_restitution;
-                    collided = true;
-                }
+                localPos.x = boxUpperBoundaries.x - r_local_x;
+                localVel.x *= -wall_restitution;
+                collided = true;
             }
 
             // Z axis
             if (localPos.z - r_local_z < boxLowerBoundaries.z) {
-                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
-                    localPos.z = boxLowerBoundaries.z + r_local_z;
-                    localVel.z *= -wall_restitution;
-                    collided = true;
-                }
+                localPos.z = boxLowerBoundaries.z + r_local_z;
+                localVel.z *= -wall_restitution;
+                collided = true;
             }
             if (localPos.z + r_local_z > boxUpperBoundaries.z) {
-                if (localPos.y + r_local_y < boxUpperBoundaries.y) {
-                    localPos.z = boxUpperBoundaries.z - r_local_z;
-                    localVel.z *= -wall_restitution;
-                    collided = true;
-                }
+                localPos.z = boxUpperBoundaries.z - r_local_z;
+                localVel.z *= -wall_restitution;
+                collided = true;
             }
 
             if (collided) {
