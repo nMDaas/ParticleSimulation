@@ -84,7 +84,10 @@ void main()
 
     if (t < 100.0) {
         // Hit something — use gradient color
-        fragColor = vec4(vUV.x, 1.0 - vUV.y, 0.0, 1.0);
+        vec3 baseColor = vec3(0.0, 0.5, 0.8); // blue-green
+        vec3 white = vec3(1.0);
+        vec3 finalColor = mix(baseColor, white, vUV.y);
+        fragColor = vec4(finalColor, 1.0);
     } else {
         // Background
         fragColor = vec4(0.0);
