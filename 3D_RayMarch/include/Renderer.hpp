@@ -36,6 +36,7 @@ public:
 
     void CreateGraphicsPipelines();
     void RenderScene();
+    void RenderScene_RayMarch();
     void CleanUp();
 
     // All for RayMarching
@@ -44,8 +45,6 @@ public:
     GLuint gIndexBufferObject                  = 0;
 
     void VertexSpecification(); // for RayMarching
-    void PreDraw_RM(); // for RayMarching
-    void Draw_RM(); // for RayMarching
 
 private:
     int screenWidth;
@@ -72,6 +71,9 @@ private:
     void DrawBox(int gBoxTotalIndices);
     void PreDrawBox();
     void DrawBoxActually(int gBoxTotalIndices);
+
+    void PreDraw_RM(); // for RayMarching
+    void Draw_RM(); // for RayMarching
     
 };
 

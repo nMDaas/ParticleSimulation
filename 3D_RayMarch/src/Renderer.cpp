@@ -402,6 +402,11 @@ void Renderer::VertexSpecification(){
 	glDisableVertexAttribArray(1);
 }
 
+void Renderer::RenderScene_RayMarch(){
+    PreDraw_RM();
+    Draw_RM();
+}
+
 void Renderer::PreDraw_RM(){
     glEnable(GL_DEPTH_TEST);                    
     glDisable(GL_CULL_FACE);
