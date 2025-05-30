@@ -407,6 +407,8 @@ void Renderer::RenderScene_RayMarch(){
     Draw_RM();
 }
 
+// NATASHA TODO! Something is weird with camera
+//  Maybe perspec5ive and everything needs to be applied to positions before sending to shader
 void Renderer::PreDraw_RM(){
     glEnable(GL_DEPTH_TEST);                    
     glDisable(GL_CULL_FACE);
@@ -423,22 +425,19 @@ void Renderer::PreDraw_RM(){
 	glUseProgram(gGraphicsRayMarchingPipelineShaderProgram);
 
     // Model transformation by translating our object into world space
-    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,-5.0f)); 
-
-    // Update our model matrix by applying a rotation after our translation
-    model           = glm::rotate(model,glm::radians(0.0f),glm::vec3(0.0f,1.0f,0.0f));
+    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,0.0f)); 
 
     // Projection matrix (in perspective) 
     glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
                                              (float)screenWidth/(float)screenHeight,
                                              0.1f,
-                                             20.0f);
+                                             10000.0f);
 
     GLint locResolution = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "iResolution");
     glUniform2f(locResolution, (float)screenWidth, (float)screenHeight);
 
     GLint locCamPos = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "cameraPosition");
-    glm::vec3 camPos = glm::vec3(0.0f, 0.0f, -3.0f);
+    glm::vec3 camPos = glm::vec3(0.0f, 0.0f, -7.0f);
     glUniform3fv(locCamPos, 1, &camPos[0]);
 
     GLint locCamRot = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "cameraRotation");
@@ -449,10 +448,11 @@ void Renderer::PreDraw_RM(){
     glUniform1f(glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "iTime"), time);
 
     // Send shader particle info
-    int numParticles = 2;
+    int numParticles = mainScene->getSolver()->getParticles().size();
     std::vector<glm::vec3> positions;
-    positions.push_back(glm::vec3(-1.0f, 0.0f, 0.0f));
-    positions.push_back(glm::vec3(2.0f, 0.0f, 0.0f));
+    for (int i = 0; i < numParticles; i++) {
+        positions.push_back(mainScene->getSolver()->getParticles()[i]->getPosition());
+    }
 
     glUniform1i(glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "particleCount"), numParticles);
     glUniform3fv(glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "particlePositions"), numParticles, &positions[0].x);
