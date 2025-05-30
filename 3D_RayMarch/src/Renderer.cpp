@@ -424,25 +424,19 @@ void Renderer::PreDraw_RM(){
     // Use our shader
 	glUseProgram(gGraphicsRayMarchingPipelineShaderProgram);
 
-    // Model transformation by translating our object into world space
-    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,0.0f)); 
-
-    // Projection matrix (in perspective) 
-    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
-                                             (float)screenWidth/(float)screenHeight,
-                                             0.1f,
-                                             10000.0f);
-
     GLint locResolution = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "iResolution");
     glUniform2f(locResolution, (float)screenWidth, (float)screenHeight);
 
     GLint locCamPos = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "cameraPosition");
-    glm::vec3 camPos = glm::vec3(0.0f, 0.0f, -7.0f);
+    glm::vec3 camPos = mainScene->getCamera()->GetCameraEyePosition();
     glUniform3fv(locCamPos, 1, &camPos[0]);
 
     GLint locCamRot = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "cameraRotation");
-    glm::mat3 camRot = glm::mat3(1.0f); // identity matrix, looking down +Z
-    glUniformMatrix3fv(locCamRot, 1, GL_FALSE, &camRot[0][0]);
+    glm::vec3 forward = glm::normalize(glm::vec3(0.0f,0.0f, -1.0f));
+    glm::vec3 right   = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
+    glm::vec3 up      = glm::cross(right, forward);
+    glm::mat3 cameraRotation(right, up, -forward);
+    glUniformMatrix3fv(locCamRot, 1, GL_FALSE, &cameraRotation[0][0]);
 
     float time = SDL_GetTicks() / 1000.0f;
     glUniform1f(glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "iTime"), time);
