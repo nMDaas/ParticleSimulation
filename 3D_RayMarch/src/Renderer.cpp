@@ -26,6 +26,11 @@ void Renderer::CreateGraphicsPipelines(){
     std::string fragmentShaderSource_light    = LoadShaderAsString("./shaders/fragLight.glsl");
 
     gGraphicsLighterPipelineShaderProgram = CreateShaderProgram(vertexShaderSource_light,fragmentShaderSource_light);
+
+    std::string vertexShaderSource_rayMarch      = LoadShaderAsString("./shaders/vertRayMarch.glsl");
+    std::string fragmentShaderSource_rayMarch     = LoadShaderAsString("./shaders/fragRayMarch.glsl");
+
+    gGraphicsRayMarchingPipelineShaderProgram = CreateShaderProgram(vertexShaderSource_rayMarch,fragmentShaderSource_rayMarch);
 }
 
 std::string Renderer::LoadShaderAsString(const std::string& filename){
@@ -352,4 +357,113 @@ void Renderer::DrawBoxActually(int gBoxTotalIndices){
 void Renderer::CleanUp(){
     glDeleteProgram(gGraphicsPipelineShaderProgram);
     glDeleteProgram(gGraphicsLighterPipelineShaderProgram);
+    glDeleteProgram(gGraphicsRayMarchingPipelineShaderProgram);
+}
+
+void Renderer::VertexSpecification(){
+
+	const std::vector<GLfloat> vertexData
+	{
+        -1.0f, -1.0f,
+        3.0f, -1.0f,
+        -1.0f,  3.0f
+	};
+
+	glGenVertexArrays(1, &gVertexArrayObject);
+	glBindVertexArray(gVertexArrayObject);
+	glGenBuffers(1, &gVertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
+	
+	glBufferData(GL_ARRAY_BUFFER, 						// Kind of buffer we are working with 
+														// (e.g. GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER)
+				 vertexData.size() * sizeof(GL_FLOAT), 	// Size of data in bytes
+				 vertexData.data(), 					// Raw array of data
+				 GL_STATIC_DRAW);						// How we intend to use the data
+ 
+    // Index buffer data for a quad
+    const std::vector<GLuint> indexBufferData {2,0,1, 3,2,1};
+    // Setup the Index Buffer Object (IBO i.e. EBO)
+    glGenBuffers(1,&gIndexBufferObject);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,
+                 gIndexBufferObject);
+    // Populate our Index Buffer
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 indexBufferData.size()*sizeof(GLuint),
+                 indexBufferData.data(),
+                 GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*2, (void*)0);
+
+
+	glBindVertexArray(0);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+}
+
+void Renderer::PreDraw_RM(){
+    glEnable(GL_DEPTH_TEST);                    
+    glDisable(GL_CULL_FACE);
+
+    // Initialize clear color
+    // This is the background of the screen.
+    glViewport(0, 0, screenWidth, screenHeight);
+    glClearColor( 0.1f, 4.f, 7.f, 1.f );
+
+    //Clear color buffer and Depth Buffer
+  	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+    // Use our shader
+	glUseProgram(gGraphicsRayMarchingPipelineShaderProgram);
+
+    // Model transformation by translating our object into world space
+    glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,-5.0f)); 
+
+    // Update our model matrix by applying a rotation after our translation
+    model           = glm::rotate(model,glm::radians(0.0f),glm::vec3(0.0f,1.0f,0.0f));
+
+    // Projection matrix (in perspective) 
+    glm::mat4 perspective = glm::perspective(glm::radians(45.0f),
+                                             (float)screenWidth/(float)screenHeight,
+                                             0.1f,
+                                             20.0f);
+
+    GLint locResolution = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "iResolution");
+    glUniform2f(locResolution, (float)screenWidth, (float)screenHeight);
+
+    GLint locCamPos = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "cameraPosition");
+    glm::vec3 camPos = glm::vec3(0.0f, 0.0f, -3.0f);
+    glUniform3fv(locCamPos, 1, &camPos[0]);
+
+    GLint locCamRot = glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "cameraRotation");
+    glm::mat3 camRot = glm::mat3(1.0f); // identity matrix, looking down +Z
+    glUniformMatrix3fv(locCamRot, 1, GL_FALSE, &camRot[0][0]);
+
+    float time = SDL_GetTicks() / 1000.0f;
+    glUniform1f(glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "iTime"), time);
+
+    // Send shader particle info
+    int numParticles = 2;
+    std::vector<glm::vec3> positions;
+    positions.push_back(glm::vec3(-1.0f, 0.0f, 0.0f));
+    positions.push_back(glm::vec3(2.0f, 0.0f, 0.0f));
+
+    glUniform1i(glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "particleCount"), numParticles);
+    glUniform3fv(glGetUniformLocation(gGraphicsRayMarchingPipelineShaderProgram, "particlePositions"), numParticles, &positions[0].x);
+}
+
+void Renderer::Draw_RM(){
+    // Enable our attributes
+    glBindVertexArray(gVertexArrayObject);
+    
+    // Select the vertex buffer object we want to enable
+    glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
+
+    //Render data
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    // Stop using our current graphics pipeline
+    // Note: This is not necessary if we only have one graphics pipeline.
+    glUseProgram(0);
 }

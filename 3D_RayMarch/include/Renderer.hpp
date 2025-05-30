@@ -38,6 +38,15 @@ public:
     void RenderScene();
     void CleanUp();
 
+    // All for RayMarching
+    GLuint gVertexArrayObject					= 0;
+    GLuint gVertexBufferObject					= 0;
+    GLuint gIndexBufferObject                  = 0;
+
+    void VertexSpecification(); // for RayMarching
+    void PreDraw_RM(); // for RayMarching
+    void Draw_RM(); // for RayMarching
+
 private:
     int screenWidth;
     int screenHeight; 
@@ -47,6 +56,7 @@ private:
 
     GLuint gGraphicsPipelineShaderProgram = 0;
     GLuint gGraphicsLighterPipelineShaderProgram = 0;
+    GLuint gGraphicsRayMarchingPipelineShaderProgram = 0;
 
     std::string LoadShaderAsString(const std::string& filename);
     GLuint CreateShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);

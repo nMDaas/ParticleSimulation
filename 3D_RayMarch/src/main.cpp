@@ -255,9 +255,12 @@ int main( int argc, char* args[] ){
     gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
+
+	gRenderer.VertexSpecification();
 	
 	// While application is running
 	while(!gQuit){
+		/*
 		auto now = clock::now();
 
 		//gSolver.printSolverInfo();
@@ -275,13 +278,16 @@ int main( int argc, char* args[] ){
 
 				gParticleIndexToActivate++;
 			}
-		}
+		}*/
 
 		Input(); // Handle Input
 
-		gSolver.update(gScene.getBox()); // TODO should be getGBox
+		//gSolver.update(gScene.getBox()); // TODO should be getGBox
 
-        gRenderer.RenderScene();
+        //gRenderer.RenderScene();
+
+		gRenderer.PreDraw_RM();
+		gRenderer.Draw_RM();
 
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
