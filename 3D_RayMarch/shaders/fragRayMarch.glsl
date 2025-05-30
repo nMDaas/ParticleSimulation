@@ -21,28 +21,6 @@ float sdSphere(vec3 spherePosToPosVec, float r) {
     return length(spherePosToPosVec) - r;
 }
 
-// Signed distance to a box
-float sdBox(vec3 boxPosToPosVec, vec3 boxDims) {
-    vec3 d = abs(boxPosToPosVec) - boxDims;
-
-	//| Point Location | `length(max(d, 0.0))` | `min(max(d.x, d.y, d.z), 0.0)` | Final SDF                         |
-	//| -------------- | --------------------- | ------------------------------ | --------------------------------- |
-	//| Outside box    | positive              | 0                              | distance to surface (positive)    |
-	//| Inside box     | 0                     | negative                       | negative distance to closest face |
-	//| On surface     | 0                     | 0                              | 0 (exact surface)                 |
-
-	// TODO work out this math
-	// min(max(d.x, max(d.y, d.z)), 0.0) - handles the case when the point is inside the box
-	// --> positive values when the point is outside the box (returns actual distance to the surface)
-	// --> negative values when the point is inside the box (returns how deep inside)
-	// --> Return zero when the point is exactly on the surface
-
-	// A: length(max(d, 0.0)) - how far outside the box (positive part)
-	// B: min(max(d.x, max(d.y, d.z)), 0.0) - how far inside box
-	// B positive: 
-    return length(max(d, 0.0)) + min(max(d.x, max(d.y, d.z)), 0.0);
-}
-
 // Smooth minimum for blending
 float smoothMinimum(float dSDSphere, float dSDBox, float blendFactor) {
 	// get weight to blend two distances
@@ -68,12 +46,12 @@ float map(vec3 pos) {
     if (particleCount == 0) return 10000.0; // no particles, return large distance
 
     // pos - spherePos is a vector from spherePos --> pos (spherePos --> currentPosition)
-	// 0.5 = radius of sphere
-    float dist = sdSphere(pos - particlePositions[0], 0.5);
+	// 0.4 = radius of sphere
+    float dist = sdSphere(pos - particlePositions[0], 0.4); // TODO this should be passed in
 
     for (int i = 1; i < particleCount; i++) {
         float d = sdSphere(pos - particlePositions[i], 0.5);
-        dist = smoothMinimum(dist, d, 0.3); // Blend factor
+        dist = smoothMinimum(dist, d, 0.8); // Blend factor
     }
     return dist;
 }
