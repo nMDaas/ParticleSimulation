@@ -58,6 +58,8 @@ int gNumParticles = 25;
 int gParticleIndexToActivate = 0; // index of next particle to activate
 float gParticleSize = 0.4f;
 
+bool gPause = false;
+
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
 
@@ -198,6 +200,11 @@ void Input(){
                 std::cout << "Down arrow pressed" << std::endl;
                 // Handle down arrow
                 break;
+			case SDLK_SPACE:
+				gPause = !gPause;
+				std::cout << "Space key pressed!" << std::endl;
+				// Do something when space is pressed
+				break;
         }
     }
 	}
@@ -269,35 +276,43 @@ int main( int argc, char* args[] ){
 	
 	// While application is running
 	while(!gQuit){
+		
 		auto now = clock::now();
 
 		//gSolver.printSolverInfo();
 
-		// Activate a new particle
-		if (gParticleIndexToActivate < gNumParticles) {
-			if (now - lastActionTime >= interval) {
-				std::cout << "Activating one particle at: "
-						<< std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count()
-						<< " ms\n";
-				
-				gSolver.activateNewParticle(gParticleIndexToActivate);
 
-				lastActionTime = now;
+		if (!gPause) {
+			// Activate a new particle
+			if (gParticleIndexToActivate < gNumParticles) {
+				if (now - lastActionTime >= interval) {
+					std::cout << "Activating one particle at: "
+							<< std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count()
+							<< " ms\n";
+					
+					gSolver.activateNewParticle(gParticleIndexToActivate);
 
-				gParticleIndexToActivate++;
+					lastActionTime = now;
+
+					gParticleIndexToActivate++;
+				}
 			}
 		}
 
 		Input(); // Handle Input
 
-		gSolver.update(gScene.getBox()); // TODO should be getGBox
+		
 
-        //gRenderer.RenderScene();
+		if (!gPause) {
+			gSolver.update(gScene.getBox()); // TODO should be getGBox
 
-		gRenderer.RenderScene_RayMarch();
+			gRenderer.RenderScene();
 
-		//Update screen of our specified window
-		SDL_GL_SwapWindow(gGraphicsApplicationWindow);
+			//gRenderer.RenderScene_RayMarch();
+
+			//Update screen of our specified window
+			SDL_GL_SwapWindow(gGraphicsApplicationWindow);
+		}
 		
 		SDL_Delay(16); 
 
