@@ -59,6 +59,7 @@ int gParticleIndexToActivate = 0; // index of next particle to activate
 float gParticleSize = 0.3f;
 
 bool gPause = false;
+int gCounter = 0;
 
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
@@ -304,7 +305,7 @@ int main( int argc, char* args[] ){
 		
 
 		if (!gPause) {
-			gSolver.update(gScene.getBox()); // TODO should be getGBox
+			gSolver.update(gScene.getBox(), gCounter); // TODO should be getGBox
 
 			gRenderer.RenderScene();
 
@@ -318,6 +319,7 @@ int main( int argc, char* args[] ){
 
 		// Sleep to reduce CPU usage
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		gCounter++;
 	}
 
 	// Call the cleanup function when our program terminates

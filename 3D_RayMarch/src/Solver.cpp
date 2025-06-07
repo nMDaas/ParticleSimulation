@@ -62,32 +62,32 @@ void Solver::activateNewParticle(int index){
     particles[index]->activateParticle();
 }
 
-void Solver::update(Container* gBox){
+void Solver::update(Container* gBox, int counter){
     outFile << "//////////////////////////////////////////////////////////" << std::endl;
     for (int i = 0; i < substeps; i++) {
-        outFile << "------------- substep " << i << "-------------" << std::endl;
+        outFile << "------------- count " << counter << " substep " << i << "-------------" << std::endl;
         
-        outFile << "+++ applyGravity() +++" << std::endl;
+        outFile << "+++ applyGravity() count " << counter << " substep " << i << "+++" << std::endl;
         applyGravity();
         printSolverInfo();
         outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ updateObjects() +++" << std::endl;
+        outFile << "+++ updateObjects() count " << counter << " substep " << i << "+++" << std::endl;
         updateObjects(substep_dt);
         printSolverInfo();
         outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ applyContainer() +++" << std::endl;
+        outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
         printSolverInfo();
         outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ checkCollisions +++" << std::endl;
+        outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
         checkCollisions();
         printSolverInfo();
         outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ applyContainer() +++" << std::endl;
+        outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
         printSolverInfo();
         outFile << "+++++++++++++++++++++" << std::endl;
