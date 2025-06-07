@@ -4,6 +4,8 @@
 
 #include <vector>
 #include <iostream>
+#include <sstream>
+#include <fstream>
 
 #include <cstdlib>
 
@@ -32,6 +34,8 @@ private:
     float fluid_restitution;
     float wall_restitution;
     float threshold;
+
+    std::ofstream outFile;
 
     void applyGravity();
     void applyContainer(Container* gBox);

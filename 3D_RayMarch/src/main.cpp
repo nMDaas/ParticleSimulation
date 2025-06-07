@@ -54,9 +54,9 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 // note: fluid_restitution, wall_restitution, threshold and velocity damping affect how the particles react
 // # = 15, size = 0.6f, fluid_r = 0.5f, wall_r - 0.9f, damping = 0.98f
 // # = 25, size = 0.4f, fluid_r = 1.2f, wall_r - 0.1f, damping = 0.7f
-int gNumParticles = 25;
+int gNumParticles = 5;
 int gParticleIndexToActivate = 0; // index of next particle to activate
-float gParticleSize = 0.4f;
+float gParticleSize = 0.3f;
 
 bool gPause = false;
 
@@ -263,7 +263,7 @@ int main( int argc, char* args[] ){
 	// Clock setup so particles can be steadily released
 	using clock = std::chrono::steady_clock;
 	auto lastActionTime = clock::now();
-    const std::chrono::milliseconds interval(1000); // 1 second
+    const std::chrono::milliseconds interval(500); // 1 second
 
 	// Setup the graphics program
 	InitializeProgram();

@@ -1,7 +1,7 @@
 #include "Solver.hpp"
 
-Solver::Solver() {
-    gravity = glm::vec3(0.0f, -70.0f, 0.0f);
+Solver::Solver() : outFile("debug.txt"){
+    gravity = glm::vec3(0.0f, -100.0f, 0.0f);
     step_dt = 1.0f/60.0f;
     substeps = 8;
     substep_dt = step_dt / substeps;
@@ -21,21 +21,14 @@ Solver::~Solver(){
 }
 
 void Solver::printSolverInfo(){
-     // Hardcoding colors for particles
-    std::vector<std::string> colors = {
-        "red", // red
-        "green", // green
-        "blue", // blue
-        "magenta", // magenta
-        "yellow" // yellow?
-    };
-
-    std::cout << "-------- solver info ---------" << std::endl;
+    outFile << "-------- particles info ---------" << std::endl;
     for (int i = 0; i < particles.size(); i++) {
-        std::cout << "Particle " << colors[i] << std::endl;
-        particles[i]->printParticleInfo();
+        outFile << "Particle " << i << std::endl;
+        outFile << "\t position: " << glm::to_string(particles[i]->getPosition()) << std::endl;
+        outFile << "\t velocity: " << glm::to_string(particles[i]->getVelocity()) << std::endl;
+        outFile << "\t acceleration: " << glm::to_string(particles[i]->getAcceleration()) << std::endl;
     }
-    std::cout << "------------------------------" << std::endl;
+    outFile << "------------------------------" << std::endl;
 }
 
 void Solver::addParticle(glm::vec3 position, float radius){
@@ -70,13 +63,38 @@ void Solver::activateNewParticle(int index){
 }
 
 void Solver::update(Container* gBox){
+    outFile << "//////////////////////////////////////////////////////////" << std::endl;
     for (int i = 0; i < substeps; i++) {
+        outFile << "------------- substep " << i << "-------------" << std::endl;
+        
+        outFile << "+++ applyGravity() +++" << std::endl;
         applyGravity();
+        printSolverInfo();
+        outFile << "+++++++++++++++++++++" << std::endl;
+
+        outFile << "+++ updateObjects() +++" << std::endl;
         updateObjects(substep_dt);
+        printSolverInfo();
+        outFile << "+++++++++++++++++++++" << std::endl;
+
+        outFile << "+++ applyContainer() +++" << std::endl;
         applyContainer(gBox);
+        printSolverInfo();
+        outFile << "+++++++++++++++++++++" << std::endl;
+
+        outFile << "+++ checkCollisions +++" << std::endl;
         checkCollisions();
+        printSolverInfo();
+        outFile << "+++++++++++++++++++++" << std::endl;
+
+        outFile << "+++ applyContainer() +++" << std::endl;
         applyContainer(gBox);
+        printSolverInfo();
+        outFile << "+++++++++++++++++++++" << std::endl;
+
+        outFile << "--------------------------" << std::endl;
     }
+    outFile << "//////////////////////////////////////////////////////////" << std::endl;
 }
 
 void Solver::applyGravity(){
@@ -174,6 +192,7 @@ void Solver::checkCollisions(){
 
                         float dist_diff = min_dist - dist;
                         if (dist < min_dist && dist_diff > threshold) {
+                            outFile << "COLLISION! Particle " << i << " <---> Particle " << j << std::endl; 
                             glm::vec3 n = v / dist; // normalize
                             float total_mass = particle_i->getRadius() * particle_i->getRadius() + particle_j->getRadius() * particle_j->getRadius();
                             float mass_ratio = (particle_i->getRadius() * particle_i->getRadius())/ total_mass;

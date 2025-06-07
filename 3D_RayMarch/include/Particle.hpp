@@ -23,6 +23,7 @@ public:
     float getRadius();
     glm::vec3 getPosition();
     glm::vec3 getVelocity();
+    glm::vec3 getAcceleration();
     bool getActivated(); // get value of activated variable
 
     void accelerate (glm::vec3  a);
