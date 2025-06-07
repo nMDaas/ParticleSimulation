@@ -8,6 +8,8 @@
 #include <fstream>
 
 #include <cstdlib>
+#include <set>
+#include <map>
 
 #include "Particle.hpp"
 #include "Container.hpp"

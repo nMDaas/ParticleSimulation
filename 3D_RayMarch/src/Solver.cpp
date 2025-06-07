@@ -176,6 +176,8 @@ void Solver::applyContainer(Container* gBox){
 }
 
 void Solver::checkCollisions(){
+    std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map; // stores i->j collisions for which calculations are already done
+
     for (int i = 0; i < particles.size(); i++) {
         if (particles[i]->getActivated()) {
             Particle* particle_i = particles[i];
@@ -192,6 +194,18 @@ void Solver::checkCollisions(){
 
                         float dist_diff = min_dist - dist;
                         if (dist < min_dist && dist_diff > threshold) {
+                            
+                            // First, must make sure that collision in the other way has not already seen and calculated!
+                            auto it = particlePairCollisionRecorded_map.find(j); // Check if particle j has already been recorded
+                            if (it != particlePairCollisionRecorded_map.end()) {
+                                // Particle j has been recorded
+                                if (particlePairCollisionRecorded_map[j].find(i) != particlePairCollisionRecorded_map[j].end()) { // Check if i in set for j
+                                    // Particle i has been recorded in collision with j
+                                    continue;
+                                }
+                            }
+
+                            
                             outFile << "COLLISION! Particle " << i << " <---> Particle " << j << std::endl; 
                             glm::vec3 n = v / dist; // normalize
                             float total_mass = particle_i->getRadius() * particle_i->getRadius() + particle_j->getRadius() * particle_j->getRadius();
@@ -219,6 +233,19 @@ void Solver::checkCollisions(){
                                 particle_i->setVelocity(v_i + impulse * (1.0f - mass_ratio), 1.0f);
                                 particle_j->setVelocity(v_j - impulse * mass_ratio, 1.0f);
                             }
+
+                            // Now, must record collision
+                            if (it != particlePairCollisionRecorded_map.end()) {
+                                // Key already exists, just need to insert j into the set for i in the map
+                                std::set<int> i_set = particlePairCollisionRecorded_map[i];
+                                i_set.insert(j);
+                                particlePairCollisionRecorded_map[i] = i_set;
+                            }
+                            else {
+                                // Key does not exist, must create a key with a fresh set
+                                particlePairCollisionRecorded_map[i] = std::set<int>{j};
+                            }
+                        
                         }
                     }
                 }
@@ -226,6 +253,7 @@ void Solver::checkCollisions(){
         }
     }
 }
+
 
 void Solver::updateObjects(float dt){
     for (int i = 0; i < particles.size(); i++) {
