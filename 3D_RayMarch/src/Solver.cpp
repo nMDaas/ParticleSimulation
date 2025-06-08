@@ -215,6 +215,10 @@ void Solver::checkCollisions(){
                             // Larger particles move less
                             glm::vec3 particle_i_new_pos = particle_i->getPosition() + ((n * (1 - mass_ratio) * delta)/ static_cast<float>(substeps));
                             glm::vec3 particle_j_new_pos = particle_j->getPosition() - ((n * mass_ratio * delta)/ static_cast<float>(substeps));
+                            
+                            glm::vec3 particle_i_old_pos = particle_i->getPosition();
+                            glm::vec3 particle_j_old_pos = particle_j->getPosition();
+
                             particle_i->setPosition(particle_i_new_pos);
                             particle_j->setPosition(particle_j_new_pos);
 
@@ -233,6 +237,11 @@ void Solver::checkCollisions(){
                                 particle_i->setVelocity(v_i + impulse * (1.0f - mass_ratio), 1.0f);
                                 particle_j->setVelocity(v_j - impulse * mass_ratio, 1.0f);
                             }
+
+                            float particle_i_distance_diff = glm::distance(particle_i_old_pos, particle_i->getPosition());
+                            float particle_j_distance_diff = glm::distance(particle_j_old_pos, particle_j->getPosition());
+                            outFile << "particle_i_distance_diff: " << particle_i_distance_diff << std::endl;
+                            outFile << "particle_j_distance_diff: " << particle_j_distance_diff << std::endl;
 
                             // Now, must record collision
                             if (it != particlePairCollisionRecorded_map.end()) {
