@@ -54,9 +54,9 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 // note: fluid_restitution, wall_restitution, threshold and velocity damping affect how the particles react
 // # = 15, size = 0.6f, fluid_r = 0.5f, wall_r - 0.9f, damping = 0.98f
 // # = 25, size = 0.4f, fluid_r = 1.2f, wall_r - 0.1f, damping = 0.7f
-int gNumParticles = 5;
+int gNumParticles = 120;
 int gParticleIndexToActivate = 0; // index of next particle to activate
-float gParticleSize = 0.3f;
+float gParticleSize = 0.2f;
 
 bool gPause = false;
 int gCounter = 0;
@@ -307,9 +307,9 @@ int main( int argc, char* args[] ){
 		if (!gPause) {
 			gSolver.update(gScene.getBox(), gCounter); // TODO should be getGBox
 
-			gRenderer.RenderScene();
+			//gRenderer.RenderScene();
 
-			//gRenderer.RenderScene_RayMarch();
+			gRenderer.RenderScene_RayMarch();
 
 			//Update screen of our specified window
 			SDL_GL_SwapWindow(gGraphicsApplicationWindow);

@@ -1,7 +1,7 @@
 #include "Solver.hpp"
 
 Solver::Solver() : outFile("debug.txt"){
-    gravity = glm::vec3(0.0f, -100.0f, 0.0f);
+    gravity = glm::vec3(0.0f, -200.0f, 0.0f);
     step_dt = 1.0f/60.0f;
     substeps = 8;
     substep_dt = step_dt / substeps;
@@ -9,8 +9,8 @@ Solver::Solver() : outFile("debug.txt"){
     // Seed the random number generator
     srand(static_cast<unsigned int>(time(0)));
 
-    fluid_restitution = 0.1f;
-    wall_restitution = 1.2f;
+    fluid_restitution = 1.0f;
+    wall_restitution = 0.8f;
     threshold = 0.01; 
 }
 

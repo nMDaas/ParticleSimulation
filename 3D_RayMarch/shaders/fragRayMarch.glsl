@@ -46,11 +46,11 @@ float map(vec3 pos) {
     if (particleCount == 0) return 10000.0; // no particles, return large distance
 
     // pos - spherePos is a vector from spherePos --> pos (spherePos --> currentPosition)
-	// 0.4 = radius of sphere
-    float dist = sdSphere(pos - particlePositions[0], 0.4); // TODO this should be passed in
+	// 0.2 = radius of sphere
+    float dist = sdSphere(pos - particlePositions[0], 0.2); // TODO this should be passed in
 
     for (int i = 1; i < particleCount; i++) {
-        float d = sdSphere(pos - particlePositions[i], 0.4);
+        float d = sdSphere(pos - particlePositions[i], 0.2);
         dist = smoothMinimum(dist, d, 0.8); // Blend factor
     }
     return dist;
