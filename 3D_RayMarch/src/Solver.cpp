@@ -228,14 +228,36 @@ void Solver::checkCollisions(){
                             glm::vec3 relativeVelocity = v_i - v_j;
                             glm::vec3 diff = particle_i->getPosition() - particle_j->getPosition();
                             glm::vec3 normal = diff / dist;
+                            // velocityAlongNormal: relative velocity between the two particles projected onto the collision normal
+                            // velocityAlongNormal: the direction in which they’re colliding
+                            // If velocityAlongNormal > 0 → they're separating
+                            // If velocityAlongNormal < 0 → they're moving toward each other (we need to resolve this)
                             float velocityAlongNormal = glm::dot(relativeVelocity, normal);
 
-                            if (velocityAlongNormal < 0.0f) { // only resolve if moving toward each other
-                                float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / total_mass; // TODO work out math for this
+                            float mass_pi = particle_i->getRadius() * particle_i->getRadius();
+                            float mass_pj = particle_j->getRadius() * particle_j->getRadius();
+                            // Compute inverse masses to determine how much each particle responds to impulse
+                            // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
+                            float invMass_pi = 1.0f / mass_pi;
+                            float invMass_pj = 1.0f / mass_pj;
+
+                            // velocityAlongNormal < 0 means they are closing in along the collision normal
+                            // only resolve if moving toward each other
+                            if (velocityAlongNormal < 0.0f) { 
+                                /* Compute scalar impulse magnitude using physics of elastic collision:
+                                impulseMag = -(1 + e) * v / (invMass_pi + invMass_pj)
+                                    - (1 + restitution): scales the bounce (e.g., 1.0 = perfectly elastic)
+                                    - velocityAlongNormal: relative speed toward each other
+                                    - (invMass1 + invMass2): distributes impulse based on how easily each particle can move
+                                */
+                                float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / (invMass_pi + invMass_pj);
+                                
+                                // Direction of the impulse is along the collision normal.
+                                // Multiply the scalar impulse magnitude by the direction vector to get the vector form.
                                 glm::vec3 impulse = impulseMag * normal;
 
-                                particle_i->setVelocity(v_i + impulse * (1.0f - mass_ratio), 1.0f);
-                                particle_j->setVelocity(v_j - impulse * mass_ratio, 1.0f);
+                                particle_i->setVelocity(v_i + (impulse * invMass_pi), 1.0f);
+                                particle_j->setVelocity(v_j - (impulse * invMass_pj), 1.0f);
                             }
 
                             float particle_i_distance_diff = glm::distance(particle_i_old_pos, particle_i->getPosition());
