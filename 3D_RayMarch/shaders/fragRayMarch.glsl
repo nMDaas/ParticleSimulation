@@ -9,7 +9,7 @@ uniform mat3 cameraRotation;
 uniform float iTime;
 
 uniform int particleCount;
-uniform vec3 particlePositions[100];
+uniform vec3 particlePositions[150];
 
 // Signed distance
 // --> If the distance is positive, the point is outside the sphere.
