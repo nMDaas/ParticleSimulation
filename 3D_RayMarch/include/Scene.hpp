@@ -27,6 +27,7 @@ public:
     ~Scene();
     
     void SetupScene(int numParticles, float size); // Calls SetupSolverAndLights()
+    void SetupSceneWithCuboidSetup(int w, int b, int h, float r);  // Calls SetupCuboidSolverLightsAndContainer()
     void addLight(glm::vec3 position, float radius);
     void updateBoxRotationZ(float val);
     
@@ -34,6 +35,7 @@ public:
     void InitializeGLuints();
 
     // vvvvvvvvvvvvvvvvvvvvvvvvvv Get Functions vvvvvvvvvvvvvvvvvvvvvvvvvv
+    bool getIfCuboidSolverSetup();
     std::vector<Particle*> getLights();
     Solver* getSolver();
     Camera* getCamera();
@@ -54,8 +56,14 @@ private:
     Container gBox;
     ModelProcessor *gModelProcessor;
 
+    bool cuboidSolverSetup; // Cuboid particle setup or free drip setup
+
     void SetupSolverLightsAndContainer(int numParticles, float size); // Calls SetUpSolver() and SetUpLights()
     void SetUpSolver(int numParticles, float size);
+
+    void SetupCuboidSolverLightsAndContainer(int w, int b, int h, float r);  // Calls SetUpCuboidSolver() and SetUpLights()
+    void SetUpCuboidSolver(int w, int b, int h, float r);
+
     void SetUpLights();
 };
 

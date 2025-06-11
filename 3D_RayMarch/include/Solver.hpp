@@ -21,7 +21,7 @@ class Solver{
 public:
     Solver();
     ~Solver();
-    void addParticle(glm::vec3 position, float radius);
+    void addParticle(glm::vec3 position, float radius, bool i_activated);
     void update(Container* gBox, int counter);
     std::vector<Particle*> getParticles();
     void activateNewParticle(int index); // activate particles[index]

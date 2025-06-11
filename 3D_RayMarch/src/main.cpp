@@ -269,7 +269,8 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-    gScene.SetupScene(gNumParticles, gParticleSize);
+	gScene.SetupSceneWithCuboidSetup(6, 6, 6, gParticleSize);
+    //gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
 
@@ -284,18 +285,21 @@ int main( int argc, char* args[] ){
 
 
 		if (!gPause) {
-			// Activate a new particle
-			if (gParticleIndexToActivate < gNumParticles) {
-				if (now - lastActionTime >= interval) {
-					std::cout << "Activating one particle at: "
-							<< std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count()
-							<< " ms\n";
-					
-					gSolver.activateNewParticle(gParticleIndexToActivate);
+			// If the scene's solver does not have a cuboid setup but a free/drip solver setup, active particles one by one
+			if (!gScene.getIfCuboidSolverSetup()) {
+				// Activate a new particle
+				if (gParticleIndexToActivate < gNumParticles) {
+					if (now - lastActionTime >= interval) {
+						std::cout << "Activating one particle at: "
+								<< std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count()
+								<< " ms\n";
+						
+						gSolver.activateNewParticle(gParticleIndexToActivate);
 
-					lastActionTime = now;
+						lastActionTime = now;
 
-					gParticleIndexToActivate++;
+						gParticleIndexToActivate++;
+					}
 				}
 			}
 		}
@@ -307,9 +311,9 @@ int main( int argc, char* args[] ){
 		if (!gPause) {
 			gSolver.update(gScene.getBox(), gCounter); // TODO should be getGBox
 
-			//gRenderer.RenderScene();
+			gRenderer.RenderScene();
 
-			gRenderer.RenderScene_RayMarch();
+			//gRenderer.RenderScene_RayMarch();
 
 			//Update screen of our specified window
 			SDL_GL_SwapWindow(gGraphicsApplicationWindow);

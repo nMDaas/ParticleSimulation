@@ -17,6 +17,7 @@ class Particle{
 public:
     Particle();
     Particle(glm::vec3 pos, float r);
+    Particle(glm::vec3 pos, float r, bool i_activated);
 
     void activateParticle();
 

@@ -9,7 +9,7 @@ Solver::Solver() : outFile("debug.txt"){
     // Seed the random number generator
     srand(static_cast<unsigned int>(time(0)));
 
-    fluid_restitution = 1.0f;
+    fluid_restitution = 0.0f;
     wall_restitution = 0.8f;
     threshold = 0.01; 
 }
@@ -31,8 +31,8 @@ void Solver::printSolverInfo(){
     outFile << "------------------------------" << std::endl;
 }
 
-void Solver::addParticle(glm::vec3 position, float radius){
-    particles.push_back(new Particle(position, radius));
+void Solver::addParticle(glm::vec3 position, float radius, bool i_activated){
+    particles.push_back(new Particle(position, radius, i_activated));
 
     // Generate a float between a range
     float min = 45.0f;

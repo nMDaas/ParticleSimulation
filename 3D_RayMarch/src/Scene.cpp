@@ -6,12 +6,17 @@ Scene::Scene(Solver* i_gSolver, Camera* i_gCamera, ModelProcessor* i_gModelProce
     gSolver = i_gSolver;
     gCamera = i_gCamera;
     gModelProcessor = i_gModelProcessor;
+    cuboidSolverSetup = false;
 }
 
 Scene::~Scene(){
     for (int i = 0; i < lights.size(); i++) {
         delete lights[i];
     }
+}
+
+bool Scene::getIfCuboidSolverSetup(){
+    return cuboidSolverSetup;
 }
 
 void Scene::updateBoxRotationZ(float val) {
@@ -23,6 +28,12 @@ void Scene::SetupScene(int numParticles, float size){
     gModelProcessor->VertexSpecification(gSolver->getParticles().size());
 }
 
+void Scene::SetupSceneWithCuboidSetup(int w, int b, int h, float r){
+    SetupCuboidSolverLightsAndContainer(w, b, h, r);
+    gModelProcessor->VertexSpecification(gSolver->getParticles().size());
+    cuboidSolverSetup = true;
+}
+
 // Setup geometry for particles and lights
 void Scene::SetupSolverLightsAndContainer(int numParticles, float size){
     SetUpSolver(numParticles, size);
@@ -30,9 +41,41 @@ void Scene::SetupSolverLightsAndContainer(int numParticles, float size){
     gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f));
 }
 
+void Scene::SetupCuboidSolverLightsAndContainer(int w, int b, int h, float r){
+    SetUpCuboidSolver(w, b, h, r);
+    SetUpLights();
+    gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f));
+}
+
 void Scene::SetUpSolver(int numParticles, float size){
     for (int i = 0; i < numParticles; i++) {
-        gSolver->addParticle(glm::vec3(0.0f,6.0f,0.0f), size);
+        gSolver->addParticle(glm::vec3(0.0f,6.0f,0.0f), size, false);
+    }
+}
+
+void Scene::SetUpCuboidSolver(int w, int b, int h, float r) {
+    float spacing = r * 2.05f; // distance between particle centers
+
+    // Total size of the cuboid
+    float totalWidth  = (w - 1) * spacing;
+    float totalBreadth = (b - 1) * spacing;
+    float totalHeight = (h - 1) * spacing;
+
+    // Origin offset so the cuboid is centered at (0, centerY, 0)
+    float centerY = 5.0f; // height where the cuboid is centered
+    glm::vec3 origin(
+        -totalWidth / 2.0f,
+        centerY - totalHeight / 2.0f,
+        -totalBreadth / 2.0f
+    );
+
+    for (int i = 0; i < w; ++i) {
+        for (int j = 0; j < h; ++j) {
+            for (int k = 0; k < b; ++k) {
+                glm::vec3 pos = origin + glm::vec3(i * spacing, j * spacing, k * spacing);
+                gSolver->addParticle(pos, r, true);
+            }
+        }
     }
 }
 
