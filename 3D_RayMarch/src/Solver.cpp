@@ -9,7 +9,7 @@ Solver::Solver() : outFile("debug.txt"){
     // Seed the random number generator
     srand(static_cast<unsigned int>(time(0)));
 
-    fluid_restitution = 0.0f;
+    fluid_restitution = 1.0f;
     wall_restitution = 0.8f;
     threshold = 0.01; 
 }
@@ -208,8 +208,8 @@ void Solver::checkCollisions(){
                             
                             outFile << "COLLISION! Particle " << i << " <---> Particle " << j << std::endl; 
                             glm::vec3 n = v / dist; // normalize
-                            float total_mass = particle_i->getRadius() * particle_i->getRadius() + particle_j->getRadius() * particle_j->getRadius();
-                            float mass_ratio = (particle_i->getRadius() * particle_i->getRadius())/ total_mass;
+                            float total_mass = particle_i->getMass() * particle_i->getMass() + particle_j->getMass() * particle_j->getMass();
+                            float mass_ratio = (particle_i->getMass() * particle_i->getMass())/ total_mass;
                             float delta = 0.5 * (min_dist - dist);
 
                             // Larger particles move less
@@ -234,8 +234,8 @@ void Solver::checkCollisions(){
                             // If velocityAlongNormal < 0 → they're moving toward each other (we need to resolve this)
                             float velocityAlongNormal = glm::dot(relativeVelocity, normal);
 
-                            float mass_pi = particle_i->getRadius() * particle_i->getRadius();
-                            float mass_pj = particle_j->getRadius() * particle_j->getRadius();
+                            float mass_pi = particle_i->getMass() * particle_i->getMass();
+                            float mass_pj = particle_j->getMass() * particle_j->getMass();
                             // Compute inverse masses to determine how much each particle responds to impulse
                             // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
                             float invMass_pi = 1.0f / mass_pi;

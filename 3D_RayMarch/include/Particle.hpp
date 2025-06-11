@@ -26,6 +26,7 @@ public:
     glm::vec3 getVelocity();
     glm::vec3 getAcceleration();
     bool getActivated(); // get value of activated variable
+    float getMass();
 
     void accelerate (glm::vec3  a);
     void update (float dt);
@@ -41,6 +42,7 @@ private:
     float speed;
     glm::vec3 acceleration;
     bool activated;
+    float mass;
 
 };
 

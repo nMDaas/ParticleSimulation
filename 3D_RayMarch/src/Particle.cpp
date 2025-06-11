@@ -8,6 +8,7 @@ Particle::Particle(glm::vec3 pos, float r) {
     radius = r;
     acceleration = glm::vec3(10.0f,10.0f, 0.0f);
     activated = false;
+    mass = 1.0f;
 }
 
 Particle::Particle(glm::vec3 pos, float r, bool i_activated){
@@ -16,10 +17,15 @@ Particle::Particle(glm::vec3 pos, float r, bool i_activated){
     radius = r;
     acceleration = glm::vec3(10.0f,10.0f, 0.0f);
     activated = i_activated;
+    mass = 1.0f;
 }
 
 float Particle::getRadius() {
     return radius;
+}
+
+float Particle::getMass(){
+    return mass;
 }
 
 glm::vec3 Particle::getPosition() {
