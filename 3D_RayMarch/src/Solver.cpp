@@ -1,7 +1,7 @@
 #include "Solver.hpp"
 
 Solver::Solver() : outFile("debug.txt"){
-    gravity = glm::vec3(0.0f, -200.0f, 0.0f);
+    gravity = glm::vec3(0.0f, -300.0f, 0.0f);
     step_dt = 1.0f/60.0f;
     substeps = 8;
     substep_dt = step_dt / substeps;

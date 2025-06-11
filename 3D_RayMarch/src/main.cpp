@@ -264,7 +264,7 @@ int main( int argc, char* args[] ){
 	// Clock setup so particles can be steadily released
 	using clock = std::chrono::steady_clock;
 	auto lastActionTime = clock::now();
-    const std::chrono::milliseconds interval(500); // 1 second
+    const std::chrono::milliseconds interval(250); // 1 second
 
 	// Setup the graphics program
 	InitializeProgram();
