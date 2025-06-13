@@ -50,10 +50,17 @@ ModelProcessor gModelProcessor;
 Scene gScene(&gSolver, &gCamera, &gModelProcessor);
 Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 
+// Variables that will need adjusting based on each other: 
+//		gParticleSize
+//		damping (in Particle::setVelocity())
+//		fluid_r (in Solver)
+//		wall_r (in Solver)
+//		thresholdContainer (in Solver)
+
+// Good variables
+// size = 0.2f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 1.05f
+
 // Core Variables for Scene
-// note: fluid_restitution, wall_restitution, threshold and velocity damping affect how the particles react
-// # = 15, size = 0.6f, fluid_r = 0.5f, wall_r - 0.9f, damping = 0.98f
-// # = 25, size = 0.4f, fluid_r = 1.2f, wall_r - 0.1f, damping = 0.7f
 int gNumParticles = 120;
 int gParticleIndexToActivate = 0; // index of next particle to activate
 float gParticleSize = 0.2f;
