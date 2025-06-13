@@ -207,12 +207,14 @@ void Solver::checkCollisions(){
 
                             
                             outFile << "COLLISION! Particle " << i << " <---> Particle " << j << std::endl; 
-                            glm::vec3 n = v / dist; // normalize
+                            
                             float total_mass = particle_i->getMass() + particle_j->getMass();
                             float mass_ratio = particle_i->getMass() / total_mass;
                             float delta = 0.5 * dist_diff; //  compute much overlap exists between i and j and then halves it
 
                             // Larger particles move less
+                            glm::vec3 n = v / dist; // normalize
+                            // Adding for particle_i and subtracting for particle_j because v is a vector from j to i
                             glm::vec3 particle_i_new_pos = particle_i->getPosition() + ((n * (1 - mass_ratio) * delta)/ static_cast<float>(substeps));
                             glm::vec3 particle_j_new_pos = particle_j->getPosition() - ((n * mass_ratio * delta)/ static_cast<float>(substeps));
                             
