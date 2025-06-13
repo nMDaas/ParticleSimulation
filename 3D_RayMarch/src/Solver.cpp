@@ -236,12 +236,10 @@ void Solver::checkCollisions(){
                             // If velocityAlongNormal < 0 → they're moving toward each other (we need to resolve this)
                             float velocityAlongNormal = glm::dot(relativeVelocity, normal);
 
-                            float mass_pi = particle_i->getMass() * particle_i->getMass();
-                            float mass_pj = particle_j->getMass() * particle_j->getMass();
                             // Compute inverse masses to determine how much each particle responds to impulse
                             // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
-                            float invMass_pi = 1.0f / mass_pi;
-                            float invMass_pj = 1.0f / mass_pj;
+                            float invMass_pi = 1.0f / particle_i->getMass();
+                            float invMass_pj = 1.0f / particle_j->getMass();
 
                             // velocityAlongNormal < 0 means they are closing in along the collision normal
                             // only resolve if moving toward each other
