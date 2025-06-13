@@ -126,6 +126,8 @@ void Solver::applyContainer(Container* gBox){
             float r_local_y = particles[i]->getRadius() / gBox->getProportions().y;
             float r_local_z = particles[i]->getRadius() / gBox->getProportions().z;
 
+            bool withinYMax = localPos.y + r_local_y < boxUpperBoundaries.y;
+
             bool collided = false;
 
             // Y axis
