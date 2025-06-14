@@ -231,13 +231,11 @@ void Solver::checkCollisions(){
                             glm::vec3 v_j = particle_j->getVelocity();
 
                             glm::vec3 relativeVelocity = v_i - v_j;
-                            glm::vec3 diff = particle_i->getPosition() - particle_j->getPosition();
-                            glm::vec3 normal = diff / dist;
                             // velocityAlongNormal: relative velocity between the two particles projected onto the collision normal
                             // velocityAlongNormal: the direction in which they’re colliding
                             // If velocityAlongNormal > 0 → they're separating
                             // If velocityAlongNormal < 0 → they're moving toward each other (we need to resolve this)
-                            float velocityAlongNormal = glm::dot(relativeVelocity, normal);
+                            float velocityAlongNormal = glm::dot(relativeVelocity, n);
 
                             // Compute inverse masses to determine how much each particle responds to impulse
                             // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
@@ -257,7 +255,7 @@ void Solver::checkCollisions(){
                                 
                                 // Direction of the impulse is along the collision normal.
                                 // Multiply the scalar impulse magnitude by the direction vector to get the vector form.
-                                glm::vec3 impulse = impulseMag * normal;
+                                glm::vec3 impulse = impulseMag * n;
 
                                 particle_i->setVelocity(v_i + (impulse * invMass_pi), 1.0f);
                                 particle_j->setVelocity(v_j - (impulse * invMass_pj), 1.0f);
