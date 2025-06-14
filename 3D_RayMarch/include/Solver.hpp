@@ -44,6 +44,9 @@ private:
     void checkCollisions();
     void updateObjects(float dt);
 
+    std::vector<Particle*> getCloseParticles(Particle* p, float range); // Get particles that are close to particle p
+    bool getParticleInRange(Particle* particle, glm::vec3 upperBoundCoords, glm::vec3 lowerBoundCoords);
+
 };
 
 

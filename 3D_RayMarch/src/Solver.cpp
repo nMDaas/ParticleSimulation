@@ -184,13 +184,16 @@ void Solver::checkCollisions(){
     for (int i = 0; i < particles.size(); i++) {
         if (particles[i]->getActivated()) {
             Particle* particle_i = particles[i];
-            for (int j = 0; j < particles.size(); j++) {
-                if (particles[j]->getActivated()){
+
+            std::vector<Particle*> closeParticles = getCloseParticles(particle_i, 0.3);
+
+            for (int j = 0; j < closeParticles.size(); j++) {
+                if (closeParticles[j]->getActivated()){
                     if (i == j) {
                         continue;
                     }
                     else {
-                        Particle* particle_j = particles[j];
+                        Particle* particle_j = closeParticles[j];
                         glm::vec3 v = particle_i->getPosition() - particle_j->getPosition();
                         float dist = glm::distance(particle_i->getPosition(), particle_j->getPosition());
                         float min_dist = particle_i->getRadius() + particle_j->getRadius();
@@ -293,4 +296,40 @@ void Solver::updateObjects(float dt){
             particles[i]->update(dt);
         }
     }
+}
+
+// Get particles that are close to particle p
+std::vector<Particle*> Solver::getCloseParticles(Particle* p, float range){
+    std::vector<Particle*> closeParticles;
+
+    glm::vec3 p_position = p->getPosition();
+    glm::vec3 lowerBoundCoords = glm::vec3(p_position.x - range, p_position.y - range, p_position.z - range);
+    glm::vec3 upperBoundCoords = glm::vec3(p_position.x + range, p_position.y + range, p_position.z + range);
+
+    for (int i = 0; i < particles.size(); i++) {
+        if (particles[i] == p) {
+            continue;
+        }
+        else {
+            if (getParticleInRange(particles[i], upperBoundCoords, lowerBoundCoords)) {
+                closeParticles.push_back(particles[i]);
+            }
+        }
+    }
+
+    return closeParticles;
+} 
+
+bool Solver::getParticleInRange(Particle* particle, glm::vec3 upperBoundCoords, glm::vec3 lowerBoundCoords){
+    glm::vec3 particle_position = particle->getPosition();
+    if (particle_position.x < lowerBoundCoords.x || particle_position.x > upperBoundCoords.x){
+        return false;
+    }
+    if (particle_position.y < lowerBoundCoords.y || particle_position.y > upperBoundCoords.y){
+        return false;
+    }
+    if (particle_position.z < lowerBoundCoords.z || particle_position.z > upperBoundCoords.z){
+        return false;
+    }
+    return true;
 }
