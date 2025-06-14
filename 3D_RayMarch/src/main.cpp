@@ -294,7 +294,7 @@ int main( int argc, char* args[] ){
 	InitializeProgram();
 
 	gScene.SetupSceneWithCuboidSetup(5, 5, 5, gParticleSize);
-    //SetupScene(gNumParticles, gParticleSize);
+    //gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
 
