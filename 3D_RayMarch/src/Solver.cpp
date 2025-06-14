@@ -129,6 +129,7 @@ void Solver::applyContainer(Container* gBox){
             bool withinYMax = localPos.y + r_local_y < boxUpperBoundaries.y;
 
             bool collided = false;
+            float thresholdContainer = 1.05; // might vary depending on radius size
 
             // Y axis
             if (localPos.y - r_local_y < boxLowerBoundaries.y) {
@@ -143,24 +144,24 @@ void Solver::applyContainer(Container* gBox){
             }*/
 
             // X axis
-            if (localPos.x - r_local_x < boxLowerBoundaries.x) {
+            if (localPos.x - r_local_x < boxLowerBoundaries.x && withinYMax && std::abs(localPos.x - r_local_x) < thresholdContainer) {
                 localPos.x = boxLowerBoundaries.x + r_local_x;
                 localVel.x *= -wall_restitution;
                 collided = true;
             }
-            if (localPos.x + r_local_x > boxUpperBoundaries.x) {
+            if (localPos.x + r_local_x > boxUpperBoundaries.x && withinYMax && std::abs(localPos.x + r_local_x) < thresholdContainer) {
                 localPos.x = boxUpperBoundaries.x - r_local_x;
                 localVel.x *= -wall_restitution;
                 collided = true;
             }
 
             // Z axis
-            if (localPos.z - r_local_z < boxLowerBoundaries.z) {
+            if (localPos.z - r_local_z < boxLowerBoundaries.z && withinYMax && std::abs(localPos.z - r_local_z) < thresholdContainer) {
                 localPos.z = boxLowerBoundaries.z + r_local_z;
                 localVel.z *= -wall_restitution;
                 collided = true;
             }
-            if (localPos.z + r_local_z > boxUpperBoundaries.z) {
+            if (localPos.z + r_local_z > boxUpperBoundaries.z && withinYMax && std::abs(localPos.z + r_local_z) < thresholdContainer) {
                 localPos.z = boxUpperBoundaries.z - r_local_z;
                 localVel.z *= -wall_restitution;
                 collided = true;
