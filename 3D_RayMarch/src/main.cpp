@@ -71,6 +71,11 @@ int gCounter = 0;
 bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
 
+// Variables to track FPS
+int frameCount = 0;
+double fps = 0.0;
+auto lastTime = std::chrono::high_resolution_clock::now();
+
 // vvvvvvvvvvvvvvvvvvvvvvvvvv OpenGL Boilerplate vvvvvvvvvvvvvvvvvvvvvvvvvv
 
 static void GLClearAllErrors(){
@@ -259,6 +264,18 @@ void CleanUp(){
 	SDL_Quit();
 }
 
+void updateFPS() {
+    frameCount++;
+
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = currentTime - lastTime;
+
+    if (elapsed.count() >= 1.0) {
+        fps = frameCount / elapsed.count();
+        frameCount = 0;
+        lastTime = currentTime;
+    }
+}
 
 /**
 * The entry point into our C++ programs.
@@ -277,7 +294,7 @@ int main( int argc, char* args[] ){
 	InitializeProgram();
 
 	gScene.SetupSceneWithCuboidSetup(5, 5, 5, gParticleSize);
-    //gScene.SetupScene(gNumParticles, gParticleSize);
+    //SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
 
@@ -325,6 +342,10 @@ int main( int argc, char* args[] ){
 			//Update screen of our specified window
 			SDL_GL_SwapWindow(gGraphicsApplicationWindow);
 		}
+
+		updateFPS();
+
+		std::cout << "FPS: " << fps << std::endl;
 		
 		SDL_Delay(16); 
 
