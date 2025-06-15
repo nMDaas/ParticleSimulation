@@ -304,6 +304,7 @@ int main( int argc, char* args[] ){
 	while(!gQuit){
 		
 		auto now = clock::now();
+		auto t0 = std::chrono::high_resolution_clock::now();
 
 		//gSolver.printSolverInfo();
 
@@ -335,7 +336,13 @@ int main( int argc, char* args[] ){
 		if (!gPause) {
 			gSolver.update(gScene.getBox(), gCounter); // TODO should be getGBox
 
+			//auto t1 = std::chrono::high_resolution_clock::now();
+			//std::cout << "gSolver.update(): " << std::chrono::duration<double, std::milli>(t1 - t0).count() << " ms\n";
+
 			gRenderer.RenderScene();
+
+			//auto t2 = std::chrono::high_resolution_clock::now();
+			//std::cout << "gRenderer.RenderScene(): " << std::chrono::duration<double, std::milli>(t2 - t1).count() << " ms\n";
 
 			//gRenderer.RenderScene_RayMarch();
 

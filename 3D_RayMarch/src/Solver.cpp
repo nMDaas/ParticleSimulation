@@ -21,14 +21,14 @@ Solver::~Solver(){
 }
 
 void Solver::printSolverInfo(){
-    outFile << "-------- particles info ---------" << std::endl;
+    //outFile << "-------- particles info ---------" << std::endl;
     for (int i = 0; i < particles.size(); i++) {
-        outFile << "Particle " << i << std::endl;
-        outFile << "\t position: " << glm::to_string(particles[i]->getPosition()) << std::endl;
-        outFile << "\t velocity: " << glm::to_string(particles[i]->getVelocity()) << std::endl;
-        outFile << "\t acceleration: " << glm::to_string(particles[i]->getAcceleration()) << std::endl;
+        //outFile << "Particle " << i << std::endl;
+        //outFile << "\t position: " << glm::to_string(particles[i]->getPosition()) << std::endl;
+        //outFile << "\t velocity: " << glm::to_string(particles[i]->getVelocity()) << std::endl;
+        //outFile << "\t acceleration: " << glm::to_string(particles[i]->getAcceleration()) << std::endl;
     }
-    outFile << "------------------------------" << std::endl;
+    //outFile << "------------------------------" << std::endl;
 }
 
 void Solver::addParticle(glm::vec3 position, float radius, bool i_activated){
@@ -63,38 +63,54 @@ void Solver::activateNewParticle(int index){
 }
 
 void Solver::update(Container* gBox, int counter){
-    outFile << "//////////////////////////////////////////////////////////" << std::endl;
+    //outFile << "//////////////////////////////////////////////////////////" << std::endl;
     for (int i = 0; i < substeps; i++) {
-        outFile << "------------- count " << counter << " substep " << i << "-------------" << std::endl;
+        auto t0 = std::chrono::high_resolution_clock::now();
+        //outFile << "------------- count " << counter << " substep " << i << "-------------" << std::endl;
         
-        outFile << "+++ applyGravity() count " << counter << " substep " << i << "+++" << std::endl;
+        //outFile << "+++ applyGravity() count " << counter << " substep " << i << "+++" << std::endl;
         applyGravity();
         printSolverInfo();
-        outFile << "+++++++++++++++++++++" << std::endl;
+        //outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ updateObjects() count " << counter << " substep " << i << "+++" << std::endl;
+        auto t1 = std::chrono::high_resolution_clock::now();
+		//std::cout << "applyGravity(): " << std::chrono::duration<double, std::milli>(t1 - t0).count() << " ms\n";
+
+        //outFile << "+++ updateObjects() count " << counter << " substep " << i << "+++" << std::endl;
         updateObjects(substep_dt);
         printSolverInfo();
-        outFile << "+++++++++++++++++++++" << std::endl;
+        //outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
+        auto t2 = std::chrono::high_resolution_clock::now();
+		//std::cout << "updateObjects(): " << std::chrono::duration<double, std::milli>(t2 - t1).count() << " ms\n";
+
+        //outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
         printSolverInfo();
-        outFile << "+++++++++++++++++++++" << std::endl;
+        //outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
+        auto t3 = std::chrono::high_resolution_clock::now();
+		//std::cout << "applyContainer(): " << std::chrono::duration<double, std::milli>(t3 - t2).count() << " ms\n";
+
+        //outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
         checkCollisions();
         printSolverInfo();
-        outFile << "+++++++++++++++++++++" << std::endl;
+        //outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
+        auto t4 = std::chrono::high_resolution_clock::now();
+		//std::cout << "checkCollisions(): " << std::chrono::duration<double, std::milli>(t4 - t3).count() << " ms\n";
+
+        //outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
         printSolverInfo();
-        outFile << "+++++++++++++++++++++" << std::endl;
+        //outFile << "+++++++++++++++++++++" << std::endl;
 
-        outFile << "--------------------------" << std::endl;
+        auto t5 = std::chrono::high_resolution_clock::now();
+		//std::cout << "applyContainer(): " << std::chrono::duration<double, std::milli>(t5 - t4).count() << " ms\n";
+
+        //outFile << "--------------------------" << std::endl;
     }
-    outFile << "//////////////////////////////////////////////////////////" << std::endl;
+    //outFile << "//////////////////////////////////////////////////////////" << std::endl;
 }
 
 void Solver::applyGravity(){
@@ -212,7 +228,7 @@ void Solver::checkCollisions(){
                             }
 
                             
-                            outFile << "COLLISION! Particle " << i << " <---> Particle " << j << std::endl; 
+                            //outFile << "COLLISION! Particle " << i << " <---> Particle " << j << std::endl; 
                             
                             float total_mass = particle_i->getMass() + particle_j->getMass();
                             float mass_ratio = particle_i->getMass() / total_mass;
@@ -266,8 +282,8 @@ void Solver::checkCollisions(){
 
                             float particle_i_distance_diff = glm::distance(particle_i_old_pos, particle_i->getPosition());
                             float particle_j_distance_diff = glm::distance(particle_j_old_pos, particle_j->getPosition());
-                            outFile << "particle_i_distance_diff: " << particle_i_distance_diff << std::endl;
-                            outFile << "particle_j_distance_diff: " << particle_j_distance_diff << std::endl;
+                            //outFile << "particle_i_distance_diff: " << particle_i_distance_diff << std::endl;
+                            //outFile << "particle_j_distance_diff: " << particle_j_distance_diff << std::endl;
 
                             // Now, must record collision
                             if (it != particlePairCollisionRecorded_map.end()) {
