@@ -121,7 +121,8 @@ void Solver::applyGravity(){
     }
 }
 
-void Solver::applyContainer(Container* gBox){
+
+void Solver::applyContainerThread(Container* gBox, int startIdx, int endIdx) {
     glm::mat4 modelWorld = gBox->getTransform(); 
     glm::mat4 modelLocal = glm::inverse(modelWorld); // Transform from world space to local box space
 
@@ -129,7 +130,7 @@ void Solver::applyContainer(Container* gBox){
     glm::vec3 boxLowerBoundaries = gBox->getLowerBoundaries(); 
     glm::vec3 boxUpperBoundaries = gBox->getUpperBoundaries();
 
-    for (int i = 0; i < particles.size(); i++) {
+    for (int i = startIdx; i < endIdx; i++) {
         if (particles[i]->getActivated()){
             glm::vec3 worldPos = particles[i]->getPosition(); // Current world-space position
             glm::vec3 worldVel = particles[i]->getVelocity(); // Current world-space velocity
@@ -192,6 +193,18 @@ void Solver::applyContainer(Container* gBox){
             }
         }
     }
+}
+
+
+void Solver::applyContainer(Container* gBox) {
+    int n = particles.size();
+    int mid = n / 2;
+
+    std::thread t1(&Solver::applyContainerThread, this, gBox, 0, mid);
+    std::thread t2(&Solver::applyContainerThread, this, gBox, mid, n);
+
+    t1.join();
+    t2.join();
 }
 
 void Solver::checkCollisions(){

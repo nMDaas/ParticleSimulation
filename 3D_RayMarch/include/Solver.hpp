@@ -11,6 +11,7 @@
 #include <set>
 #include <map>
 #include <chrono>
+#include <thread>
 
 #include "Particle.hpp"
 #include "Container.hpp"
@@ -42,6 +43,7 @@ private:
 
     void applyGravity();
     void applyContainer(Container* gBox);
+    void applyContainerThread(Container* gBox, int startIdx, int endIdx);
     void checkCollisions();
     void updateObjects(float dt);
 
