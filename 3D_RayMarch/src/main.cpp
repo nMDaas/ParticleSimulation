@@ -240,12 +240,12 @@ void Input(){
         gCamera.MoveRight(0.1f);
     }
 	if (state[SDL_SCANCODE_LEFT]) {
-        gRenderer.updateZ(1.0f);
-		gScene.updateBoxRotationZ(1.0f);
+        gRenderer.updateZ(2.0f);
+		gScene.updateBoxRotationZ(2.0f);
     }
     if (state[SDL_SCANCODE_RIGHT]) {
-        gRenderer.updateZ(-1.0f);
-		gScene.updateBoxRotationZ(-1.0f);
+        gRenderer.updateZ(-2.0f);
+		gScene.updateBoxRotationZ(-2.0f);
     }
 }
 
