@@ -9,7 +9,7 @@ uniform mat3 cameraRotation;
 uniform float iTime;
 
 uniform int particleCount;
-uniform vec3 particlePositions[250];
+uniform vec3 particlePositions[600];
 
 // Signed distance
 // --> If the distance is positive, the point is outside the sphere.
@@ -94,6 +94,6 @@ void main()
         fragColor = vec4(finalColor, 1.0);
     } else {
         // Background
-        fragColor = vec4(0.0);
+        discard;
     }
 }
