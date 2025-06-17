@@ -51,7 +51,7 @@ float map(vec3 pos) {
 
     for (int i = 1; i < particleCount; i++) {
         float d = sdSphere(pos - particlePositions[i], 0.2);
-        dist = smoothMinimum(dist, d, 0.8); // Blend factor
+        dist = smoothMinimum(dist, d, 0.3); // Blend factor
     }
     return dist;
 }
