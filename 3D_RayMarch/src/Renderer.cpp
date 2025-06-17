@@ -403,24 +403,21 @@ void Renderer::VertexSpecification(){
 }
 
 void Renderer::RenderScene_RayMarch(){
+    mainScene->InitializeGLuints();
+
+    PreDraw();
+
     PreDraw_RM();
-    Draw_RM();
+    Draw_RM(); // Draw raymarched particles on top
+
+    DrawBox(mainScene->getObjTotalIndices("Box")); // Draw the box first
+
 }
+
 
 // NATASHA TODO! Something is weird with camera
 //  Maybe perspec5ive and everything needs to be applied to positions before sending to shader
 void Renderer::PreDraw_RM(){
-    glEnable(GL_DEPTH_TEST);                    
-    glDisable(GL_CULL_FACE);
-
-    // Initialize clear color
-    // This is the background of the screen.
-    glViewport(0, 0, screenWidth, screenHeight);
-    glClearColor( 0.1f, 4.f, 7.f, 1.f );
-
-    //Clear color buffer and Depth Buffer
-  	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
     // Use our shader
 	glUseProgram(gGraphicsRayMarchingPipelineShaderProgram);
 
@@ -455,6 +452,8 @@ void Renderer::PreDraw_RM(){
 void Renderer::Draw_RM(){
     // Enable our attributes
     glBindVertexArray(gVertexArrayObject);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
     // Select the vertex buffer object we want to enable
     glBindBuffer(GL_ARRAY_BUFFER, gVertexBufferObject);
