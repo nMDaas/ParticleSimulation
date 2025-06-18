@@ -114,8 +114,8 @@ fragColor = vec4(normalColor, 1.0);
 
 vec3 getColor(vec3 rayOrigin, vec3 rayDir, float t) {
     // TODO should be customizable
-    float ambient_strength = 0.2;
-    float diffuse_strength = 0.8;
+    float ambient_strength = 0.6;
+    float diffuse_strength = 0.4;
 
     vec3 u_lightColor = vec3(1.0f, 1.0f, 1.0f); // Should also be passed in
 
@@ -166,11 +166,11 @@ void main()
 
         float density = accumulateDensity(rayOrigin, rayDir);
         
-        float absorption = 0.4; // You can try values like 0.5, 1.0, 2.0 to control how strong the absorption is
+        float absorption = 0.1; // You can try values like 0.5, 1.0, 2.0 to control how strong the absorption is
         float transmission = exp(-absorption * density);
 
         vec3 lightColor = vec3(1.0); // White light
-        vec3 color = lightColor * transmission; // Apply Beer-Lambert attenuation
+        vec3 color = combinedColor * transmission; // Apply Beer-Lambert attenuation
 
         fragColor = vec4(color, 1.0);
 
