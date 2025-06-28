@@ -293,7 +293,7 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-	gScene.SetupSceneWithCuboidSetup(5, 5, 5, gParticleSize);
+	gScene.SetupSceneWithCuboidSetup(8, 8, 8, gParticleSize);
     //gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
