@@ -83,9 +83,8 @@ std::vector<int> Solver::GetPotentialCollisions(glm::vec3 pos, float radius, int
     Vec3i base = getCellIndex(pos, cell_size);
     float radiusSq = radius * radius;
 
-    //std::vector<int> neighbors;
-    int neighbors[particles.size()]; // Use a fixed-size array for neighbors
-    int neighborCount = 0; // Count of neighbors found
+    std::vector<int> neighbors;
+    
 
     for (int dx = -1; dx <= 1; ++dx)
     for (int dy = -1; dy <= 1; ++dy)
@@ -99,14 +98,13 @@ std::vector<int> Solver::GetPotentialCollisions(glm::vec3 pos, float radius, int
                 glm::vec3 diff = pos - cached_positions[j];
                 float distSq = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
                 if (distSq < radiusSq) {
-                    neighbors[neighborCount++] = j;  // or handle collision immediately
+                    neighbors.push_back(j);  // or handle collision immediately
                 }
             }
         }
     }
 
-    std::vector<int> result(neighbors, neighbors + neighborCount);
-    return result;
+    return neighbors;
 }
 
 void Solver::cacheParticlePositions(){
