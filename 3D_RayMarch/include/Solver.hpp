@@ -33,6 +33,7 @@ public:
 
 private:
     std::vector<Particle*> particles;
+    std::vector<glm::vec3> cached_positions; // cache for particle positions
     glm::vec3 gravity;
     float step_dt;
     float substep_dt;
@@ -51,6 +52,7 @@ private:
     void applyContainerThread(Container* gBox, int startIdx, int endIdx);
     void BuildSpatialMap(); // Build a spatial map for particles to optimize collision detection
     std::vector<int> GetPotentialCollisions(glm::vec3 pos, float radius, int i);
+    void cacheParticlePositions();
     void checkCollisions();
     void checkCollisions2();
     void checkCollisions3();

@@ -83,7 +83,9 @@ std::vector<int> Solver::GetPotentialCollisions(glm::vec3 pos, float radius, int
     Vec3i base = getCellIndex(pos, cell_size);
     float radiusSq = radius * radius;
 
-    std::vector<int> neighbors;
+    //std::vector<int> neighbors;
+    int neighbors[particles.size()]; // Use a fixed-size array for neighbors
+    int neighborCount = 0; // Count of neighbors found
 
     for (int dx = -1; dx <= 1; ++dx)
     for (int dy = -1; dy <= 1; ++dy)
@@ -94,16 +96,28 @@ std::vector<int> Solver::GetPotentialCollisions(glm::vec3 pos, float radius, int
         if (it != spatialMap.end()) {
             for (int j : it->second) {
                 if (j == i) continue;
-                glm::vec3 diff = pos - particles[j]->getPosition();
+                glm::vec3 diff = pos - cached_positions[j];
                 float distSq = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
                 if (distSq < radiusSq) {
-                    neighbors.push_back(j);  // or handle collision immediately
+                    neighbors[neighborCount++] = j;  // or handle collision immediately
                 }
             }
         }
     }
 
-    return neighbors;
+    std::vector<int> result(neighbors, neighbors + neighborCount);
+    return result;
+}
+
+void Solver::cacheParticlePositions(){
+    // Ensure the cached_positions vector is the same size as particles
+    if (cached_positions.size() == 0) {
+        cached_positions.assign(particles.size(), glm::vec3(0.0f));
+    }
+
+    for (int i = 0; i < particles.size(); i++) {
+        cached_positions[i] = particles[i]->getPosition();
+    }
 }
 
 void Solver::update(Container* gBox, int counter){
@@ -138,6 +152,7 @@ void Solver::update(Container* gBox, int counter){
 		//std::cout << "applyContainer(): " << std::chrono::duration<double, std::milli>(t3 - t2).count() << " ms\n";
 
         //outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
+        cacheParticlePositions();
         checkCollisions2();
         printSolverInfo();
         //outFile << "+++++++++++++++++++++" << std::endl;
