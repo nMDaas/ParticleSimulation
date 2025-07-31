@@ -65,7 +65,12 @@
         "array": "cpp",
         "complex": "cpp",
         "optional": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "__tree": "cpp",
+        "filesystem": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp"
     },
     "cmake.sourceDirectory": "/Users/natashadaas/ParticleSimulation/3D/include/glm"
 }

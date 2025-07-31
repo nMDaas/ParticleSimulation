@@ -12,6 +12,7 @@ Solver::Solver() : outFile("debug.txt"){
     fluid_restitution = 1.0f;
     wall_restitution = 0.8f;
     threshold = 0.01; 
+    cell_size = 0.4;
 }
 
 Solver::~Solver(){
@@ -62,8 +63,52 @@ void Solver::activateNewParticle(int index){
     particles[index]->activateParticle();
 }
 
+Vec3i Solver::getCellIndex(glm::vec3 pos, float cellSize) {
+    return {
+        static_cast<int>(std::floor(pos.x / cellSize)),
+        static_cast<int>(std::floor(pos.y / cellSize)),
+        static_cast<int>(std::floor(pos.z / cellSize))
+    };
+}
+
+void Solver::BuildSpatialMap(){
+    spatialMap.clear();
+    for (int i = 0; i < particles.size(); ++i) {
+        Vec3i cell = getCellIndex(particles[i]->getPosition(), cell_size);
+        spatialMap[cell].push_back(i);
+    }
+}
+
+std::vector<int> Solver::GetPotentialCollisions(glm::vec3 pos, float radius, int i){
+    Vec3i base = getCellIndex(pos, cell_size);
+    float radiusSq = radius * radius;
+
+    std::vector<int> neighbors;
+
+    for (int dx = -1; dx <= 1; ++dx)
+    for (int dy = -1; dy <= 1; ++dy)
+    for (int dz = -1; dz <= 1; ++dz) {
+        Vec3i neighborCell = { base.x + dx, base.y + dy, base.z + dz };
+
+        auto it = spatialMap.find(neighborCell);
+        if (it != spatialMap.end()) {
+            for (int j : it->second) {
+                if (j == i) continue;
+                glm::vec3 diff = pos - particles[j]->getPosition();
+                float distSq = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
+                if (distSq < radiusSq) {
+                    neighbors.push_back(j);  // or handle collision immediately
+                }
+            }
+        }
+    }
+
+    return neighbors;
+}
+
 void Solver::update(Container* gBox, int counter){
     //outFile << "//////////////////////////////////////////////////////////" << std::endl;
+    BuildSpatialMap();
     for (int i = 0; i < substeps; i++) {
         auto t0 = std::chrono::high_resolution_clock::now();
         //outFile << "------------- count " << counter << " substep " << i << "-------------" << std::endl;
@@ -93,7 +138,7 @@ void Solver::update(Container* gBox, int counter){
 		//std::cout << "applyContainer(): " << std::chrono::duration<double, std::milli>(t3 - t2).count() << " ms\n";
 
         //outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
-        checkCollisions();
+        checkCollisions2();
         printSolverInfo();
         //outFile << "+++++++++++++++++++++" << std::endl;
 
@@ -205,6 +250,47 @@ void Solver::applyContainer(Container* gBox) {
 
     t1.join();
     t2.join();
+}
+
+void Solver::checkCollisions2(){
+    std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map; // stores i->j collisions for which calculations are already done
+
+    for (int i = 0; i < particles.size(); i++) {
+        if (particles[i]->getActivated()) {
+            std::vector<int> potentialColliders = GetPotentialCollisions(particles[i]->getPosition(), particles[i]->getRadius(), i);
+            potentialColliders = {1,2,3};
+
+            for (int j = 0; j < potentialColliders.size(); j++) {
+                if (particles[potentialColliders[j]]->getActivated()){
+                   // Dummy do stuff
+                }
+            }
+        }
+    }
+}
+
+void Solver::checkCollisions3(){
+    std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map; // stores i->j collisions for which calculations are already done
+
+    for (int i = 0; i < particles.size(); i++) {
+        if (particles[i]->getActivated()) {
+            Particle* particle_i = particles[i];
+
+            std::vector<Particle*> closeParticles = getCloseParticles(particle_i, 0.3);
+
+            for (int j = 0; j < closeParticles.size(); j++) {
+                if (closeParticles[j]->getActivated()){
+                    if (i == j) {
+                        continue;
+                    }
+                    else {
+                        
+                        // Dummy do stuff
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Solver::checkCollisions(){

@@ -1,6 +1,7 @@
 #include "glm/glm.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/norm.hpp>
 
 #include <vector>
 #include <iostream>
@@ -15,6 +16,7 @@
 
 #include "Particle.hpp"
 #include "Container.hpp"
+#include "SpatialMapUtils.hpp"
 
 #ifndef SOLVER_HPP
 #define SOLVER_HPP
@@ -38,13 +40,20 @@ private:
     float fluid_restitution;
     float wall_restitution;
     float threshold;
+    std::unordered_map<Vec3i, std::vector<int>> spatialMap;
+    float cell_size; // size of each cell in the spatial map
 
     std::ofstream outFile;
 
     void applyGravity();
+    Vec3i getCellIndex(glm::vec3 pos, float cellSize); // Get the cell index for a given position in the spatial map
     void applyContainer(Container* gBox);
     void applyContainerThread(Container* gBox, int startIdx, int endIdx);
+    void BuildSpatialMap(); // Build a spatial map for particles to optimize collision detection
+    std::vector<int> GetPotentialCollisions(glm::vec3 pos, float radius, int i);
     void checkCollisions();
+    void checkCollisions2();
+    void checkCollisions3();
     void updateObjects(float dt);
 
     std::vector<Particle*> getCloseParticles(Particle* p, float range); // Get particles that are close to particle p
