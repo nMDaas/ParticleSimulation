@@ -118,8 +118,20 @@ void Solver::cacheParticlePositions(){
     }
 }
 
+void Solver::cacheParticleMasses(){
+    // Ensure the cached_masses vector is the same size as particles
+    if (cached_masses.size() == 0) {
+        cached_masses.assign(particles.size(), 0.0f);
+    }
+
+    for (int i = 0; i < particles.size(); i++) {
+        cached_masses[i] = particles[i]->getMass();
+    }
+}
+
 void Solver::update(Container* gBox, int counter){
     //outFile << "//////////////////////////////////////////////////////////" << std::endl;
+    cacheParticleMasses(); // Doing this outside the loop only because we are not dealing with mass changes in this simulation
     BuildSpatialMap();
     for (int i = 0; i < substeps; i++) {
         auto t0 = std::chrono::high_resolution_clock::now();
@@ -294,8 +306,8 @@ void Solver::checkCollisionsWithSpatialHashing() {
             glm::vec3 v_j = particle_j->getVelocity();
 
             if (dist < min_dist && dist_diff > threshold) {
-                float total_mass = particle_i->getMass() + particle_j->getMass();
-                float mass_ratio = particle_i->getMass() / total_mass;
+                float total_mass = cached_masses[i] + cached_masses[j];
+                float mass_ratio = cached_masses[i] / total_mass;
                 float delta = 0.5f * dist_diff; //  compute much overlap exists between i and j and then halves it
 
                 // Larger particles move less
@@ -324,8 +336,8 @@ void Solver::checkCollisionsWithSpatialHashing() {
                 if (velocityAlongNormal < 0.0f) {
                     // Compute inverse masses to determine how much each particle responds to impulse
                     // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
-                    float invMass_i = 1.0f / particle_i->getMass();
-                    float invMass_j = 1.0f / particle_j->getMass();
+                    float invMass_i = 1.0f / cached_masses[i];
+                    float invMass_j = 1.0f /  cached_masses[j];
 
                     /* Compute scalar impulse magnitude using physics of elastic collision:
                     impulseMag = -(1 + e) * v / (invMass_pi + invMass_pj)
