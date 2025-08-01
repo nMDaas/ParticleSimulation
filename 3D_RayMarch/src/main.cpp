@@ -56,6 +56,7 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 //		fluid_r (in Solver)
 //		wall_r (in Solver)
 //		thresholdContainer (in Solver)
+//      cell_size (in Solver)
 
 // Good variables
 // size = 0.2f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 1.05f
@@ -63,7 +64,7 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 // Core Variables for Scene
 int gNumParticles = 2;
 int gParticleIndexToActivate = 0; // index of next particle to activate
-float gParticleSize = 1.5f;
+float gParticleSize = 1.0f;
 
 bool gPause = false;
 int gCounter = 0;
@@ -293,7 +294,7 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-	gScene.SetupSceneWithCuboidSetup(1, 1, 2, gParticleSize);
+	gScene.SetupSceneWithCuboidSetup(1, 2, 2, gParticleSize);
     //gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();

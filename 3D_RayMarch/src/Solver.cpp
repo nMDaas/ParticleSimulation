@@ -12,7 +12,7 @@ Solver::Solver() : outFile("debug.txt"){
     fluid_restitution = 1.0f;
     wall_restitution = 0.8f;
     threshold = 0.01f; 
-    cell_size = 0.4f;
+    cell_size = 1.5f;
 }
 
 Solver::~Solver(){
@@ -95,9 +95,12 @@ std::vector<int> Solver::GetPotentialCollisions(glm::vec3 pos, float radius, int
         if (it != spatialMap.end()) {
             for (int j : it->second) {
                 if (j == i) continue;
-                glm::vec3 diff = pos - cached_positions[j];
-                float distSq = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
-                if (distSq < radiusSq) {
+                glm::vec3 v = pos - cached_positions[j];
+                float dist = glm::length(v);
+                float min_dist = cached_radii[i] + cached_radii[j];
+                float dist_diff = min_dist - dist;
+
+                if (dist < min_dist && dist_diff > threshold) {
                     neighbors.push_back(j);  // or handle collision immediately
                 }
             }
@@ -212,6 +215,7 @@ void Solver::update(Container* gBox, int counter){
 
         //outFile << "--------------------------" << std::endl;
     }
+    std::cout << "---------------------------" << std::endl;
     //outFile << "//////////////////////////////////////////////////////////" << std::endl;
 }
 
@@ -318,6 +322,8 @@ void Solver::checkCollisionsWithSpatialHashing() {
 
         std::vector<int> potentialColliders = GetPotentialCollisions(cached_positions[i], cached_radii[i], i);
 
+        std::cout << "potentialColliders for particle " << i << ": " << potentialColliders.size() << std::endl;
+
         for (int j : potentialColliders) {
             if (j == i) continue;
 
@@ -337,7 +343,9 @@ void Solver::checkCollisionsWithSpatialHashing() {
             glm::vec3 v_i = particle_i->getVelocity();
             glm::vec3 v_j = particle_j->getVelocity();
 
+            std::cout << "dist: " << dist << ", min_dist: " << min_dist << ", dist_diff: " << dist_diff << std::endl;
             if (dist < min_dist && dist_diff > threshold) {
+                std::cout << "COLLISION! Particle " << i << " <---> Particle " << j << std::endl;
                 float total_mass = cached_masses[i] + cached_masses[j];
                 float mass_ratio = cached_masses[i] / total_mass;
                 float delta = 0.5f * dist_diff; //  compute much overlap exists between i and j and then halves it
