@@ -280,7 +280,7 @@ void Solver::checkCollisionsWithSpatialHashing() {
             Particle* particle_j = particles[j];
             if (!particle_j->getActivated()) continue;
 
-            // ✅ Skip if this pair has already been processed
+            // Skip if this pair has already been processed - must make sure that collision in the other way has not already seen and calculated!
             auto it = particlePairCollisionRecorded_map.find(j);
             if (it != particlePairCollisionRecorded_map.end() && it->second.count(i)) {
                 continue;
@@ -294,22 +294,18 @@ void Solver::checkCollisionsWithSpatialHashing() {
             glm::vec3 v_j = particle_j->getVelocity();
 
             if (dist < min_dist && dist_diff > threshold) {
-                //std::cout << "dist: " << dist << ", min_dist: " << min_dist << ", dist_diff: " << dist_diff << std::endl;
-                //std::cout << "v_i: " << glm::length(particle_i->getVelocity()) << ", v_j: " << glm::length(particle_j->getVelocity()) << std::endl;
                 float total_mass = particle_i->getMass() + particle_j->getMass();
                 float mass_ratio = particle_i->getMass() / total_mass;
-                float delta = 0.5f * dist_diff;
+                float delta = 0.5f * dist_diff; //  compute much overlap exists between i and j and then halves it
 
-                glm::vec3 n = (dist > 0.0f) ? v / dist : glm::vec3(1, 0, 0); // prevent div by zero
-
+                // Larger particles move less
+                glm::vec3 n = (dist > 0.0f) ? v / dist : glm::vec3(1, 0, 0); // prevent div by zero, // normalize
+                 // Adding for particle_i and subtracting for particle_j because v is a vector from j to i
                 glm::vec3 particle_i_old_pos = cached_positions[i];
                 glm::vec3 particle_j_old_pos = cached_positions[j];
 
                 glm::vec3 particle_i_new_pos = cached_positions[i] + ((1 - mass_ratio) * delta * n) / static_cast<float>(substeps);
                 glm::vec3 particle_j_new_pos = cached_positions[j] - (mass_ratio * delta * n) / static_cast<float>(substeps);
-
-                std::cout << "particle_i_old_pos: " << glm::to_string(particle_i_old_pos) << ", particle_i_new_pos: " << glm::to_string(particle_i_new_pos) << std::endl;
-                std::cout << "particle_j_old_pos: " << glm::to_string(particle_j_old_pos) << ", particle_j_new_pos: " << glm::to_string(particle_j_new_pos) << std::endl;
 
                 particle_i->setPosition(particle_i_new_pos);
                 particle_j->setPosition(particle_j_new_pos);
@@ -317,19 +313,37 @@ void Solver::checkCollisionsWithSpatialHashing() {
                 cached_positions[j] = particle_j_new_pos;
 
                 glm::vec3 relativeVelocity = v_i - v_j;
+                // velocityAlongNormal: relative velocity between the two particles projected onto the collision normal
+                // velocityAlongNormal: the direction in which they’re colliding
+                // If velocityAlongNormal > 0 → they're separating
+                // If velocityAlongNormal < 0 → they're moving toward each other (we need to resolve this)
                 float velocityAlongNormal = glm::dot(relativeVelocity, n);
 
+                // velocityAlongNormal < 0 means they are closing in along the collision normal
+                // only resolve if moving toward each other
                 if (velocityAlongNormal < 0.0f) {
+                    // Compute inverse masses to determine how much each particle responds to impulse
+                    // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
                     float invMass_i = 1.0f / particle_i->getMass();
                     float invMass_j = 1.0f / particle_j->getMass();
+
+                    /* Compute scalar impulse magnitude using physics of elastic collision:
+                    impulseMag = -(1 + e) * v / (invMass_pi + invMass_pj)
+                        - (1 + restitution): scales the bounce (e.g., 1.0 = perfectly elastic)
+                        - velocityAlongNormal: relative speed toward each other
+                        - (invMass1 + invMass2): distributes impulse based on how easily each particle can move
+                    */
                     float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / (invMass_i + invMass_j);
+                    
+                    // Direction of the impulse is along the collision normal.
+                    // Multiply the scalar impulse magnitude by the direction vector to get the vector form.
                     glm::vec3 impulse = impulseMag * n;
 
                     particle_i->setVelocity(v_i + impulse * invMass_i, 1.0f);
                     particle_j->setVelocity(v_j - impulse * invMass_j, 1.0f);
                 }
 
-                // ✅ Correctly record that this pair has been processed
+                // Now, must record collision
                 particlePairCollisionRecorded_map[i].insert(j);
             }
         }
