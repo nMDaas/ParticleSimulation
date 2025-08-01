@@ -11,8 +11,8 @@ Solver::Solver() : outFile("debug.txt"){
 
     fluid_restitution = 1.0f;
     wall_restitution = 0.8f;
-    threshold = 0.01; 
-    cell_size = 0.4;
+    threshold = 0.01f; 
+    cell_size = 0.4f;
 }
 
 Solver::~Solver(){
