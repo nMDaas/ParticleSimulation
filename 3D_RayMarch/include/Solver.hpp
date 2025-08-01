@@ -54,8 +54,7 @@ private:
     std::vector<int> GetPotentialCollisions(glm::vec3 pos, float radius, int i);
     void cacheParticlePositions();
     void checkCollisions();
-    void checkCollisions2();
-    void checkCollisions3();
+    void checkCollisionsWithSpatialHashing();
     void updateObjects(float dt);
 
     std::vector<Particle*> getCloseParticles(Particle* p, float range); // Get particles that are close to particle p

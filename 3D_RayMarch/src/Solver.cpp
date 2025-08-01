@@ -151,7 +151,7 @@ void Solver::update(Container* gBox, int counter){
 
         //outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
         cacheParticlePositions();
-        checkCollisions2();
+        checkCollisionsWithSpatialHashing();
         printSolverInfo();
         //outFile << "+++++++++++++++++++++" << std::endl;
 
@@ -265,42 +265,72 @@ void Solver::applyContainer(Container* gBox) {
     t2.join();
 }
 
-void Solver::checkCollisions2(){
-    std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map; // stores i->j collisions for which calculations are already done
+void Solver::checkCollisionsWithSpatialHashing() {
+    std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map;
 
     for (int i = 0; i < particles.size(); i++) {
-        if (particles[i]->getActivated()) {
-            std::vector<int> potentialColliders = GetPotentialCollisions(particles[i]->getPosition(), particles[i]->getRadius(), i);
-            potentialColliders = {1,2,3};
+        Particle* particle_i = particles[i];
+        if (!particle_i->getActivated()) continue;
 
-            for (int j = 0; j < potentialColliders.size(); j++) {
-                if (particles[potentialColliders[j]]->getActivated()){
-                   // Dummy do stuff
-                }
+        std::vector<int> potentialColliders = GetPotentialCollisions(cached_positions[i], particle_i->getRadius(), i);
+
+        for (int j : potentialColliders) {
+            if (j == i) continue;
+
+            Particle* particle_j = particles[j];
+            if (!particle_j->getActivated()) continue;
+
+            // ✅ Skip if this pair has already been processed
+            auto it = particlePairCollisionRecorded_map.find(j);
+            if (it != particlePairCollisionRecorded_map.end() && it->second.count(i)) {
+                continue;
             }
-        }
-    }
-}
 
-void Solver::checkCollisions3(){
-    std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map; // stores i->j collisions for which calculations are already done
+            glm::vec3 v = cached_positions[i] - cached_positions[j];
+            float dist = glm::length(v); // faster than glm::distance for this case
+            float min_dist = particle_i->getRadius() + particle_j->getRadius();
+            float dist_diff = min_dist - dist;
+            glm::vec3 v_i = particle_i->getVelocity();
+            glm::vec3 v_j = particle_j->getVelocity();
 
-    for (int i = 0; i < particles.size(); i++) {
-        if (particles[i]->getActivated()) {
-            Particle* particle_i = particles[i];
+            if (dist < min_dist && dist_diff > threshold) {
+                //std::cout << "dist: " << dist << ", min_dist: " << min_dist << ", dist_diff: " << dist_diff << std::endl;
+                //std::cout << "v_i: " << glm::length(particle_i->getVelocity()) << ", v_j: " << glm::length(particle_j->getVelocity()) << std::endl;
+                float total_mass = particle_i->getMass() + particle_j->getMass();
+                float mass_ratio = particle_i->getMass() / total_mass;
+                float delta = 0.5f * dist_diff;
 
-            std::vector<Particle*> closeParticles = getCloseParticles(particle_i, 0.3);
+                glm::vec3 n = (dist > 0.0f) ? v / dist : glm::vec3(1, 0, 0); // prevent div by zero
 
-            for (int j = 0; j < closeParticles.size(); j++) {
-                if (closeParticles[j]->getActivated()){
-                    if (i == j) {
-                        continue;
-                    }
-                    else {
-                        
-                        // Dummy do stuff
-                    }
+                glm::vec3 particle_i_old_pos = cached_positions[i];
+                glm::vec3 particle_j_old_pos = cached_positions[j];
+
+                glm::vec3 particle_i_new_pos = cached_positions[i] + ((1 - mass_ratio) * delta * n) / static_cast<float>(substeps);
+                glm::vec3 particle_j_new_pos = cached_positions[j] - (mass_ratio * delta * n) / static_cast<float>(substeps);
+
+                std::cout << "particle_i_old_pos: " << glm::to_string(particle_i_old_pos) << ", particle_i_new_pos: " << glm::to_string(particle_i_new_pos) << std::endl;
+                std::cout << "particle_j_old_pos: " << glm::to_string(particle_j_old_pos) << ", particle_j_new_pos: " << glm::to_string(particle_j_new_pos) << std::endl;
+
+                particle_i->setPosition(particle_i_new_pos);
+                particle_j->setPosition(particle_j_new_pos);
+                cached_positions[i] = particle_i_new_pos;
+                cached_positions[j] = particle_j_new_pos;
+
+                glm::vec3 relativeVelocity = v_i - v_j;
+                float velocityAlongNormal = glm::dot(relativeVelocity, n);
+
+                if (velocityAlongNormal < 0.0f) {
+                    float invMass_i = 1.0f / particle_i->getMass();
+                    float invMass_j = 1.0f / particle_j->getMass();
+                    float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / (invMass_i + invMass_j);
+                    glm::vec3 impulse = impulseMag * n;
+
+                    particle_i->setVelocity(v_i + impulse * invMass_i, 1.0f);
+                    particle_j->setVelocity(v_j - impulse * invMass_j, 1.0f);
                 }
+
+                // ✅ Correctly record that this pair has been processed
+                particlePairCollisionRecorded_map[i].insert(j);
             }
         }
     }
