@@ -56,15 +56,16 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 //		fluid_r (in Solver)
 //		wall_r (in Solver)
 //		thresholdContainer (in Solver)
-//      cell_size (in Solver)
+//      cell_size (in Solver) - generally 1.5 * gParticleSize
 
 // Good variables
 // size = 0.2f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 1.05f
+// # = 15^3, size = 0.1f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 2.05f, cell_size = 0.15f
 
 // Core Variables for Scene
 int gNumParticles = 500;
 int gParticleIndexToActivate = 0; // index of next particle to activate
-float gParticleSize = 0.2f;
+float gParticleSize = 0.1f;
 
 bool gPause = false;
 int gCounter = 0;
@@ -294,7 +295,7 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-	gScene.SetupSceneWithCuboidSetup(11, 11, 11, gParticleSize);
+	gScene.SetupSceneWithCuboidSetup(15, 15, 15, gParticleSize);
     //gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
@@ -355,7 +356,7 @@ int main( int argc, char* args[] ){
 
 		std::cout << "FPS: " << fps << std::endl;
 		
-		SDL_Delay(16); 
+		SDL_Delay(2); 
 
 		// Sleep to reduce CPU usage
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));

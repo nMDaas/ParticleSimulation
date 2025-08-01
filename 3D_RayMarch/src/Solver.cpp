@@ -3,7 +3,7 @@
 Solver::Solver() : outFile("debug.txt"){
     gravity = glm::vec3(0.0f, -300.0f, 0.0f);
     step_dt = 1.0f/60.0f;
-    substeps = 8;
+    substeps = 2;
     substep_dt = step_dt / substeps;
 
     // Seed the random number generator
@@ -12,7 +12,7 @@ Solver::Solver() : outFile("debug.txt"){
     fluid_restitution = 1.0f;
     wall_restitution = 0.8f;
     threshold = 0.01f; 
-    cell_size = 0.4f;
+    cell_size = 0.15f;
 }
 
 Solver::~Solver(){
@@ -251,7 +251,7 @@ void Solver::applyContainerThread(Container* gBox, int startIdx, int endIdx) {
             bool withinYMax = localPos.y + r_local_y < boxUpperBoundaries.y;
 
             bool collided = false;
-            float thresholdContainer = 1.05; // might vary depending on radius size
+            float thresholdContainer = 2.05; // might vary depending on radius size
 
             // Y axis
             if (localPos.y - r_local_y < boxLowerBoundaries.y) {
