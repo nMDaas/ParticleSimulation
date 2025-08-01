@@ -140,10 +140,30 @@ void Solver::cacheParticleActivationStatus(){
     }
 }
 
+void Solver::cacheParticleRadii(){
+    // Ensure the cached_radii vector is the same size as particles
+    if (cached_radii.size() == 0) {
+        cached_radii.assign(particles.size(), 0.0f);
+    }
+
+    for (int i = 0; i < particles.size(); i++) {
+        cached_radii[i] = particles[i]->getRadius();
+    }
+}
+
+void Solver::cacheContainerInfo(Container* gBox){
+    cached_container_info.push_back(gBox->getLowerBoundaries());
+    cached_container_info.push_back(gBox->getUpperBoundaries());
+    cached_container_info.push_back(gBox->getProportions());
+}
+    
+
 void Solver::update(Container* gBox, int counter){
     //outFile << "//////////////////////////////////////////////////////////" << std::endl;
     cacheParticleMasses(); // Doing this outside the loop only because we are not dealing with mass changes in this simulation
     cacheParticleActivationStatus(); // Doing this outside the loop because the activation status of particles does not change during substeps
+    cacheParticleRadii(); // Doing this outside the loop because the radii of particles does not change during substeps
+    cacheContainerInfo(gBox); // Doing this outside the loop because the container info does not change during substeps
     BuildSpatialMap();
     for (int i = 0; i < substeps; i++) {
         auto t0 = std::chrono::high_resolution_clock::now();
@@ -209,8 +229,8 @@ void Solver::applyContainerThread(Container* gBox, int startIdx, int endIdx) {
     glm::mat4 modelLocal = glm::inverse(modelWorld); // Transform from world space to local box space
 
     // Local space bounds
-    glm::vec3 boxLowerBoundaries = gBox->getLowerBoundaries(); 
-    glm::vec3 boxUpperBoundaries = gBox->getUpperBoundaries();
+    glm::vec3 boxLowerBoundaries = cached_container_info[0]; 
+    glm::vec3 boxUpperBoundaries = cached_container_info[1];
 
     for (int i = startIdx; i < endIdx; i++) {
         if (cached_activation_status[i]){
@@ -221,9 +241,9 @@ void Solver::applyContainerThread(Container* gBox, int startIdx, int endIdx) {
             glm::vec3 localVel = glm::vec3(modelLocal * glm::vec4(worldVel, 0.0f)); // local-space position velocity
 
             // Separated radius variable into 3 to account for gBox having different proportions
-            float r_local_x = particles[i]->getRadius() / gBox->getProportions().x;
-            float r_local_y = particles[i]->getRadius() / gBox->getProportions().y;
-            float r_local_z = particles[i]->getRadius() / gBox->getProportions().z;
+            float r_local_x = cached_radii[i] / cached_container_info[2].x;
+            float r_local_y = cached_radii[i] / cached_container_info[2].y;
+            float r_local_z = cached_radii[i] / cached_container_info[2].z;
 
             bool withinYMax = localPos.y + r_local_y < boxUpperBoundaries.y;
 
@@ -296,7 +316,7 @@ void Solver::checkCollisionsWithSpatialHashing() {
         Particle* particle_i = particles[i];
         if (!cached_activation_status[i]) continue;
 
-        std::vector<int> potentialColliders = GetPotentialCollisions(cached_positions[i], particle_i->getRadius(), i);
+        std::vector<int> potentialColliders = GetPotentialCollisions(cached_positions[i], cached_radii[i], i);
 
         for (int j : potentialColliders) {
             if (j == i) continue;
@@ -312,7 +332,7 @@ void Solver::checkCollisionsWithSpatialHashing() {
 
             glm::vec3 v = cached_positions[i] - cached_positions[j];
             float dist = glm::length(v); // faster than glm::distance for this case
-            float min_dist = particle_i->getRadius() + particle_j->getRadius();
+            float min_dist = cached_radii[i] + cached_radii[j];
             float dist_diff = min_dist - dist;
             glm::vec3 v_i = particle_i->getVelocity();
             glm::vec3 v_j = particle_j->getVelocity();
