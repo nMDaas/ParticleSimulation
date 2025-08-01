@@ -47,10 +47,12 @@ private:
 
     std::vector<glm::vec3> cached_positions; // cache for particle positions
     std::vector<float> cached_masses; // cache for particle masses
+    std::vector<bool> cached_activation_status; // cache for particle activation status
 
     // Cache functions
     void cacheParticlePositions();
     void cacheParticleMasses();
+    void cacheParticleActivationStatus();
 
     void applyGravity();
     Vec3i getCellIndex(glm::vec3 pos, float cellSize); // Get the cell index for a given position in the spatial map

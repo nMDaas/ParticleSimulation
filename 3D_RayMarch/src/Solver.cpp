@@ -129,9 +129,21 @@ void Solver::cacheParticleMasses(){
     }
 }
 
+void Solver::cacheParticleActivationStatus(){
+    // Ensure the cached_activation_status vector is the same size as particles
+    if (cached_activation_status.size() == 0) {
+        cached_activation_status.assign(particles.size(), false);
+    }
+
+    for (int i = 0; i < particles.size(); i++) {
+        cached_activation_status[i] = particles[i]->getActivated();
+    }
+}
+
 void Solver::update(Container* gBox, int counter){
     //outFile << "//////////////////////////////////////////////////////////" << std::endl;
     cacheParticleMasses(); // Doing this outside the loop only because we are not dealing with mass changes in this simulation
+    cacheParticleActivationStatus(); // Doing this outside the loop because the activation status of particles does not change during substeps
     BuildSpatialMap();
     for (int i = 0; i < substeps; i++) {
         auto t0 = std::chrono::high_resolution_clock::now();
@@ -185,7 +197,7 @@ void Solver::update(Container* gBox, int counter){
 
 void Solver::applyGravity(){
     for (int i = 0; i < particles.size(); i++) {
-        if (particles[i]->getActivated()){
+        if (cached_activation_status[i]) {
             particles[i]->accelerate(gravity);
         }
     }
@@ -201,7 +213,7 @@ void Solver::applyContainerThread(Container* gBox, int startIdx, int endIdx) {
     glm::vec3 boxUpperBoundaries = gBox->getUpperBoundaries();
 
     for (int i = startIdx; i < endIdx; i++) {
-        if (particles[i]->getActivated()){
+        if (cached_activation_status[i]){
             glm::vec3 worldPos = particles[i]->getPosition(); // Current world-space position
             glm::vec3 worldVel = particles[i]->getVelocity(); // Current world-space velocity
 
@@ -282,7 +294,7 @@ void Solver::checkCollisionsWithSpatialHashing() {
 
     for (int i = 0; i < particles.size(); i++) {
         Particle* particle_i = particles[i];
-        if (!particle_i->getActivated()) continue;
+        if (!cached_activation_status[i]) continue;
 
         std::vector<int> potentialColliders = GetPotentialCollisions(cached_positions[i], particle_i->getRadius(), i);
 
@@ -290,7 +302,7 @@ void Solver::checkCollisionsWithSpatialHashing() {
             if (j == i) continue;
 
             Particle* particle_j = particles[j];
-            if (!particle_j->getActivated()) continue;
+            if (!cached_activation_status[j]) continue;
 
             // Skip if this pair has already been processed - must make sure that collision in the other way has not already seen and calculated!
             auto it = particlePairCollisionRecorded_map.find(j);
@@ -476,7 +488,7 @@ void Solver::checkCollisions(){
 
 void Solver::updateObjects(float dt){
     for (int i = 0; i < particles.size(); i++) {
-        if (particles[i]->getActivated()){
+        if (cached_activation_status[i]){
             particles[i]->update(dt);
         }
     }
