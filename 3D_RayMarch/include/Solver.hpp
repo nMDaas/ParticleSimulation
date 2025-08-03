@@ -51,6 +51,9 @@ private:
     std::vector<glm::vec3> cached_container_info; // box lower, upper boundaries, and proportions
     std::vector<bool> cached_activation_status; // cache for particle activation status
 
+    std::vector<glm::vec3> particle_position_updates;
+    std::vector<glm::vec3> particle_velocity_updates;
+
     // Cache functions
     void cacheParticlePositions();
     void cacheParticleMasses();

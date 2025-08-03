@@ -62,7 +62,7 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 // Good variables
 // size = 0.2f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 1.05f, blend_factor = 0.3f
 // # = 15^3, size = 0.1f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 2.05f, cell_size = 0.15f, blend_factor = 0.3f
-// # = 640 (2*10*32), size = 0.1f, damping = 0.7f, fluid_r = 2.2f, wall_r = 0.8f, thresholdContainer = 2.05f, cell_size = 0.15f, blend_factor = 0.4f
+// # = 640 (2*10*32), size = 0.1f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 2.05f, cell_size = 0.15f, blend_factor = 0.4f, substeps = 2
 
 // Core Variables for Scene
 int gNumParticles = 500;
@@ -343,12 +343,12 @@ int main( int argc, char* args[] ){
 			//auto t1 = std::chrono::high_resolution_clock::now();
 			//std::cout << "gSolver.update(): " << std::chrono::duration<double, std::milli>(t1 - t0).count() << " ms\n";
 
-			//gRenderer.RenderScene();
+			gRenderer.RenderScene();
 
 			//auto t2 = std::chrono::high_resolution_clock::now();
 			//std::cout << "gRenderer.RenderScene(): " << std::chrono::duration<double, std::milli>(t2 - t1).count() << " ms\n";
 
-			gRenderer.RenderScene_RayMarch();
+			//gRenderer.RenderScene_RayMarch();
 
 			//Update screen of our specified window
 			SDL_GL_SwapWindow(gGraphicsApplicationWindow);
@@ -358,7 +358,7 @@ int main( int argc, char* args[] ){
 
 		std::cout << "FPS: " << fps << std::endl;
 		
-		SDL_Delay(2); 
+		SDL_Delay(1); 
 
 		// Sleep to reduce CPU usage
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
