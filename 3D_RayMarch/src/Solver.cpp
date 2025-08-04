@@ -3,7 +3,7 @@
 Solver::Solver() : outFile("debug.txt"){
     gravity = glm::vec3(0.0f, -300.0f, 0.0f);
     step_dt = 1.0f/60.0f;
-    substeps = 2;
+    substeps = 4;
     substep_dt = step_dt / substeps;
 
     // Seed the random number generator
@@ -178,7 +178,6 @@ void Solver::update(Container* gBox, int counter){
         //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t1 = std::chrono::high_resolution_clock::now();
-		//std::cout << "applyGravity(): " << std::chrono::duration<double, std::milli>(t1 - t0).count() << " ms\n";
 
         //outFile << "+++ updateObjects() count " << counter << " substep " << i << "+++" << std::endl;
         updateObjects(substep_dt);
@@ -186,7 +185,6 @@ void Solver::update(Container* gBox, int counter){
         //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t2 = std::chrono::high_resolution_clock::now();
-		//std::cout << "updateObjects(): " << std::chrono::duration<double, std::milli>(t2 - t1).count() << " ms\n";
 
         //outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
@@ -194,7 +192,6 @@ void Solver::update(Container* gBox, int counter){
         //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t3 = std::chrono::high_resolution_clock::now();
-		//std::cout << "applyContainer(): " << std::chrono::duration<double, std::milli>(t3 - t2).count() << " ms\n";
 
         //outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
         cacheParticlePositions();
@@ -203,7 +200,6 @@ void Solver::update(Container* gBox, int counter){
         //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t4 = std::chrono::high_resolution_clock::now();
-		//std::cout << "checkCollisions(): " << std::chrono::duration<double, std::milli>(t4 - t3).count() << " ms\n";
 
         //outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
@@ -211,7 +207,6 @@ void Solver::update(Container* gBox, int counter){
         //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t5 = std::chrono::high_resolution_clock::now();
-		//std::cout << "applyContainer(): " << std::chrono::duration<double, std::milli>(t5 - t4).count() << " ms\n";
 
         //outFile << "--------------------------" << std::endl;
     }

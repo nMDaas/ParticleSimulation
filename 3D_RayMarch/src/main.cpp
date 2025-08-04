@@ -65,7 +65,7 @@ Renderer gRenderer(gScreenWidth, gScreenHeight, &gScene);
 // # = 640 (2*10*32), size = 0.1f, damping = 0.7f, fluid_r = 1.0f, wall_r = 0.8f, thresholdContainer = 2.05f, cell_size = 0.15f, blend_factor = 0.4f, substeps = 2
 
 // Core Variables for Scene
-int gNumParticles = 500;
+int gNumParticles = 4;
 int gParticleIndexToActivate = 0; // index of next particle to activate
 float gParticleSize = 0.1f;
 
@@ -297,7 +297,7 @@ int main( int argc, char* args[] ){
 	// Setup the graphics program
 	InitializeProgram();
 
-	gScene.SetupSceneWithCuboidSetup(2, 10, 32, gParticleSize);
+	gScene.SetupSceneWithCuboidSetup(2, 10, 100, gParticleSize);
     //gScene.SetupScene(gNumParticles, gParticleSize);
 
     gRenderer.CreateGraphicsPipelines();
