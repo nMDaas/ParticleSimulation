@@ -51,8 +51,7 @@ private:
     std::vector<glm::vec3> cached_container_info; // box lower, upper boundaries, and proportions
     std::vector<bool> cached_activation_status; // cache for particle activation status
 
-    std::vector<glm::vec3> particle_position_updates;
-    std::vector<glm::vec3> particle_velocity_updates;
+    std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map;
 
     // Cache functions
     void cacheParticlePositions();
@@ -69,6 +68,7 @@ private:
     std::vector<int> GetPotentialCollisions(glm::vec3 pos, float radius, int i);
     void checkCollisions();
     void checkCollisionsWithSpatialHashing();
+    void checkCollisionsWithSpatialHashing(int i_low, int i_high);
     void updateObjects(float dt);
 
     std::vector<Particle*> getCloseParticles(Particle* p, float range); // Get particles that are close to particle p
