@@ -170,30 +170,15 @@ void Solver::update(Container* gBox, int counter){
     BuildSpatialMap();
     for (int i = 0; i < substeps; i++) {
         auto t0 = std::chrono::high_resolution_clock::now();
-        //outFile << "------------- count " << counter << " substep " << i << "-------------" << std::endl;
-        
-        //outFile << "+++ applyGravity() count " << counter << " substep " << i << "+++" << std::endl;
         applyGravity();
-        printSolverInfo();
-        //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t1 = std::chrono::high_resolution_clock::now();
-
-        //outFile << "+++ updateObjects() count " << counter << " substep " << i << "+++" << std::endl;
         updateObjects(substep_dt);
-        printSolverInfo();
-        //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t2 = std::chrono::high_resolution_clock::now();
-
-        //outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
-        printSolverInfo();
-        //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t3 = std::chrono::high_resolution_clock::now();
-
-        //outFile << "+++ checkCollisions count " << counter << " substep " << i << "+++" << std::endl;
         cacheParticlePositions();
         particlePairCollisionRecorded_map.clear(); // Clear the map for each substep
         
@@ -207,20 +192,12 @@ void Solver::update(Container* gBox, int counter){
         // 2 threads test:
         checkCollisionsWithSpatialHashing(1001,2000);
         checkCollisionsWithSpatialHashing(0,1000);
-        //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t4 = std::chrono::high_resolution_clock::now();
-
-        //outFile << "+++ applyContainer() count " << counter << " substep " << i << "+++" << std::endl;
         applyContainer(gBox);
-        printSolverInfo();
-        //outFile << "+++++++++++++++++++++" << std::endl;
 
         auto t5 = std::chrono::high_resolution_clock::now();
-
-        //outFile << "--------------------------" << std::endl;
     }
-    //outFile << "//////////////////////////////////////////////////////////" << std::endl;
 }
 
 void Solver::applyGravity(){
