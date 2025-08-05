@@ -13,6 +13,7 @@
 #include <map>
 #include <chrono>
 #include <thread>
+#include <mutex>
 
 #include "Particle.hpp"
 #include "Container.hpp"
@@ -26,13 +27,20 @@ public:
     Solver();
     ~Solver();
     void addParticle(glm::vec3 position, float radius, bool i_activated);
+    void setupParticleLocks();
     void update(Container* gBox, int counter);
     std::vector<Particle*> getParticles();
     void activateNewParticle(int index); // activate particles[index]
     void printSolverInfo();
 
+    Solver(const Solver&) = delete;
+    Solver& operator=(const Solver&) = delete;
+    Solver(Solver&&) = delete;
+    Solver& operator=(Solver&&) = delete;
+
 private:
     std::vector<Particle*> particles;
+    std::vector<std::unique_ptr<std::mutex>> particle_locks;
     glm::vec3 gravity;
     float step_dt;
     float substep_dt;
@@ -52,6 +60,7 @@ private:
     std::vector<bool> cached_activation_status; // cache for particle activation status
 
     std::unordered_map<int, std::set<int>> particlePairCollisionRecorded_map;
+    std::unordered_map<int, std::unique_lock<std::mutex>> potentialColliders_locks;
 
     // Cache functions
     void cacheParticlePositions();
@@ -67,9 +76,12 @@ private:
     void BuildSpatialMap(); // Build a spatial map for particles to optimize collision detection
     std::vector<int> GetPotentialCollisions(glm::vec3 pos, float radius, int i);
     void checkCollisions();
+    void threadUpdateRange(int start, int end, int thread_id);
     void checkCollisionsWithSpatialHashing();
-    void checkCollisionsWithSpatialHashing(int i_low, int i_high);
+    void checkCollisionsWithSpatialHashing(int i_low, int i_high, int thread_id);
     void updateObjects(float dt);
+
+    void updateParticle(int index);
 
     std::vector<Particle*> getCloseParticles(Particle* p, float range); // Get particles that are close to particle p
     bool getParticleInRange(Particle* particle, glm::vec3 upperBoundCoords, glm::vec3 lowerBoundCoords);
