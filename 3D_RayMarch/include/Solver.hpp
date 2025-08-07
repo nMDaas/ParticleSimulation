@@ -25,6 +25,7 @@
 class Solver{
 public:
     Solver();
+    Solver(float particleSize); // particleSize refers to the radius of the particles
     ~Solver();
     void addParticle(glm::vec3 position, float radius, bool i_activated);
     void setupParticleLocks();

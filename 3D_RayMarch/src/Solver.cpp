@@ -15,6 +15,21 @@ Solver::Solver() : outFile("debug.txt"){
     cell_size = 0.15f;
 }
 
+Solver::Solver(float particleSize) : outFile("debug.txt"){
+    gravity = glm::vec3(0.0f, -300.0f, 0.0f);
+    step_dt = 1.0f/60.0f;
+    substeps = 4;
+    substep_dt = step_dt / substeps;
+
+    // Seed the random number generator
+    srand(static_cast<unsigned int>(time(0)));
+
+    fluid_restitution = 1.0f;
+    wall_restitution = 0.8f;
+    threshold = 0.01f; 
+    cell_size = 1.5f * particleSize; // Adjust cell size based on particle size
+}
+
 Solver::~Solver(){
     for (int i = 0; i < particles.size(); i++) {
         delete particles[i];
