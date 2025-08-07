@@ -55,7 +55,7 @@ bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
 
 // Core Classes/Objects in Scene
-Solver gSolver(gParticleSize, 7);
+Solver gSolver(gParticleSize, 10);
 Camera gCamera;
 ModelProcessor gModelProcessor;
 Scene gScene(&gSolver, &gCamera, &gModelProcessor);
@@ -298,7 +298,7 @@ int main( int argc, char* args[] ){
 	InitializeProgram();
 
 	//gScene.SetupSceneWithCuboidSetup(2, 10, 100, gParticleSize);
-	gScene.SetupSceneWithCuboidSetup(10, 10, 10, gParticleSize);
+	gScene.SetupSceneWithCuboidSetup(12, 12, 50, gParticleSize);
 	//gScene.SetupSceneWithCuboidSetup(5, 5, 5, gParticleSize);
     //gScene.SetupScene(gNumParticles, gParticleSize);
 
@@ -360,7 +360,7 @@ int main( int argc, char* args[] ){
 
 		std::cout << "FPS: " << fps << std::endl;
 		
-		SDL_Delay(1); 
+		SDL_Delay(0.1); 
 
 		// Sleep to reduce CPU usage
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));

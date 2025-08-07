@@ -3,7 +3,7 @@
 Solver::Solver() : outFile("debug.txt"){
     gravity = glm::vec3(0.0f, -300.0f, 0.0f);
     step_dt = 1.0f/60.0f;
-    substeps = 4;
+    substeps = 1;
     substep_dt = step_dt / substeps;
 
     // Seed the random number generator
@@ -234,7 +234,9 @@ void Solver::update(Container* gBox, int counter){
         }
 
         auto t4 = std::chrono::high_resolution_clock::now();
-        applyContainer(gBox);
+        for (int j = 0; j < 2; j++) {
+            applyContainer(gBox);
+        }
 
         auto t5 = std::chrono::high_resolution_clock::now();
     }
