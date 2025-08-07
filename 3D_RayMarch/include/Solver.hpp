@@ -25,7 +25,7 @@
 class Solver{
 public:
     Solver();
-    Solver(float particleSize); // particleSize refers to the radius of the particles
+    Solver(float particleSize, int i_numThreads); // particleSize refers to the radius of the particles
     ~Solver();
     void addParticle(glm::vec3 position, float radius, bool i_activated);
     void setupParticleLocks();
@@ -51,6 +51,7 @@ private:
     float threshold;
     std::unordered_map<Vec3i, std::vector<int>> spatialMap;
     float cell_size; // size of each cell in the spatial map
+    int numThreads;
 
     std::ofstream outFile;
 

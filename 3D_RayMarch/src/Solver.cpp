@@ -13,9 +13,10 @@ Solver::Solver() : outFile("debug.txt"){
     wall_restitution = 0.8f;
     threshold = 0.01f; 
     cell_size = 0.15f;
+    numThreads = 4;
 }
 
-Solver::Solver(float particleSize) : outFile("debug.txt"){
+Solver::Solver(float particleSize, int i_numThreads) : outFile("debug.txt"){
     gravity = glm::vec3(0.0f, -300.0f, 0.0f);
     step_dt = 1.0f/60.0f;
     substeps = 4;
@@ -28,6 +29,7 @@ Solver::Solver(float particleSize) : outFile("debug.txt"){
     wall_restitution = 0.8f;
     threshold = 0.01f; 
     cell_size = 1.5f * particleSize; // Adjust cell size based on particle size
+    numThreads = i_numThreads;
 }
 
 Solver::~Solver(){
@@ -213,14 +215,23 @@ void Solver::update(Container* gBox, int counter){
         //checkCollisionsWithSpatialHashing();
 
         // Spatial Hashing with multithreading:
-        std::thread my_t1(&Solver::threadUpdateRange, this, 0, 250, 1);
-        std::thread my_t2(&Solver::threadUpdateRange, this, 250, 500, 2);
-        std::thread my_t3(&Solver::threadUpdateRange, this, 500, 750, 3);
-        std::thread my_t4(&Solver::threadUpdateRange, this, 750, 1000, 4);
-        my_t1.join();
-        my_t2.join();
-        my_t3.join();
-        my_t4.join();
+        int totalParticles = particles.size();
+        int particlesPerThread = (totalParticles + numThreads - 1) / numThreads; // ceiling division
+
+        // Create thread objects
+        std::thread threads[numThreads];
+
+        // Launch threads
+        for (int t = 0; t < numThreads; ++t) {
+            int start = t * particlesPerThread;
+            int end = std::min(start + particlesPerThread, totalParticles);
+            threads[t] = std::thread(&Solver::threadUpdateRange, this, start, end, t);
+        }
+
+        // Join threads
+        for (int t = 0; t < numThreads; ++t) {
+            threads[t].join();
+        }
 
         auto t4 = std::chrono::high_resolution_clock::now();
         applyContainer(gBox);

@@ -55,7 +55,7 @@ bool  g_rotatePositive=true;
 float g_uRotate=0.0f;
 
 // Core Classes/Objects in Scene
-Solver gSolver(gParticleSize);
+Solver gSolver(gParticleSize, 7);
 Camera gCamera;
 ModelProcessor gModelProcessor;
 Scene gScene(&gSolver, &gCamera, &gModelProcessor);
