@@ -190,18 +190,6 @@ void Solver::update(Container* gBox, int counter){
         auto t3 = std::chrono::high_resolution_clock::now();
         cacheParticlePositions();
         particlePairCollisionRecorded_map.clear(); // Clear the map for each substep
-        
-        /*
-        //3 threads test: 
-        checkCollisionsWithSpatialHashing(0,666);
-        checkCollisionsWithSpatialHashing(1334,2000);
-        checkCollisionsWithSpatialHashing(667,1333);
-        */
-
-        /*
-        // 2 threads test:
-        checkCollisionsWithSpatialHashing(1001,2000);
-        checkCollisionsWithSpatialHashing(0,1000);*/
 
         // No spatial hashing or multithreading:
         //checkCollisions();
@@ -223,7 +211,6 @@ void Solver::update(Container* gBox, int counter){
         applyContainer(gBox);
 
         auto t5 = std::chrono::high_resolution_clock::now();
-        //std::cout << "---------------" << std::endl;
     }
 }
 
@@ -344,26 +331,11 @@ void Solver::checkCollisionsWithSpatialHashing(int i_low, int i_high, int thread
 
         std::vector<int> potentialColliders = GetPotentialCollisions(cached_positions[i], cached_radii[i], i);
 
-        /*
-        // Apply lock for particle_i
-        std::cout << "Thread " << thread_id << " trying to acquire locks for particle " << i << std::endl;
-        std::unique_lock<std::mutex> i_lock(*particle_locks[i]);
-        std::cout << "Thread " << thread_id << " acquired locks for particle " << i << std::endl;
-        
-        potentialColliders_locks.clear();
-
-        // Apply lock for particle_i's potential colliders
-        for (int j : potentialColliders) {
-            std::cout << "Thread " << thread_id << " trying to acquire locks for collider " << j << std::endl;
-            std::unique_lock<std::mutex> j_lock(*particle_locks[j]);
-            potentialColliders_locks[j] = std::move(j_lock); // Store the lock in the map
-            std::cout << "Thread " << thread_id << " acquired locks for potential collider " << j << std::endl;
-        }*/
-
         for (int j : potentialColliders) {
             if (j == i) continue;
 
-            /*std::cout << "Thread " << thread_id << " trying to acquire locks for particle " << i << std::endl;
+            /*
+            std::cout << "Thread " << thread_id << " trying to acquire locks for particle " << i << std::endl;
             std::cout << "Thread " << thread_id << " trying to acquire locks for collider " << j << std::endl;*/
 
             // Get raw mutex references
@@ -451,26 +423,13 @@ void Solver::checkCollisionsWithSpatialHashing(int i_low, int i_high, int thread
                 // Now, must record collision
                 particlePairCollisionRecorded_map[i].insert(j);
             }
-            //std::cout << "\tThread " << thread_id << " check done" << std::endl;
 
-            /*
-            for (auto& pair : potentialColliders_locks) {
-                if (pair.first == j) {
-                    pair.second.unlock();
-                    std::cout << "Thread " << thread_id << " released lock for particle " << pair.first << std::endl;
-                }
-            }*/
-
-            /*
-            j_lock.unlock();
-            std::cout << "Thread " << thread_id << " released lock for particle " << j << std::endl;
-            i_lock.unlock();
-            std::cout << "Thread " << thread_id << " released lock for particle " << i << std::endl;*/
+            //j_lock.unlock();
+            //i_lock.unlock();
+            //std::cout << "Thread " << thread_id << " released lock for particle " << j << std::endl;
+            //std::cout << "Thread " << thread_id << " released lock for particle " << i << std::endl;*/
             
         }
-        /*
-        i_lock.unlock();
-        std::cout << "Thread " << thread_id << " released lock for particle " << i << std::endl;*/
         
     }
     //std::cout << "Trying to exit function" << std::endl;
