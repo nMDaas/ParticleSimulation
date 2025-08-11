@@ -366,16 +366,6 @@ void Solver::checkCollisionsWithSpatialHashing(int i_low, int i_high, int thread
             std::cout << "Thread " << thread_id << " trying to acquire locks for particle " << i << std::endl;
             std::cout << "Thread " << thread_id << " trying to acquire locks for collider " << j << std::endl;*/
 
-            // Get raw mutex references
-            std::mutex& mutex_i = *particle_locks[i];
-            std::mutex& mutex_j = *particle_locks[j];
-
-            // Lock both mutexes at once (safe order doesn't matter here)
-            std::lock(mutex_i, mutex_j);
-
-            std::unique_lock<std::mutex> i_lock(mutex_i, std::adopt_lock);
-            std::unique_lock<std::mutex> j_lock(mutex_j, std::adopt_lock);
-
             /*
             std::cout << "Thread " << thread_id << " acquired locks for particle " << i << std::endl;
             std::cout << "Thread " << thread_id << " acquired locks for collider " << j << std::endl;
@@ -399,6 +389,16 @@ void Solver::checkCollisionsWithSpatialHashing(int i_low, int i_high, int thread
             glm::vec3 v_j = particle_j->getVelocity();
 
             if (dist < min_dist && dist_diff > threshold) {
+                // Get raw mutex references
+                std::mutex& mutex_i = *particle_locks[i];
+                std::mutex& mutex_j = *particle_locks[j];
+
+                // Lock both mutexes at once (safe order doesn't matter here)
+                std::lock(mutex_i, mutex_j);
+
+                std::unique_lock<std::mutex> i_lock(mutex_i, std::adopt_lock);
+                std::unique_lock<std::mutex> j_lock(mutex_j, std::adopt_lock);
+
                 float total_mass = cached_masses[i] + cached_masses[j];
                 float mass_ratio = cached_masses[i] / total_mass;
                 float delta = 0.5f * dist_diff; //  compute much overlap exists between i and j and then halves it
