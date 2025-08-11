@@ -376,87 +376,82 @@ void Solver::checkCollisionsWithSpatialHashing(int i_low, int i_high, int thread
             if (!cached_activation_status[j]) continue;
 
             // Skip if this pair has already been processed - must make sure that collision in the other way has not already seen and calculated!
-            auto it = particlePairCollisionRecorded_map.find(j);
-            if (it != particlePairCollisionRecorded_map.end() && it->second.count(i)) {
-                continue;
-            }
+            if (i < j) {
 
-            glm::vec3 v = cached_positions[i] - cached_positions[j];
-            float dist = glm::length(v); // faster than glm::distance for this case
-            float min_dist = cached_radii[i] + cached_radii[j];
-            float dist_diff = min_dist - dist;
-            glm::vec3 v_i = particle_i->getVelocity();
-            glm::vec3 v_j = particle_j->getVelocity();
+                glm::vec3 v = cached_positions[i] - cached_positions[j];
+                float dist = glm::length(v); // faster than glm::distance for this case
+                float min_dist = cached_radii[i] + cached_radii[j];
+                float dist_diff = min_dist - dist;
+                glm::vec3 v_i = particle_i->getVelocity();
+                glm::vec3 v_j = particle_j->getVelocity();
 
-            if (dist < min_dist && dist_diff > threshold) {
-                // Get raw mutex references
-                std::mutex& mutex_i = *particle_locks[i];
-                std::mutex& mutex_j = *particle_locks[j];
+                if (dist < min_dist && dist_diff > threshold) {
+                    // Get raw mutex references
+                    std::mutex& mutex_i = *particle_locks[i];
+                    std::mutex& mutex_j = *particle_locks[j];
 
-                // Lock both mutexes at once (safe order doesn't matter here)
-                std::lock(mutex_i, mutex_j);
+                    // Lock both mutexes at once (safe order doesn't matter here)
+                    std::lock(mutex_i, mutex_j);
 
-                std::unique_lock<std::mutex> i_lock(mutex_i, std::adopt_lock);
-                std::unique_lock<std::mutex> j_lock(mutex_j, std::adopt_lock);
+                    std::unique_lock<std::mutex> i_lock(mutex_i, std::adopt_lock);
+                    std::unique_lock<std::mutex> j_lock(mutex_j, std::adopt_lock);
 
-                float total_mass = cached_masses[i] + cached_masses[j];
-                float mass_ratio = cached_masses[i] / total_mass;
-                float delta = 0.5f * dist_diff; //  compute much overlap exists between i and j and then halves it
+                    float total_mass = cached_masses[i] + cached_masses[j];
+                    float mass_ratio = cached_masses[i] / total_mass;
+                    float delta = 0.5f * dist_diff; //  compute much overlap exists between i and j and then halves it
 
-                // Larger particles move less
-                glm::vec3 n = (dist > 0.0f) ? v / dist : glm::vec3(1, 0, 0); // prevent div by zero, // normalize
-                 // Adding for particle_i and subtracting for particle_j because v is a vector from j to i
-                glm::vec3 particle_i_old_pos = cached_positions[i];
-                glm::vec3 particle_j_old_pos = cached_positions[j];
+                    // Larger particles move less
+                    glm::vec3 n = (dist > 0.0f) ? v / dist : glm::vec3(1, 0, 0); // prevent div by zero, // normalize
+                    // Adding for particle_i and subtracting for particle_j because v is a vector from j to i
+                    glm::vec3 particle_i_old_pos = cached_positions[i];
+                    glm::vec3 particle_j_old_pos = cached_positions[j];
 
-                glm::vec3 particle_i_new_pos = cached_positions[i] + ((1 - mass_ratio) * delta * n) / static_cast<float>(substeps);
-                glm::vec3 particle_j_new_pos = cached_positions[j] - (mass_ratio * delta * n) / static_cast<float>(substeps);
+                    glm::vec3 particle_i_new_pos = cached_positions[i] + ((1 - mass_ratio) * delta * n) / static_cast<float>(substeps);
+                    glm::vec3 particle_j_new_pos = cached_positions[j] - (mass_ratio * delta * n) / static_cast<float>(substeps);
 
-                particle_i->setPosition(particle_i_new_pos);
-                particle_j->setPosition(particle_j_new_pos);
-                cached_positions[i] = particle_i_new_pos;
-                cached_positions[j] = particle_j_new_pos;
+                    particle_i->setPosition(particle_i_new_pos);
+                    particle_j->setPosition(particle_j_new_pos);
+                    cached_positions[i] = particle_i_new_pos;
+                    cached_positions[j] = particle_j_new_pos;
 
-                glm::vec3 relativeVelocity = v_i - v_j;
-                // velocityAlongNormal: relative velocity between the two particles projected onto the collision normal
-                // velocityAlongNormal: the direction in which they’re colliding
-                // If velocityAlongNormal > 0 → they're separating
-                // If velocityAlongNormal < 0 → they're moving toward each other (we need to resolve this)
-                float velocityAlongNormal = glm::dot(relativeVelocity, n);
+                    glm::vec3 relativeVelocity = v_i - v_j;
+                    // velocityAlongNormal: relative velocity between the two particles projected onto the collision normal
+                    // velocityAlongNormal: the direction in which they’re colliding
+                    // If velocityAlongNormal > 0 → they're separating
+                    // If velocityAlongNormal < 0 → they're moving toward each other (we need to resolve this)
+                    float velocityAlongNormal = glm::dot(relativeVelocity, n);
 
-                // velocityAlongNormal < 0 means they are closing in along the collision normal
-                // only resolve if moving toward each other
-                if (velocityAlongNormal < 0.0f) {
-                    // Compute inverse masses to determine how much each particle responds to impulse
-                    // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
-                    float invMass_i = 1.0f / cached_masses[i];
-                    float invMass_j = 1.0f /  cached_masses[j];
+                    // velocityAlongNormal < 0 means they are closing in along the collision normal
+                    // only resolve if moving toward each other
+                    if (velocityAlongNormal < 0.0f) {
+                        // Compute inverse masses to determine how much each particle responds to impulse
+                        // Lighter particles (smaller mass) get larger inverse mass and react more to collisions
+                        float invMass_i = 1.0f / cached_masses[i];
+                        float invMass_j = 1.0f /  cached_masses[j];
 
-                    /* Compute scalar impulse magnitude using physics of elastic collision:
-                    impulseMag = -(1 + e) * v / (invMass_pi + invMass_pj)
-                        - (1 + restitution): scales the bounce (e.g., 1.0 = perfectly elastic)
-                        - velocityAlongNormal: relative speed toward each other
-                        - (invMass1 + invMass2): distributes impulse based on how easily each particle can move
-                    */
-                    float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / (invMass_i + invMass_j);
-                    
-                    // Direction of the impulse is along the collision normal.
-                    // Multiply the scalar impulse magnitude by the direction vector to get the vector form.
-                    glm::vec3 impulse = impulseMag * n;
+                        /* Compute scalar impulse magnitude using physics of elastic collision:
+                        impulseMag = -(1 + e) * v / (invMass_pi + invMass_pj)
+                            - (1 + restitution): scales the bounce (e.g., 1.0 = perfectly elastic)
+                            - velocityAlongNormal: relative speed toward each other
+                            - (invMass1 + invMass2): distributes impulse based on how easily each particle can move
+                        */
+                        float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / (invMass_i + invMass_j);
+                        
+                        // Direction of the impulse is along the collision normal.
+                        // Multiply the scalar impulse magnitude by the direction vector to get the vector form.
+                        glm::vec3 impulse = impulseMag * n;
 
-                    particle_i->setVelocity(v_i + impulse * invMass_i, 1.0f);
-                    particle_j->setVelocity(v_j - impulse * invMass_j, 1.0f);
+                        particle_i->setVelocity(v_i + impulse * invMass_i, 1.0f);
+                        particle_j->setVelocity(v_j - impulse * invMass_j, 1.0f);
+                    }
                 }
 
-                // Now, must record collision
-                particlePairCollisionRecorded_map[i].insert(j);
+                //j_lock.unlock();
+                //i_lock.unlock();
+                //std::cout << "Thread " << thread_id << " released lock for particle " << j << std::endl;
+                //std::cout << "Thread " << thread_id << " released lock for particle " << i << std::endl;*/
+                
             }
-
-            //j_lock.unlock();
-            //i_lock.unlock();
-            //std::cout << "Thread " << thread_id << " released lock for particle " << j << std::endl;
-            //std::cout << "Thread " << thread_id << " released lock for particle " << i << std::endl;*/
-            
         }
         
     }
