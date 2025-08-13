@@ -165,7 +165,13 @@ void main()
         vec3 combinedColor = getColor(rayOrigin, rayDir, t);
 
         float density = accumulateDensity(rayOrigin, rayDir);
-        fragColor = vec4(vec3(density * 0.1), 1.0); // Gray value based on density
+        float absorption = 0.4; // You can try values like 0.5, 1.0, 2.0 to control how strong the absorption is
+        float transmission = exp(-absorption * density);
+
+        vec3 lightColor = vec3(1.0); // White light
+        vec3 color = lightColor * transmission; // Apply Beer-Lambert attenuation
+
+        fragColor = vec4(color, 1.0);
     } else {
         // Background
         discard;
