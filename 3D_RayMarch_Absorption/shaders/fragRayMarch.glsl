@@ -89,6 +89,32 @@ vec3 normalColor = normal * 0.5 + 0.5; // convert from [-1,1] to [0,1]
 fragColor = vec4(normalColor, 1.0);
 */
 
+vec3 getColor(vec3 rayOrigin, vec3 rayDir, float t) {
+    // TODO should be customizable
+    float ambient_strength = 0.2;
+    float diffuse_strength = 0.8;
+
+    vec3 u_lightColor = vec3(1.0f, 1.0f, 1.0f); // Should also be passed in
+
+    // Calculations for ambient lighting
+    vec3 ambient = ambient_strength * u_lightColor;
+
+    // Calculations for diffuse lighting 
+    vec3 hitPos = rayOrigin + t * rayDir;
+    vec3 normal = estimateNormal(hitPos);
+
+	vec3 normals  = normalize(normal); // Currently important to visualize normals too
+    vec3 u_lightPosition = vec3(3.0f,4.0f,5.0f); // TODO this should be passed in
+    vec3 lightDir = normalize(u_lightPosition - hitPos);  
+    float diff = max(dot(normals, lightDir), 0.0);
+    vec3 diffuse = diffuse_strength * diff * u_lightColor;
+
+    vec3 baseColor = vec3(0.0, 0.5, 0.8);
+    vec3 lightColor_x_objectColor = (ambient + diffuse) * baseColor;
+
+    return lightColor_x_objectColor;
+}
+
 void main()
 {
     // Normalized screen coords
@@ -113,9 +139,9 @@ void main()
         vec3 hitPos = rayOrigin + t * rayDir;
         vec3 normal = estimateNormal(hitPos);
 
-        vec3 normalColor = normal * 0.5 + 0.5; // convert from [-1,1] to [0,1]
+        vec3 combinedColor = getColor(rayOrigin, rayDir, t);
 
-        fragColor = vec4(normalColor, 1.0);
+        fragColor = vec4(combinedColor, 1.0f);
     } else {
         // Background
         discard;
