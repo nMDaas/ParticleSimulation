@@ -71,6 +71,24 @@ float raymarch(vec3 rayOrigin, vec3 rayDir) {
     return t;
 }
 
+vec3 estimateNormal(vec3 p) {
+    float eps = 0.001;
+    vec2 h = vec2(eps, 0.0);
+    return normalize(vec3(
+        map(p + h.xyy) - map(p - h.xyy),
+        map(p + h.yxy) - map(p - h.yxy),
+        map(p + h.yyx) - map(p - h.yyx)
+    ));
+}
+
+/*
+TO VISUALIZE NORMALS: 
+vec3 hitPos = rayOrigin + t * rayDir;
+vec3 normal = estimateNormal(hitPos);
+vec3 normalColor = normal * 0.5 + 0.5; // convert from [-1,1] to [0,1]
+fragColor = vec4(normalColor, 1.0);
+*/
+
 void main()
 {
     // Normalized screen coords
@@ -91,7 +109,13 @@ void main()
         vec3 baseColor = vec3(0.0, 0.5, 0.8); // blue-green
         vec3 white = vec3(1.0);
         vec3 finalColor = mix(baseColor, white, vUV.y);
-        fragColor = vec4(finalColor, 1.0);
+        
+        vec3 hitPos = rayOrigin + t * rayDir;
+        vec3 normal = estimateNormal(hitPos);
+
+        vec3 normalColor = normal * 0.5 + 0.5; // convert from [-1,1] to [0,1]
+
+        fragColor = vec4(normalColor, 1.0);
     } else {
         // Background
         discard;
