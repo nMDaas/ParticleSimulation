@@ -71,6 +71,29 @@ float raymarch(vec3 rayOrigin, vec3 rayDir) {
     return t;
 }
 
+float accumulateDensity(vec3 rayOrigin, vec3 rayDir) {
+    float t = 0.0;
+    float densityStep = 0.1; // Step size along the ray
+    const int maxSteps = 100;
+    float density = 0.0;
+
+    for (int i = 0; i < maxSteps; ++i) {
+        vec3 pos = rayOrigin + rayDir * t;
+
+        float d = map(pos); // Get SDF value at current position
+
+        // Treat negative or small values as high density
+        if (d < 0.2) {
+            density += (0.2 - d); // You can tweak this to control brightness/density
+        }
+
+        t += densityStep;
+        if (t > 100.0) break;
+    }
+
+    return density;
+}
+
 vec3 estimateNormal(vec3 p) {
     float eps = 0.001;
     vec2 h = vec2(eps, 0.0);
@@ -141,7 +164,8 @@ void main()
 
         vec3 combinedColor = getColor(rayOrigin, rayDir, t);
 
-        fragColor = vec4(combinedColor, 1.0f);
+        float density = accumulateDensity(rayOrigin, rayDir);
+        fragColor = vec4(vec3(density * 0.1), 1.0); // Gray value based on density
     } else {
         // Background
         discard;
