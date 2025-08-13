@@ -9,7 +9,7 @@ uniform mat3 cameraRotation;
 uniform float iTime;
 
 uniform int particleCount;
-uniform vec3 particlePositions[650];
+uniform vec3 particlePositions[1000];
 
 // Signed distance
 // --> If the distance is positive, the point is outside the sphere.
@@ -51,7 +51,7 @@ float map(vec3 pos) {
 
     for (int i = 1; i < particleCount; i++) {
         float d = sdSphere(pos - particlePositions[i], 0.1);
-        dist = smoothMinimum(dist, d, 0.4); // Blend factor
+        dist = smoothMinimum(dist, d, 0.2); // Blend factor
     }
     return dist;
 }
