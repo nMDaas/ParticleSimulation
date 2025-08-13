@@ -46,7 +46,7 @@ std::vector<Particle> gParticles;
 // Core Variables for Scene
 int gNumParticles = 4;
 int gParticleIndexToActivate = 0; // index of next particle to activate
-float gParticleSize = 0.1f;
+float gParticleSize = 0.2f;
 
 bool gPause = false;
 int gCounter = 0;

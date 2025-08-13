@@ -50,8 +50,8 @@ float map(vec3 pos) {
     float dist = sdSphere(pos - particlePositions[0], 0.1); // TODO this should be passed in
 
     for (int i = 1; i < particleCount; i++) {
-        float d = sdSphere(pos - particlePositions[i], 0.1);
-        dist = smoothMinimum(dist, d, 0.2); // Blend factor
+        float d = sdSphere(pos - particlePositions[i], 0.2);
+        dist = smoothMinimum(dist, d, 0.3); // Blend factor
     }
     return dist;
 }
@@ -165,7 +165,7 @@ void main()
         vec3 combinedColor = getColor(rayOrigin, rayDir, t);
 
         float density = accumulateDensity(rayOrigin, rayDir);
-        float absorption = 0.1; // You can try values like 0.5, 1.0, 2.0 to control how strong the absorption is
+        float absorption = 0.4; // You can try values like 0.5, 1.0, 2.0 to control how strong the absorption is
         float transmission = exp(-absorption * density);
 
         vec3 lightColor = vec3(1.0); // White light
