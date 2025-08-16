@@ -414,8 +414,6 @@ void Renderer::RenderScene_RayMarch(){
 
 }
 
-
-// NATASHA TODO! Something is weird with camera
 //  Maybe perspec5ive and everything needs to be applied to positions before sending to shader
 void Renderer::PreDraw_RM(){
     // Use our shader
