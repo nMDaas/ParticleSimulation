@@ -202,7 +202,7 @@ void Solver::checkCollisions(){
                             float velocityAlongNormal = glm::dot(relativeVelocity, normal);
 
                             if (velocityAlongNormal < 0.0f) { // only resolve if moving toward each other
-                                float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / total_mass; // TODO work out math for this
+                                float impulseMag = -(1.0f + fluid_restitution) * velocityAlongNormal / total_mass;
                                 glm::vec3 impulse = impulseMag * normal;
 
                                 particle_i->setVelocity(v_i + impulse * (1.0f - mass_ratio), 1.0f);

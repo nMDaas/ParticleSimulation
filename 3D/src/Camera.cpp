@@ -23,11 +23,6 @@ void Camera::MouseLook(int mouseX, int mouseY){
     m_oldMousePosition = newMousePosition;
 }
 
-// OPTIONAL TODO: 
-//               The camera could really be improved by
-//               updating the eye position along the m_viewDirection.
-//               Think about how you can do this for a better camera!
-
 void Camera::MoveForward(float speed){
     //    m_eyePosition.z -= speed;
         m_eyePosition.x += m_viewDirection.x *speed;

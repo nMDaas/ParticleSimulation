@@ -279,7 +279,7 @@ int main( int argc, char* args[] ){
 
 		Input(); // Handle Input
 
-		gSolver.update(gScene.getBox()); // TODO should be getGBox
+		gSolver.update(gScene.getBox()); // Optional TODO: should be getGBox
 
         gRenderer.RenderScene();
 
