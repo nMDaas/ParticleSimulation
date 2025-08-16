@@ -36,18 +36,16 @@ float smoothMinimum(float dSDSphere, float dSDBox, float blendFactor) {
     float weight = clamp(0.5 + 0.5 * (dSDBox - dSDSphere) / blendFactor, 0.0, 1.0);
 
 	// mix(a, b, t) linearly interpolates between two values a and b based on the parameter t
-	// TODO this math and I don't get this relation
     return mix(dSDBox, dSDSphere, weight) - blendFactor * weight * (1.0 - weight);
 }
 
 // Scene SDF — blend a moving sphere and box
-// TODO idk if I like this function name
 float map(vec3 pos) {
     if (particleCount == 0) return 10000.0; // no particles, return large distance
 
     // pos - spherePos is a vector from spherePos --> pos (spherePos --> currentPosition)
-	// 0.2 = radius of sphere
-    float dist = sdSphere(pos - particlePositions[0], 0.1); // TODO this should be passed in
+	// second param = radius of sphere
+    float dist = sdSphere(pos - particlePositions[0], 0.1);
 
     for (int i = 1; i < particleCount; i++) {
         float d = sdSphere(pos - particlePositions[i], 0.1);
@@ -74,7 +72,7 @@ float raymarch(vec3 rayOrigin, vec3 rayDir) {
 void main()
 {
     // Normalized screen coords
-    vec2 screenPos = vUV * 2.0 - 1.0; // converting the vertex position coordinates from a range of [0,1] to [-1, 1] - TODO possibly unecessary
+    vec2 screenPos = vUV * 2.0 - 1.0; // converting the vertex position coordinates from a range of [0,1] to [-1, 1]
     screenPos.x *= iResolution.x / iResolution.y; // fixes distortion 
 
     vec3 rayOrigin = cameraPosition;
