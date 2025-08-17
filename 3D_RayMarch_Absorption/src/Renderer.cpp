@@ -129,7 +129,7 @@ void Renderer::RenderScene() {
     mainScene->InitializeGLuints();
     PreDraw();
     DrawParticles(mainScene->getObjTotalIndices("Particle"));
-    DrawLights(mainScene->getObjTotalIndices("Light"));
+    //DrawLights(mainScene->getObjTotalIndices("Light"));
     DrawBox(mainScene->getObjTotalIndices("Box"));
 }
 
@@ -347,7 +347,7 @@ void Renderer::DrawBoxActually(int gBoxTotalIndices){
     GLuint boxVertexArrayObject = mainScene->getGVertexArrayObjects_map()["Box"][0];
     GLuint boxVertexBufferObject = mainScene->getGVertexArrayObjects_map()["Box"][0];
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); 
     glBindVertexArray(boxVertexArrayObject);
     glBindBuffer(GL_ARRAY_BUFFER, boxVertexArrayObject);
     glDrawElements(GL_TRIANGLES,gBoxTotalIndices,GL_UNSIGNED_INT,0);

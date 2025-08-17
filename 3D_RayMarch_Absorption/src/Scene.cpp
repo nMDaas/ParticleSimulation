@@ -38,13 +38,13 @@ void Scene::SetupSceneWithCuboidSetup(int w, int b, int h, float r){
 void Scene::SetupSolverLightsAndContainer(int numParticles, float size){
     SetUpSolver(numParticles, size);
     SetUpLights();
-    gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f));
+    gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(7.0f, 0.01f, 7.0f));
 }
 
 void Scene::SetupCuboidSolverLightsAndContainer(int w, int b, int h, float r){
     SetUpCuboidSolver(w, b, h, r);
     SetUpLights();
-    gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f));
+    gBox = Container(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(7.0f, 0.01f, 7.0f));
 }
 
 void Scene::SetUpSolver(int numParticles, float size){
@@ -62,7 +62,7 @@ void Scene::SetUpCuboidSolver(int w, int b, int h, float r) {
     float totalHeight = (h - 1) * spacing;
 
     // Origin offset so the cuboid is centered at (0, centerY, 0)
-    float centerY = 5.0f; // height where the cuboid is centered
+    float centerY = 10.0f; // height where the cuboid is centered
     glm::vec3 origin(
         -totalWidth / 2.0f,
         centerY - totalHeight / 2.0f,

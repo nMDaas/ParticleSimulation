@@ -36,22 +36,20 @@ float smoothMinimum(float dSDSphere, float dSDBox, float blendFactor) {
     float weight = clamp(0.5 + 0.5 * (dSDBox - dSDSphere) / blendFactor, 0.0, 1.0);
 
 	// mix(a, b, t) linearly interpolates between two values a and b based on the parameter t
-	// TODO this math and I don't get this relation
     return mix(dSDBox, dSDSphere, weight) - blendFactor * weight * (1.0 - weight);
 }
 
 // Scene SDF — blend a moving sphere and box
-// TODO idk if I like this function name
 float map(vec3 pos) {
     if (particleCount == 0) return 10000.0; // no particles, return large distance
 
     // pos - spherePos is a vector from spherePos --> pos (spherePos --> currentPosition)
-	// 0.2 = radius of sphere
-    float dist = sdSphere(pos - particlePositions[0], 0.1); // TODO this should be passed in
+	// second param = radius of sphere
+    float dist = sdSphere(pos - particlePositions[0], 0.2);
 
     for (int i = 1; i < particleCount; i++) {
         float d = sdSphere(pos - particlePositions[i], 0.2);
-        dist = smoothMinimum(dist, d, 0.3); // Blend factor
+        dist = smoothMinimum(dist, d, 0.5); // Blend factor
     }
     return dist;
 }
@@ -113,7 +111,6 @@ fragColor = vec4(normalColor, 1.0);
 */
 
 vec3 getColor(vec3 rayOrigin, vec3 rayDir, float t) {
-    // TODO should be customizable
     float ambient_strength = 0.6;
     float diffuse_strength = 0.4;
 
@@ -127,7 +124,7 @@ vec3 getColor(vec3 rayOrigin, vec3 rayDir, float t) {
     vec3 normal = estimateNormal(hitPos);
 
 	vec3 normals  = normalize(normal); // Currently important to visualize normals too
-    vec3 u_lightPosition = vec3(3.0f,4.0f,5.0f); // TODO this should be passed in
+    vec3 u_lightPosition = vec3(3000000.0,4.0,50.0);
     vec3 lightDir = normalize(u_lightPosition - hitPos);  
     float diff = max(dot(normals, lightDir), 0.0);
     vec3 diffuse = diffuse_strength * diff * u_lightColor;
@@ -141,7 +138,7 @@ vec3 getColor(vec3 rayOrigin, vec3 rayDir, float t) {
 void main()
 {
     // Normalized screen coords
-    vec2 screenPos = vUV * 2.0 - 1.0; // converting the vertex position coordinates from a range of [0,1] to [-1, 1] - TODO possibly unecessary
+    vec2 screenPos = vUV * 2.0 - 1.0; // converting the vertex position coordinates from a range of [0,1] to [-1, 1]
     screenPos.x *= iResolution.x / iResolution.y; // fixes distortion 
 
     vec3 rayOrigin = cameraPosition;
@@ -165,7 +162,7 @@ void main()
         vec3 combinedColor = getColor(rayOrigin, rayDir, t);
 
         float density = accumulateDensity(rayOrigin, rayDir);
-        float absorption = 0.4; // You can try values like 0.5, 1.0, 2.0 to control how strong the absorption is
+        float absorption = 0.1; // You can try values like 0.5, 1.0, 2.0 to control how strong the absorption is
         float transmission = exp(-absorption * density);
 
         vec3 lightColor = vec3(1.0); // White light

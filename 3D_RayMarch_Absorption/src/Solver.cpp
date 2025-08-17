@@ -9,7 +9,7 @@ Solver::Solver() : outFile("debug.txt"){
     // Seed the random number generator
     srand(static_cast<unsigned int>(time(0)));
 
-    fluid_restitution = 1.0f;
+    fluid_restitution = 0.5f;
     wall_restitution = 0.8f;
     threshold = 0.01f; 
     cell_size = 0.15f;
