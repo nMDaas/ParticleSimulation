@@ -14,7 +14,7 @@ ____________________________
 ## 2D Fluid Simulation With PyGame
 I started off this project in 2D first to make sure I was getting the basic Physics and math of the simulation correct. Implemented Verlet integration and the Weber number.
 <p align="center">
-    <img src="./renders/2D_part_1.gif">
+    <img src="./renders/2D_sim.gif">
 </p>
 
 ## 3D Simulation Preview
