@@ -17,7 +17,7 @@ I started off this project in 2D first to make sure I was getting the basic Phys
     <img src="./renders/2D_sim.gif">
 </p>
 <p align="center">
-    <img src="./renders/weber.gif">
+    <img src="./renders/2D_weber.gif">
 </p>
 
 ## 3D Simulation Preview
