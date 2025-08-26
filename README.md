@@ -2,7 +2,7 @@
 
 ## Introduction
 
-I started this project because I was curious about how fluid particle simulations work in software like Houdini. Like any DCC application, this program supports a simulation preview (visualizing raw particles) and a ray marched render with volumetric lighting.
+I started this project because I was curious about how fluid particle simulations work in software like Houdini. Like any DCC application, this program supports both a simulation preview (visualizing raw particles) and a renderer (using ray marching with volumetric lighting).
 
 Here are some things that were done here: 
 - This included exploring Verlet integration, the Beer–Lambert law, the Weber number, and aspects of Smoothed Particle Hydrodynamics (SPH).
