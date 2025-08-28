@@ -80,18 +80,27 @@ Spatial hashing and multithreading
 ## How to Run
 
 ### 2D Fluid Simulation With PyGame
-```
-make -C src
-make
-src/Raytracer src/scenegraphs/["example txt file in scenegraphs directory"]
-```
+Run the main.py file in 2D/
 
 ### 3D Simulation
+```
+cd 3D_RayMarch_Absorption/
+python3 build.py
+./prog
+```
 
-#### Preview
+For the simulation preview:
+- Uncomment [main.cpp, line 348](https://github.com/nMDaas/ParticleSimulation/blob/main/3D_RayMarch_Absorption/src/main.cpp#L348) 
+- Comment [main.cpp, line 353](https://github.com/nMDaas/ParticleSimulation/blob/main/3D_RayMarch_Absorption/src/main.cpp#L353)
 
-#### Rendered
+For the rendered simulation:
+- Comment [main.cpp, line 348](https://github.com/nMDaas/ParticleSimulation/blob/main/3D_RayMarch_Absorption/src/main.cpp#L348) 
+- Uncomment [main.cpp, line 353](https://github.com/nMDaas/ParticleSimulation/blob/main/3D_RayMarch_Absorption/src/main.cpp#L353)
 
-#### Customizable Variables 
+Customizable variables:
+In [main.cpp](https://github.com/nMDaas/ParticleSimulation/blob/main/3D_RayMarch_Absorption/src/main.cpp) :
+- gParticleSize -- particle radius 
+- gNumParticles -- number of particles 
+
 
 ## External Resources Used
