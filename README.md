@@ -12,8 +12,8 @@ Here are some things that were done here:
 ____________________________
 
 ## 2D Fluid Simulation With PyGame
-I started off this project in 2D first to make sure I was getting the basic Physics and math of the simulation correct.
-- Implemented Verlet integration and the Weber number.
+- Implemented basic fluid dynamics in 2D first to work out simulation physics and math correctly
+- Implemented Verlet integration and the Weber number
 <img src="https://media.giphy.com/media/Nh850QCpykKsL2O4r6/giphy.gif" object-fit="contain" width="350px" height="200px" align="center">
 <img src="https://media.giphy.com/media/0eIo2VmXNrguzadziV/giphy.gif" object-fit="contain" width="350px" height="200px" align="center">
 
