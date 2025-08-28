@@ -38,11 +38,24 @@ ____________________________
 
 ## Optimization & Performance Improvement
 - Spatial Hashing and multithreading, improving FPS by x13
-<p align="center">
+<div align="center">
+No spatial hashing or multithreading
+</div>
+<div align="center">
 <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmt6bzA0d2lhejRydDYzdGFxZTR2bDJtN2UwbzkzMWs4N20wc2VtOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0R272usy1N6x2ov1JW/giphy.gif" object-fit="contain" width="381px" height="218px">
+</div>
+<div align="center">
+Only spatial hashing
+</div>
+<div align="center">
 <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExampsaHpzYnR4ZzNpajY4eXU0cTVjMGY2dDlwZmdwazN6ZHYxeWEyYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UAdP6HtCkONeSzs2Sy/giphy.gif" object-fit="contain" width="381px" height="218px">
+</div>
+<div align="center">
+Spatial hashing and multithreading
+</div>
+<div align="center">
 <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExenpteWpuazRuaXc3ZnlzeXAxd2N4eW5xM2VxdWlzdjlxb3Bkb3pheiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cbrmYq4YpDcMFSu8Pt/giphy.gif" object-fit="contain" width="381px" height="218px">
-</p>
+</div>
 
 ## Ray Marching with Volumetric lighting
 - Ray marching renderer with volumetric absorption
@@ -65,3 +78,20 @@ ____________________________
 </p>
 
 ## How to Run
+
+### 2D Fluid Simulation With PyGame
+```
+make -C src
+make
+src/Raytracer src/scenegraphs/["example txt file in scenegraphs directory"]
+```
+
+### 3D Simulation
+
+#### Preview
+
+#### Rendered
+
+#### Customizable Variables 
+
+## External Resources Used
