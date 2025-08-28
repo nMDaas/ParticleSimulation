@@ -18,6 +18,12 @@ ____________________________
 <img src="https://media.giphy.com/media/0eIo2VmXNrguzadziV/giphy.gif" object-fit="contain" width="350px" height="200px" align="center">
 
 ## 3D Simulation Preview
+- Used C++, OpenGL, and Phong GLSL shading for the simulation preview
+- Implemented Verlet integration, the Weber number and aspects of Smoothed Particle Hydrodynamics (SPH)
+<p align="center">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnZ5ZXptZnhkdnFrc2JreGxzNzMzNGlld3JpbHg1ZDVmdXRlcGR0aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9B3VWv9m1Hf5LlnlmG/giphy.gif" object-fit="contain" width="472px" height="270px">
+<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTNzOWszYzBnMTNpOGg3MHNmMTZ3aDhndjhjZDd6NDk3MXB6dGJnNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rtB1VRN5QF2rhylDPW/giphy.gif" object-fit="contain" width="472px" height="270px">
+<p>
 
 ## Optimization & Performance Improvement
 
