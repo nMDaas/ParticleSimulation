@@ -37,6 +37,8 @@ ____________________________
 
 
 ## Optimization & Performance Improvement
+- Spatial Hashing and multithreading, improving FPS by x13
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmt6bzA0d2lhejRydDYzdGFxZTR2bDJtN2UwbzkzMWs4N20wc2VtOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0R272usy1N6x2ov1JW/giphy.gif" object-fit="contain" width="472px" height="270px">
 
 ## Ray Marching
 
