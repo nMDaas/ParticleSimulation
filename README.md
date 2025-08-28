@@ -28,6 +28,7 @@ ____________________________
 <p>
 
 ### Container/Obstacle Collision 
+- Customizable container box sizing 
 <p align="center">
 <img src="https://media.giphy.com/media/XKahXL2urTKMADJJUr/giphy.gif" object-fit="contain" width="472px" height="270px">
 <img src="https://media.giphy.com/media/69uYbY5LaAEZjqTuN9/giphy.gif" object-fit="contain" width="472px" height="270px">
