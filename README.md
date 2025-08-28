@@ -15,8 +15,8 @@ ____________________________
 - Implemented basic fluid dynamics in 2D first to work out simulation physics and math correctly
 - Implemented Verlet integration and the Weber number
 <p align="center">
-<img src="https://media.giphy.com/media/Nh850QCpykKsL2O4r6/giphy.gif" object-fit="contain" width="424px" height="243px">
-<img src="https://media.giphy.com/media/0eIo2VmXNrguzadziV/giphy.gif" object-fit="contain" width="424px" height="243px">
+<img src="https://media.giphy.com/media/Nh850QCpykKsL2O4r6/giphy.gif" object-fit="contain" width="381px" height="218px">
+<img src="https://media.giphy.com/media/0eIo2VmXNrguzadziV/giphy.gif" object-fit="contain" width="381px" height="218px">
 </p>
 
 ## 3D Simulation Preview
@@ -44,7 +44,7 @@ ____________________________
 <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExenpteWpuazRuaXc3ZnlzeXAxd2N4eW5xM2VxdWlzdjlxb3Bkb3pheiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cbrmYq4YpDcMFSu8Pt/giphy.gif" object-fit="contain" width="424px" height="243px">
 </p>
 
-## Ray Marching
+## Ray Marching with Volumetric lighting
 - Ray marching renderer with volumetric absorption
 - Customizable blend factor
 <p align="center">
@@ -55,7 +55,5 @@ ____________________________
 <img src="https://github.com/nMDaas/ParticleSimulation/blob/main/renders/raymarchBeerLambert.png" object-fit="contain" width="330px" height="243px">
 <img src="https://github.com/nMDaas/ParticleSimulation/blob/main/renders/raymarchVolumetricLighting.png" object-fit="contain" width="330px" height="243px">
 </p>
-
-## Volumetric lighting
 
 ## How to Run
