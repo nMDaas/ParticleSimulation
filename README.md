@@ -14,8 +14,10 @@ ____________________________
 ## 2D Fluid Simulation With PyGame
 - Implemented basic fluid dynamics in 2D first to work out simulation physics and math correctly
 - Implemented Verlet integration and the Weber number
-<img src="https://media.giphy.com/media/Nh850QCpykKsL2O4r6/giphy.gif" object-fit="contain" width="350px" height="200px" align="center">
-<img src="https://media.giphy.com/media/0eIo2VmXNrguzadziV/giphy.gif" object-fit="contain" width="350px" height="200px" align="center">
+<p align="center">
+<img src="https://media.giphy.com/media/Nh850QCpykKsL2O4r6/giphy.gif" object-fit="contain" width="472px" height="270px">
+<img src="https://media.giphy.com/media/0eIo2VmXNrguzadziV/giphy.gif" object-fit="contain" width="472px" height="270px">
+</p>
 
 ## 3D Simulation Preview
 - Used C++, OpenGL, and Phong GLSL shading for the simulation preview
@@ -24,6 +26,14 @@ ____________________________
 <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnZ5ZXptZnhkdnFrc2JreGxzNzMzNGlld3JpbHg1ZDVmdXRlcGR0aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9B3VWv9m1Hf5LlnlmG/giphy.gif" object-fit="contain" width="472px" height="270px">
 <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTNzOWszYzBnMTNpOGg3MHNmMTZ3aDhndjhjZDd6NDk3MXB6dGJnNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rtB1VRN5QF2rhylDPW/giphy.gif" object-fit="contain" width="472px" height="270px">
 <p>
+
+### Container/Obstacle Collision 
+<p align="center">
+<img src="https://media.giphy.com/media/XKahXL2urTKMADJJUr/giphy.gif" object-fit="contain" width="472px" height="270px">
+<img src="https://media.giphy.com/media/69uYbY5LaAEZjqTuN9/giphy.gif" object-fit="contain" width="472px" height="270px">
+<img src="https://media.giphy.com/media/ERDGvqDjTXkYn6UfoJ/giphy.gif" object-fit="contain" width="472px" height="270px">
+<p>
+
 
 ## Optimization & Performance Improvement
 
