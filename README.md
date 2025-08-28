@@ -56,4 +56,12 @@ ____________________________
 <img src="https://github.com/nMDaas/ParticleSimulation/blob/main/renders/raymarchVolumetricLighting.png" object-fit="contain" width="330px" height="243px">
 </p>
 
+### Simulation Preview vs. Ray-Marching Rendered View
+<p align="center">
+<img src="https://media.giphy.com/media/bXahEAlMe9sOun4h3Y/giphy.gif" object-fit="contain" width="427px" height="314px">
+<img src="https://media.giphy.com/media/yg1CMImWsE7TvkwRBJ/giphy.gif" object-fit="contain" width="330px" height="243px">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnZ5ZXptZnhkdnFrc2JreGxzNzMzNGlld3JpbHg1ZDVmdXRlcGR0aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9B3VWv9m1Hf5LlnlmG/giphy.gif" object-fit="contain" width="330px" height="243px">
+<img src="https://media.giphy.com/media/ejwu7rMUroDBy0rxQM/giphy.gif" object-fit="contain" width="330px" height="243px">
+</p>
+
 ## How to Run
