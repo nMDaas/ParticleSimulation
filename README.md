@@ -66,7 +66,7 @@ Shading Breakdown: Volumetric Lighting (GPU, GLSL)
 
 ### Simulation Preview vs. Ray-Marched Rendered Preview
 <p align="center">
-<img src="https://media.giphy.com/media/bXahEAlMe9sOun4h3Y/giphy.gif" object-fit="contain" width="427px" height="314px">
+<img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDRuZzIwemh2NWJ2aHRvMmV1MDhqNW9wb2ltZW93Yzd3bzFxY3g3dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l6Y1dY4roons2S0LtT/giphy.gif" object-fit="contain" width="427px" height="314px">
 <img src="https://media.giphy.com/media/yg1CMImWsE7TvkwRBJ/giphy.gif" object-fit="contain" width="330px" height="243px">
 <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDB3aDFhNTZoNXllbDhheWdmNWJlb3MwbHd2emdkMWhlb3l3YXduaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eNWLAH9cCIeKDcad7V/giphy.gif" object-fit="contain" width="330px" height="243px">
 <img src="https://media.giphy.com/media/ejwu7rMUroDBy0rxQM/giphy.gif" object-fit="contain" width="330px" height="243px">
