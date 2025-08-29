@@ -93,3 +93,7 @@ For the rendered simulation:
 - Uncomment [main.cpp, line 353](https://github.com/nMDaas/ParticleSimulation/blob/main/3D_RayMarch_Absorption/src/main.cpp#L353)
 
 ## External Resources Used
+- Some OpenGL and starter code provided by Professor Amit Shesh and Professor Mike Shah
+- Keyframe Codes' 'Making a particle simulation in C++' series
+- 'Making of Moana (the ShaderToy)' blog post by Chris Wallis
+- shadertoy.com 'Ray Marching - Basics'
