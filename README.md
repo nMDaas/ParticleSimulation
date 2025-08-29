@@ -20,7 +20,7 @@ I started this project because I was curious about how fluid particle simulation
 ## 3D Simulation Preview
 - 3D simulation preview implemented using C++, OpenGL, and Phong GLSL shading, incorporating Smoothed Particle Hydrodynamics (SPH) concepts.
 <p align="center">
-<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnZ5ZXptZnhkdnFrc2JreGxzNzMzNGlld3JpbHg1ZDVmdXRlcGR0aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9B3VWv9m1Hf5LlnlmG/giphy.gif" object-fit="contain" width="381px" height="218px">
+<img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDB3aDFhNTZoNXllbDhheWdmNWJlb3MwbHd2emdkMWhlb3l3YXduaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eNWLAH9cCIeKDcad7V/giphy.gif" object-fit="contain" width="381px" height="218px">
 <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTNzOWszYzBnMTNpOGg3MHNmMTZ3aDhndjhjZDd6NDk3MXB6dGJnNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rtB1VRN5QF2rhylDPW/giphy.gif" object-fit="contain" width="381px" height="218px">
 <p>
 
@@ -68,7 +68,7 @@ Shading Breakdown: Volumetric Lighting (GPU, GLSL)
 <p align="center">
 <img src="https://media.giphy.com/media/bXahEAlMe9sOun4h3Y/giphy.gif" object-fit="contain" width="427px" height="314px">
 <img src="https://media.giphy.com/media/yg1CMImWsE7TvkwRBJ/giphy.gif" object-fit="contain" width="330px" height="243px">
-<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnZ5ZXptZnhkdnFrc2JreGxzNzMzNGlld3JpbHg1ZDVmdXRlcGR0aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9B3VWv9m1Hf5LlnlmG/giphy.gif" object-fit="contain" width="330px" height="243px">
+<img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDB3aDFhNTZoNXllbDhheWdmNWJlb3MwbHd2emdkMWhlb3l3YXduaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eNWLAH9cCIeKDcad7V/giphy.gif" object-fit="contain" width="330px" height="243px">
 <img src="https://media.giphy.com/media/ejwu7rMUroDBy0rxQM/giphy.gif" object-fit="contain" width="330px" height="243px">
 </p>
 
