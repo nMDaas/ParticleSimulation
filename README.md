@@ -21,7 +21,7 @@ I started this project because I was curious about how fluid particle simulation
 - 3D simulation preview implemented using C++, OpenGL, and Phong GLSL shading, incorporating Smoothed Particle Hydrodynamics (SPH) concepts.
 <p align="center">
 <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDB3aDFhNTZoNXllbDhheWdmNWJlb3MwbHd2emdkMWhlb3l3YXduaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eNWLAH9cCIeKDcad7V/giphy.gif" object-fit="contain" width="381px" height="218px">
-<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTNzOWszYzBnMTNpOGg3MHNmMTZ3aDhndjhjZDd6NDk3MXB6dGJnNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rtB1VRN5QF2rhylDPW/giphy.gif" object-fit="contain" width="381px" height="218px">
+<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzd4d28zY2FiM3N0dG5id3I0azYwZHNrbDQ3MDBjbTFkazM1b3Q3aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6crTpeim594EIOStH8/giphy.gif" object-fit="contain" width="381px" height="218px">
 <p>
 
 ### Container/Obstacle Collision 
