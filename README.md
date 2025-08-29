@@ -26,9 +26,9 @@ I started this project because I was curious about how fluid particle simulation
 
 ### Container/Obstacle Collision 
 <p align="center">
-<img src="https://media.giphy.com/media/XKahXL2urTKMADJJUr/giphy.gif" object-fit="contain" width="381px" height="218px">
-<img src="https://media.giphy.com/media/69uYbY5LaAEZjqTuN9/giphy.gif" object-fit="contain" width="381px" height="218px">
-<img src="https://media.giphy.com/media/ERDGvqDjTXkYn6UfoJ/giphy.gif" object-fit="contain" width="381px" height="218px">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGYwMGRoczRlc3RjOWc2cGJqd2t0NnZzcDI5MzFubTRudHE4bzBxOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qYZ5yDTiHMAYUsB8Gv/giphy.gif" object-fit="contain" width="381px" height="218px">
+<img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXpsczFnODE2eWE1MzZsdHZrdXZ6dzhqdnV6Yjd3dGplM3Y3aDJ3cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t5qhhHMwMXI6b1KG94/giphy.gif" object-fit="contain" width="381px" height="218px">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHk5c2p1dGJhYXVkc3A2dTQ1aTVxMTY0MDFmaDF6MTMzazFpd2xnYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/EbkfK2hciICUfB1EJ1/giphy.gif" object-fit="contain" width="381px" height="218px">
 <p>
 
 
